@@ -91,6 +91,11 @@ class LRUCache {
         if (cache.containsKey(key)) {
             // 删除旧的节点，新的插到头部
             list.remove(cache.get(key));
+
+            // 直接添加到头部
+            list.addFirst(x);
+            // 更新 map 中对应的数据
+            cache.put(key, x);
         } else {
             //cache中本来没有这个节点且已经满了
             if (cap == list.size()) {
@@ -98,11 +103,12 @@ class LRUCache {
                 Node last = list.removeLast();
                 cache.remove(last.key);
             }
+
+            // 直接添加到头部
+            list.addFirst(x);
+            // 更新 map 中对应的数据
+            cache.put(key, x);
         }
-        // 直接添加到头部
-        list.addFirst(x);
-        // 更新 map 中对应的数据
-        cache.put(key, x);
     }
 
     public static void main(String[] args) {

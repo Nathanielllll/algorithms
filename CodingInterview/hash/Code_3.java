@@ -63,6 +63,24 @@ public class Code_3 {
         return false;
     }
 
+    //方法2_1：使用技巧
+    public static int findRepeatNumber(int[] nums) {
+        if (nums == null || nums.length <= 0) {
+            throw new RuntimeException("invalid input");
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            while (i != nums[i]) {
+                if (nums[i] == nums[nums[i]]) {
+                    return nums[i];
+                } else {
+                    swap(nums, i, nums[i]);
+                }
+            }
+        }
+        return -1;
+    }
+
     public static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];

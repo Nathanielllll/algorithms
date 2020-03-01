@@ -17,16 +17,17 @@ package twoPointers;
  */
 public class Test_27 {
     public static int removeElement(int[] nums, int val) {
-        if (nums.length == 0) return 0;
+        if (nums.length == 0) {
+            return 0;
+        }
 
         int slow = 0;
-        int fast = 0;
-        while (fast < nums.length) {
+
+        for (int fast = 0; fast < nums.length; fast++) {
             if (nums[fast] != val) {
                 nums[slow] = nums[fast];
                 slow++;
             }
-            fast++;
         }
         return slow;
     }

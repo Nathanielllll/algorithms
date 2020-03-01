@@ -1,5 +1,6 @@
 package sort;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -57,10 +58,30 @@ public class Code_40 {
         return result;
     }
 
-    public static void main(String[] args) {
-        int[] arr = new int[]{4, 5, 1, 6, 2, 7, 3, 8};
-        System.out.println(Arrays.toString(getLeastNumbers(arr, 4)));
+    public static int[] partition_test(int[] arr, int left, int right) {
+        int less = left - 1;
+        int more = right;
 
+        while (left != more) {
+            if (arr[left] < arr[right]) {
+                swap(arr, ++less, left++);
+            } else if (arr[left] > arr[right]) {
+                swap(arr, --more, left);
+            } else {
+                left++;
+            }
+        }
+
+        swap(arr, left, right);
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{4, 5, 1, 6, 2, 7, 3};
+
+//        System.out.println(Arrays.toString(partition_test(arr, 0, arr.length - 1)));
+//        System.out.println(Arrays.toString(getLeastNumbers(arr, 4)));
+//
         System.out.println(getLeastNumbers_3(arr, 4));
     }
 
@@ -83,12 +104,16 @@ public class Code_40 {
         });
 
         for (int i = 0; i < arr.length; i++) {
-            if (maxHeap.size() < k) {
-                maxHeap.offer(arr[i]);
-            } else if (maxHeap.peek() > arr[i]) {
+            if(maxHeap.size() > k || (!maxHeap.isEmpty() && maxHeap.peek() > arr[i])){
                 maxHeap.poll();
-                maxHeap.offer(arr[i]);
             }
+            maxHeap.offer(arr[i]);
+//            if (maxHeap.size() < k) {
+//                maxHeap.offer(arr[i]);
+//            } else if (maxHeap.peek() > arr[i]) {
+//                maxHeap.poll();
+//                maxHeap.offer(arr[i]);
+//            }
         }
 
         ArrayList<Integer> result = new ArrayList<>();
