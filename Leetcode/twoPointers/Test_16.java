@@ -14,7 +14,6 @@ import java.util.List;
  */
 public class Test_16 {
 
-
     public static int threeSumClosest(int[] nums, int target) {
         if (nums == null || nums.length < 3) {
             return -1;
@@ -32,39 +31,30 @@ public class Test_16 {
             }
             int left = i + 1;
             int right = len - 1;
-            while (left != right) {
+            while (left < right) {
                 int sum = nums[i] + nums[left] + nums[right];
+
+                int curGap = Math.abs(sum - target);
+                if (curGap < minGap) {
+                    minGap = curGap;
+                    sumClosest = sum;
+                }
+
                 if (sum > target) {
-                    int curGap = Math.abs(sum - target);
-                    if (curGap < minGap) {
-                        minGap = curGap;
-                        sumClosest = sum;
-                    }
-                    while (left != right && nums[right] == nums[--right]) ;
+                    while (left < right && nums[right] == nums[--right]) ;
                 } else if (sum < target) {
-                    int curGap = Math.abs(sum - target);
-                    if (curGap < minGap) {
-                        minGap = curGap;
-                        sumClosest = sum;
-                    }
-                    while (left != right && nums[left] == nums[++left]) ;
+                    while (left < right && nums[left] == nums[++left]) ;
                 } else {
-                    int curGap = Math.abs(sum - target);
-                    if (curGap < minGap) {
-                        minGap = curGap;
-                        sumClosest = sum;
-                    }
-                    while (left != right && nums[right] == nums[--right]) ;
-                    while (left != right && nums[left] == nums[++left]) ;
+                    //已经是gap为0了，没必要继续了
+                    return target;
+//                    while (left < right && nums[right] == nums[--right]) ;
+//                    while (left < right && nums[left] == nums[++left]) ;
                 }
             }
         }
         return sumClosest;
     }
 
-    public static void getResult(int target, int sum) {
-
-    }
 
     public static void main(String[] args) {
 //        int[] nums = {-1,2,1,-4};

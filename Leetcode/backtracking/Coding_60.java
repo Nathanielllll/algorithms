@@ -63,7 +63,6 @@ public class Coding_60 {
                     stringBuffer.append(num);
                 }
                 result = stringBuffer.toString();
-                return;
             }
         }
 

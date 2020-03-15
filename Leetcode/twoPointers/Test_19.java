@@ -19,29 +19,14 @@ public class Test_19 {
         }
     }
 
-    public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode cur = head;
-        ListNode first = cur;
-        ListNode second = cur;
-        //先走n+1步
-        for (int i = 0; i <= n; i++) {
-            first = first.next;
-        }
-        while (first != null) {
-            first = first.next;
-            second = second.next;
-        }
-        second.next = second.next.next;
-        return head;
-    }
-
     /**哑节点可以有效防止删除第一个节点的情况*/
-    public ListNode removeNthFromEnd_2(ListNode head, int n){
+    public ListNode removeNthFromEnd(ListNode head, int n){
         ListNode dummy = new ListNode(0);
         dummy.next = head;
         ListNode first = dummy;
         ListNode second = dummy;
         // Advances first pointer so that the gap between first and second is n nodes apart
+        //先走了n+1步
         for (int i = 1; i <= n + 1; i++) {
             first = first.next;
         }

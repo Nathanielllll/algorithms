@@ -53,7 +53,7 @@ public class Test_678 {
                     left.pop();
                 } else if (!star.isEmpty()) {
                     star.pop();
-                }else {
+                } else {
                     return false;
                 }
             }

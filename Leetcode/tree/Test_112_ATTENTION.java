@@ -44,8 +44,10 @@ public class Test_112_ATTENTION {
         }
 
         sum -= root.val;
+        //叶子节点
         if (root.left == null && root.right == null) {
             return sum == 0;
+        //非叶子结点
         }else {
             return hasPathSum(root.left, sum) || hasPathSum(root.right, sum);
         }

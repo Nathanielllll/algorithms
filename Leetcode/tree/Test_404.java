@@ -27,11 +27,12 @@ public class Test_404 {
     }
 
 
-    int sum = 0;
+    int sum;
 
     public int sumOfLeftLeaves(TreeNode root) {
+        sum = 0;
         if (root == null) {
-            return 0;
+            return sum;
         }
         getSum(root, false);
         return sum;

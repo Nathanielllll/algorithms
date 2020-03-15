@@ -22,7 +22,6 @@ public class Coding_52 {
     public static void solveNQueens(int n, Stack<Integer> positions) {
         if (positions.size() == n) {
             ++res;
-            return;
         }
 
         //那一列的n个位置都需要尝试

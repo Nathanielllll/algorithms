@@ -43,6 +43,7 @@ public class Coding_47 {
 
         for (int i = 0; i < nums.length; i++) {
             if(!used[i]) {
+                //十分注意，后面还有个!used[i - 1]
                 if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
                     continue;
                 }

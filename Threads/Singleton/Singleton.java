@@ -1,6 +1,8 @@
+package Singleton;
+
 public class Singleton {
     /**
-     * uniqueInstance = new Singleton();分成三步
+     * uniqueInstance = new Singleton.Singleton();分成三步
      * 1、为uniqueInstance分配内存空间
      * 2、初始化uniqueInstance
      * 3、将uniqueInstance指向这个内存空间

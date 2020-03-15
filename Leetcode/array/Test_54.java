@@ -26,9 +26,12 @@ import java.util.List;
  * 输出: [1,2,3,4,8,12,11,10,9,5,6,7]
  */
 public class Test_54 {
+    static List<Integer> result;
+
     public static List<Integer> spiralOrder(int[][] matrix) {
-        List<Integer> result = new ArrayList<>();
-        if (matrix == null || matrix.length == 0) {
+        result = new ArrayList<>();
+
+        if (matrix == null) {
             return result;
         }
 
@@ -36,42 +39,44 @@ public class Test_54 {
         int tCol = 0;
         int dRow = matrix.length - 1;
         int dCol = matrix[0].length - 1;
+
         while (tRow <= dRow && tCol <= dCol) {
-            //一行
-            if (tRow == dRow) {
-                while (tCol <= dCol) {
-                    result.add(matrix[tRow][tCol++]);
-                }
-            }
-            //一列
-            else if (tCol == dCol) {
-                while (tRow <= dRow) {
-                    result.add(matrix[tRow++][tCol]);
-                }
-            } else {
-                //正常情况
-                int curRow = tRow;
-                int curCol = tCol;
-                while (curCol < dCol) {
-                    result.add(matrix[tRow][curCol++]);
-                }
-                while (curRow < dRow) {
-                    result.add(matrix[curRow++][dCol]);
-                }
-                while (curCol > tCol) {
-                    result.add(matrix[dRow][curCol--]);
-                }
-                while (curRow > tRow) {
-                    result.add(matrix[curRow--][tCol]);
-                }
-            }
-            tRow++;
-            tCol++;
-            dRow--;
-            dCol--;
+            addEdge(matrix, tRow++, tCol++, dRow--, dCol--);
         }
+
         return result;
     }
+
+    private static void addEdge(int[][] matrix, int tRow, int tCol, int dRow, int dCol) {
+        //一行
+        if (tRow == dRow) {
+            while (tCol <= dCol) {
+                result.add(matrix[tRow][tCol++]);
+            }
+        }
+        //一列
+        else if (tCol == dCol) {
+            while (tRow <= dRow) {
+                result.add(matrix[tRow++][tCol]);
+            }
+        } else {
+            int curRow = tRow;
+            int curCol = tCol;
+            while (curCol < dCol) {
+                result.add(matrix[tRow][curCol++]);
+            }
+            while (curRow < dRow) {
+                result.add(matrix[curRow++][dCol]);
+            }
+            while (curCol > tCol) {
+                result.add(matrix[dRow][curCol--]);
+            }
+            while (curRow > tRow) {
+                result.add(matrix[curRow--][tCol]);
+            }
+        }
+    }
+
 
 
     public static void main(String[] args) {

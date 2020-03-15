@@ -35,20 +35,13 @@ public class Test_81 {
         int right = nums.length - 1;
         // nums[0] == nums[nums.length-1]
         if (nums[left] == nums[right]) {
-            while (left < right) {
-                if (target > nums[left]) {
-                    left++;
-                } else if (target < nums[right]) {
-                    right--;
-                } else if (target == nums[left] || target == nums[right]) {
+            for (int i = 0; i < right; i++) {
+                if (nums[i] == target) {
                     return true;
-                } else {
-                    return false;
                 }
             }
             return false;
         }
-
 
         // nums[0] != nums[nums.length-1]
         while (left <= right) {
@@ -65,15 +58,15 @@ public class Test_81 {
                     } else {
                         left = middle + 1;
                     }
-                }
                 // 证明middle在后子数组
-                if (nums[middle] <= nums[right]) {
+                }else {
                     if (target <= nums[right] && target >= nums[middle]) {
                         left = middle + 1;
                     } else {
                         right = middle - 1;
                     }
                 }
+
             }
         }
         return false;

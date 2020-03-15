@@ -1,45 +1,56 @@
 package backtracking;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Draft {
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+
+    ArrayList<String> res;
+    boolean[] used;
+    public ArrayList<String> Permutation(String str) {
+        used = new boolean[str.length()];
+        res = new ArrayList<>();
+        if(str==null){
+            return res;
+        }
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+
+        Stack<Character> stack = new Stack<>();
+        subProcess(chars, stack);
+        return res;
+
     }
 
-    List<List<Integer>> result;
-
-    public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        result = new LinkedList<>();
-        if(root==null){
-            return result;
+    public void subProcess(char[] chars, Stack<Character> stack){
+        if(stack.size() == chars.length){
+            String string = "";
+            for(char c : stack){
+                string += c;
+            }
+            res.add(string);
         }
-        Stack<Integer> stack = new Stack<>();
-        int curSum = 0;
-        subProcess(root, sum, curSum, stack);
-        return result;
+
+        for(int i=0; i<chars.length; i++){
+
+            if(!used[i]){
+                if(i>0 && chars[i] == chars[i-1]  && !used[i - 1]){
+                    continue;
+                }
+                used[i] = true;
+                stack.push(chars[i]);
+                subProcess(chars, stack);
+                stack.pop();
+                used[i] = false;
+            }
+
+        }
     }
 
-    public void subProcess(TreeNode root, int sum, int curSum, Stack<Integer> stack){
-        if(root==null){
-            return;
-        }
-
-        if(curSum == sum && root.left==null && root.right==null) {
-            result.add(new LinkedList(stack));
-        }
-
-
-        stack.push(root.val);
-        curSum += root.val;
-
-        subProcess(root.left, sum, curSum, stack);
-        subProcess(root.right, sum, curSum, stack);
-
-        curSum -= root.val;
-        stack.pop();
+    public static void main(String[] args) {
+        Draft test = new Draft();
+        String string = "abca";
+        System.out.println(test.Permutation(string));
     }
+
+
 }

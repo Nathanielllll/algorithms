@@ -28,8 +28,12 @@ public class Test_142 {
             }
             fast = fast.next.next;
             slow = slow.next;
-            if (fast == slow) break;
+
+            if (fast == slow) {
+                break;
+            }
         }
+
         fast = head;
         while (slow != fast) {
             slow = slow.next;

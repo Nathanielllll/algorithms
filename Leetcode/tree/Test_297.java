@@ -53,7 +53,7 @@ public class Test_297 {
         if (data == null) {
             return null;
         }
-        String[] values = data.split(",");
+        String[] values = data.split("\\,");
         Queue<String> queue = new LinkedList<>();
         for (int i = 0; i < values.length; i++) {
             queue.add(values[i]);

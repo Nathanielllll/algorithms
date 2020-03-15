@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 
+/**JDK代理模式*/
 public class MonitorHandler implements InvocationHandler {
     private Object target;
 

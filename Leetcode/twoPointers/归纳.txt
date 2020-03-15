@@ -1,2 +1,5 @@
 26、27、80、283是非常相似的题目！
 283和27题其实是一样的题目
+
+Collections.sort(nums); //nums是list
+Arrays.sort(nums);      //nums是数组

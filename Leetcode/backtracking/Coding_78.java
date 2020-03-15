@@ -39,7 +39,7 @@ public class Coding_78 {
         result.add(new ArrayList<>(stack));
         for (int i = start; i < nums.length; i++) {
             stack.push(nums[i]);
-            subProcess(nums, i+1);
+            subProcess(nums, i + 1);
             stack.pop();
         }
     }

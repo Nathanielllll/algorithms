@@ -11,7 +11,7 @@ import java.util.Stack;
  */
 public class Code_31_ATTENTION {
     public static boolean isPopOrder(int[] pushed, int[] popped) {
-        if(pushed.length == 0 && popped.length == 0){
+        if (pushed.length == 0 && popped.length == 0) {
             return true;
         }
 
@@ -20,24 +20,24 @@ public class Code_31_ATTENTION {
         }
 
         int len = pushed.length;
-        int p1=0;
-        int p2=0;
+        int p1 = 0;
+        int p2 = 0;
 
         Stack<Integer> stack = new Stack<>();
 
-        while(p2<len){
-            if(p1>=len && stack.peek()!=popped[p2]){
+        while (p2 < len) {
+            if (p1 >= len && stack.peek() != popped[p2]) {
                 return false;
             }
 
-            if(stack.isEmpty()){
+            if (stack.isEmpty()) {
                 stack.push(pushed[p1]);
                 p1++;
-            }else{
-                if(stack.peek()==popped[p2]){
+            } else {
+                if (stack.peek() == popped[p2]) {
                     stack.pop();
                     p2++;
-                }else{
+                } else {
                     stack.push(pushed[p1]);
                     p1++;
                 }
@@ -63,8 +63,8 @@ public class Code_31_ATTENTION {
         int[] pop5 = {2};
         System.out.println("false: " + isPopOrder(push5, pop5));
 
-        int[] push6 = {1,2};
-        int[] pop6 = {1,2};
+        int[] push6 = {1, 2};
+        int[] pop6 = {1, 2};
         System.out.println("true: " + isPopOrder(push6, pop6));
 
         System.out.println("false: " + isPopOrder(null, null));

@@ -22,11 +22,11 @@ public class Test_94 {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode temp;
 
-        while(root!=null || !stack.isEmpty()){
-            if(root!=null){
+        while (root != null || !stack.isEmpty()) {
+            if (root != null) {
                 stack.push(root);
                 root = root.left;
-            }else if(!stack.isEmpty()) {
+            } else if (!stack.isEmpty()) {
                 temp = stack.pop();
                 list.add(temp.val);
                 root = temp.right;

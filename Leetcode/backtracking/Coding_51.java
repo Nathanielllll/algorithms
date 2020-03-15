@@ -49,7 +49,6 @@ public class Coding_51 {
     public static void solveNQueens(List<List<String>> result, int n, Stack<Integer> positions) {
         if (positions.size() == n) {
             addResult(result, n, positions);
-            return;
         }
 
         //那一列的n个位置都需要尝试

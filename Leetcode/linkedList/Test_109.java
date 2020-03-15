@@ -17,10 +17,6 @@ package linkedList;
  *   /   /
  * -10  5
  * <p>
- * 来源：力扣（LeetCode）
- * 链接：https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree
- * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
- *
  *
  * 我们考虑是否可以让【建立节点的顺序】匹配【链表元素顺序】？这样每次建立节点时，只需要获取链表下一个元素即可。
  * 使用递归模拟中序遍历过程，建立节点的顺序即与链表元素顺序一一对应，bottom-up建立树，最终返回根节点。

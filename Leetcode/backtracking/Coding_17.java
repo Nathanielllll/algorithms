@@ -18,7 +18,7 @@ import java.util.Stack;
  */
 public class Coding_17 {
 
-    String[] letterMap = {
+    static String[] letterMap = {
             " ",    //0
             "",     //1
             "abc",  //2
@@ -31,9 +31,9 @@ public class Coding_17 {
             "wxyz"  //9
     };
 
-    List<String> result;
+    static List<String> result;
 
-    public List<String> letterCombinations(String digits) {
+    public static List<String> letterCombinations(String digits) {
         result = new LinkedList<>();
 
         if (digits.equals("")) {
@@ -44,7 +44,7 @@ public class Coding_17 {
         return result;
     }
 
-    public void subProcess(String digits, int len, Stack<Character> stack){
+    public static void subProcess(String digits, int len, Stack<Character> stack){
         if (stack.size() == digits.length()) {
             String res = "";
             for (char c : stack){
@@ -60,5 +60,11 @@ public class Coding_17 {
             subProcess(digits, len + 1, stack);
             stack.pop();
         }
+
+    }
+
+    public static void main(String[] args) {
+        String digits = "23";
+        System.out.println(letterCombinations(digits));
     }
 }

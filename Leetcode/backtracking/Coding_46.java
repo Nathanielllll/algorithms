@@ -37,6 +37,7 @@ public class Coding_46 {
 
     private void backtrack(int[] nums, int len, Set<Integer> used, Stack<Integer> stack, List<List<Integer>> res) {
         if (stack.size() == len) {
+
             res.add(new ArrayList<>(stack));
         }
 

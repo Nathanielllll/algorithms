@@ -26,9 +26,11 @@ public class Test_66 {
         int carry = 0;
         for (int i = digits.length - 1; i >= 0; i--) {
             if (i == digits.length - 1) {
-                digits[i] = digits[i] + 1;
+                digits[i] = digits[i] + 1 + carry;
+            }else {
+                digits[i] = digits[i] + carry;
             }
-            digits[i] = digits[i] + carry;
+
             if (digits[i] == 10) {
                 digits[i] = 0;
                 carry = 1;
