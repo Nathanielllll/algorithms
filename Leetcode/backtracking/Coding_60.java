@@ -52,9 +52,9 @@ public class Coding_60 {
     }
 
     private void getPermutation(int[] nums, int k, Stack<Integer> stack) {
-        if (count > k) {
-            return;
-        }
+//        if (count > k) {
+//            return;
+//        }
         if (stack.size() == nums.length) {
             count++;
             if (count == k) {
@@ -63,6 +63,7 @@ public class Coding_60 {
                     stringBuffer.append(num);
                 }
                 result = stringBuffer.toString();
+                return;
             }
         }
 
@@ -81,6 +82,6 @@ public class Coding_60 {
 
     public static void main(String[] args) {
         Coding_60 solution = new Coding_60();
-        System.out.println(solution.getPermutation(3, 3));
+        System.out.println(solution.getPermutation(4, 9));
     }
 }

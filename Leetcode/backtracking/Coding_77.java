@@ -46,7 +46,7 @@ public class Coding_77 {
             result.add(new ArrayList(stack));
         }
 
-        for (int i = start; i < nums.length; i++) {
+        for (int i = start; i < nums.length && stack.size() <= k; i++) {
             stack.push(nums[i]);
             subProcess(stack, nums, i + 1, k);
             stack.pop();

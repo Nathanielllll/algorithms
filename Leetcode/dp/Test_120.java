@@ -26,9 +26,9 @@ public class Test_120 {
         int[] dp = new int[rows + 1];
         for (int row = rows - 1; row >= 0; row--) {
             int cols = triangle.get(row).size();
-            for (int i = 0; i < cols; i++) {
-                int value = triangle.get(row).get(i);
-                dp[i] = Math.min(dp[i], dp[i + 1]) + value;
+            for (int col = 0; col < cols; col++) {
+                int value = triangle.get(row).get(col);
+                dp[col] = Math.min(dp[col], dp[col + 1]) + value;
             }
         }
         return dp[0];

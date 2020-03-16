@@ -27,38 +27,26 @@ public class Test_50 {
             return 1;
         }
 
-        int exponent = Math.abs(n);
+        long exponent = Math.abs((long) n);
         double result = exponentPow(x, exponent);
 
-        if (n < 0) {
-            result = 1 / result;
-        }
-
-        return result;
+        return n < 0 ? 1 / result : result;
     }
 
-    private double exponentPow(double base, int exponent){
-        if (exponent == 0) {
-            return 1;
-        }
+    private double exponentPow(double base, long exponent){
         if (exponent == 1) {
             return base;
-        }
-
-        if (base == 1.0f)
+        } else if (exponent == 0) {
             return 1;
-
-        if (exponent == -2147483648) {
-            return 0;
         }
 
-        double result = exponentPow(base, exponent >> 1);
-        result *= result;
+        double sub = exponentPow(base, exponent >> 1);
 
-        if (exponent % 2 == 1) {
-            result *= base;
+        if (exponent % 2 == 0) {
+            return sub * sub;
+        }else {
+            return sub * sub * base;
         }
-        return result;
     }
 
     public static void main(String[] args) {
