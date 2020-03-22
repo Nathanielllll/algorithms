@@ -1,4 +1,4 @@
-package top100.Code_4;
+package twoPointers;
 
 /**
  * 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
@@ -69,14 +69,14 @@ public class Coding_4 {
             int cut2 = length / 2 - cut1;
 
             int L1 = cut1 == 0 ? Integer.MIN_VALUE : nums1[cut1 - 1];
-            int L2 = cut2 == 0 ? Integer.MIN_VALUE : nums2[cut2 - 1];
             int R1 = cut1 == nums1.length ? Integer.MAX_VALUE : nums1[cut1];
+            int L2 = cut2 == 0 ? Integer.MIN_VALUE : nums2[cut2 - 1];
             int R2 = cut2 == nums2.length ? Integer.MAX_VALUE : nums2[cut2];
+
             if (L1 > R2) {
                 cutR = cut1 - 1;
             } else if (L2 > R1) {
                 cutL = cut1 + 1;
-
             // 当找到中位数的时候，一定是：L1 <= R2, L2 <= R1
             } else {
                 if (length % 2 == 0) {
