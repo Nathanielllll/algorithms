@@ -70,8 +70,6 @@ public class NumerationAddition {
             stringBuffer.append(1);
         }
 
-
-
         return stringBuffer.reverse().toString();
     }
 
