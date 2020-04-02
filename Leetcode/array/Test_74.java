@@ -35,11 +35,11 @@ public class Test_74 {
 
         //左下角开始的坐标
         int row = matrix.length - 1;
-        int column = 0;
-        while (row >= 0 && column <= matrix[0].length - 1) {
-            if (number > matrix[row][column]) {
-                column++;
-            } else if (number < matrix[row][column]) {
+        int col = 0;
+        while (row >= 0 && col <= matrix[0].length - 1) {
+            if (number > matrix[row][col]) {
+                col++;
+            } else if (number < matrix[row][col]) {
                 row--;
             } else {
                 return true;

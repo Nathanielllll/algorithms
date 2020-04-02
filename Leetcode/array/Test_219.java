@@ -22,19 +22,18 @@ import java.util.HashMap;
 public class Test_219 {
     public static boolean containsNearbyDuplicate(int[] nums, int k) {
         HashMap<Integer, Integer> hashMap = new HashMap<>();
-        int minGap = Integer.MAX_VALUE;
         for (int i = 0; i < nums.length; i++) {
             if (hashMap.containsKey(nums[i])) {
                 int gap = i - hashMap.get(nums[i]);
-                minGap = Math.min(minGap, gap);
+                if (gap <= k) {
+                    return true;
+                }
             }
             hashMap.put(nums[i], i);
         }
-        if (minGap <= k) {
-            return true;
-        }
         return false;
     }
+
 
     public static void main(String[] args) {
         int[] nums = {1,2,3,1,2,3};

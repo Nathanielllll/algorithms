@@ -30,7 +30,7 @@ public class Test_56 {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
-                // TODO Auto-generated method stub
+                //递增
                 return o1[0] - o2[0];
             }
         });

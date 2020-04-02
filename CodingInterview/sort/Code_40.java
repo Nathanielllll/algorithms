@@ -58,23 +58,6 @@ public class Code_40 {
         return result;
     }
 
-    public static int[] partition_test(int[] arr, int left, int right) {
-        int less = left - 1;
-        int more = right;
-
-        while (left != more) {
-            if (arr[left] < arr[right]) {
-                swap(arr, ++less, left++);
-            } else if (arr[left] > arr[right]) {
-                swap(arr, --more, left);
-            } else {
-                left++;
-            }
-        }
-
-        swap(arr, left, right);
-        return arr;
-    }
 
     public static void main(String[] args) {
         int[] arr = new int[]{4, 5, 1, 6, 2, 7, 3};
@@ -91,9 +74,9 @@ public class Code_40 {
 //    }
 
     //方法三，使用java自带的最大堆作为容器
-    public static ArrayList<Integer> getLeastNumbers_3(int[] arr, int k) {
+    public static int[] getLeastNumbers_3(int[] arr, int k) {
         if (arr == null || arr.length <= 0 || k <= 0 || k > arr.length) {
-            return null;
+            return new int[]{};
         }
 
         PriorityQueue<Integer> maxHeap = new PriorityQueue<>(new Comparator<Integer>() {
@@ -104,23 +87,22 @@ public class Code_40 {
         });
 
         for (int i = 0; i < arr.length; i++) {
-            if(maxHeap.size() > k || (!maxHeap.isEmpty() && maxHeap.peek() > arr[i])){
+            if (maxHeap.size() < k) {
+                maxHeap.offer(arr[i]);
+            } else if (!maxHeap.isEmpty() && maxHeap.peek() > arr[i]) {
                 maxHeap.poll();
+                maxHeap.offer(arr[i]);
             }
-            maxHeap.offer(arr[i]);
-//            if (maxHeap.size() < k) {
-//                maxHeap.offer(arr[i]);
-//            } else if (maxHeap.peek() > arr[i]) {
-//                maxHeap.poll();
-//                maxHeap.offer(arr[i]);
-//            }
         }
 
-        ArrayList<Integer> result = new ArrayList<>();
+        int[] result = new int[k];
+        int i = 0;
         for (Integer integer : maxHeap) {
-            result.add(integer);
+            if(i<k){
+                result[i] = integer;
+            }
+            i++;
         }
-
         return result;
     }
 }

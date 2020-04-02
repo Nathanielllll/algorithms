@@ -1,4 +1,4 @@
-package alibaba;
+package alibaba.March_20;
 
 /**
  * 有一叠扑克牌，每张牌介于1和10之间
@@ -15,6 +15,7 @@ public class Test_1 {
     //直接暴力搜索当前poker，按照3连对，5顺子，2对子，1单张的方式。
     public static int poker(int[] cardNumber) {
         int counter = 0;
+
         int i = 0;
         //3连对。从第一个牌数大于等于2且要连续3次。
         while (true) {

@@ -1,0 +1,1 @@
+You should click "Resume" to go to the real homepage to see detailed personal information.

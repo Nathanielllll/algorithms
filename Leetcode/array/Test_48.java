@@ -42,7 +42,7 @@ public class Test_48 {
         int dRow = matrix.length - 1;
         int dCol = matrix[0].length - 1;
 
-        while (tRow < dRow) {
+        while (tRow <= dRow) {
             rotateOnce(matrix, tRow++, tCol++, dRow--, dCol--);
         }
     }

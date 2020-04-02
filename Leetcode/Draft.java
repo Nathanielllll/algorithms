@@ -1,30 +1,28 @@
 import java.util.*;
 
 public class Draft {
-
-    public static int minLength(int N, int L){
-        int left = 0;
-        int right = 0;
-        int minLength = Integer.MAX_VALUE;
-        int mid = (N + 1)/2;
-        int sum = 0;
-
-        while(left < mid){
-            if(sum < N){
-                right++;
-                sum += right;
-            }else{
-                if(right - left + 1 >= L){
-                    minLength = Math.min(minLength, right - left + 1);
-                }
-                sum -= left;
-                left++;
-            }
-        }
-        return minLength;
-    }
-
     public static void main(String[] args) {
-        System.out.println(minLength(18, 2));
+        Scanner cin = new Scanner(System.in);
+        boolean flag = true;// 如果是正数就是true，负数就是false
+
+        String Num = cin.nextLine();
+        if (Num.charAt(0) == '-') {
+            flag = false;
+            Num = Num.substring(1);
+        }
+
+
+        String numMap = cin.nextLine();
+        String[] List = numMap.split(" ");
+
+        String result = "";
+        for (int index = 0; index < Num.length(); index++) {
+            int I = Num.charAt(index) - '0';
+            result += List[I - 1];
+        }
+
+        if (!flag)
+            result = "-" + result;
+        System.out.println(result);
     }
 }

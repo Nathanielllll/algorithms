@@ -71,7 +71,7 @@ public class AlternatelyPrint1 {
         };
 
         Thread t1 = new Thread(runnable, "偶数");
-        Thread t2 = new Thread(runnable, "偶数");
+        Thread t2 = new Thread(runnable, "奇数");
 
         t2.start();
         t1.start();
