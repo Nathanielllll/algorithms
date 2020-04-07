@@ -32,14 +32,12 @@ public class Test_2 {
             int d = scanner.nextInt();
 
             boolean flag = false;
+            outer:
             for (int row = 0; row <= n - c; row++) {
-                if (flag) {
-                    break;
-                }
                 for (int col = 0; col <= m - d; col++) {
                     if (dp[row][col] == 0 && canPut(c, d, row, col, dp)) {
                         flag = true;
-                        break;
+                        break outer;
                     }
                 }
             }

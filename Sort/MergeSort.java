@@ -7,7 +7,6 @@ import java.util.Arrays;
 public class MergeSort {
     //两路归并算法，两个排好序的子序列合并为一个子序列
     public static void merge(int[] data, int left, int mid, int right, int[] temp) {
-
         int p1 = left;//左边子序列的指针
         int p2 = mid + 1;//右边子序列的指针
         int k = left;//k是存放指针
