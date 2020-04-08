@@ -59,7 +59,7 @@ public class AlternatelyPrint1 {
                     for (; i <= 100; ) {
                         System.out.println(Thread.currentThread().getName() + "" + i++);
                         try {
-                            block.notifyAll();
+                            block.notify();
                             block.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -70,11 +70,11 @@ public class AlternatelyPrint1 {
             }
         };
 
-        Thread t1 = new Thread(runnable, "偶数");
-        Thread t2 = new Thread(runnable, "奇数");
+        Thread t1 = new Thread(runnable, "奇数");
+        Thread t2 = new Thread(runnable, "偶数");
 
-        t2.start();
         t1.start();
+        t2.start();
     }
 
     //交替打印1～100
@@ -121,7 +121,7 @@ public class AlternatelyPrint1 {
 
 
     public static void main(String[] args) {
-        test3();
+        test2();
     }
 
 }

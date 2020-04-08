@@ -7,9 +7,9 @@ import java.util.HashMap;
  * 超过就返回null，否则返回value就好啦（时间是用Date类来获取的）
  */
 public class ExpireHashMap {
-    HashMap<Integer, Integer> cache;
-    HashMap<Integer, Long> expireMap;
-    long expireTime;
+    private HashMap<Integer, Integer> cache;
+    private HashMap<Integer, Long> expireMap;
+    private long expireTime;
 
     public ExpireHashMap() {
     }
