@@ -22,8 +22,8 @@ public class Test_2 {
             public int compare(String o1, String o2) {
                 if (o1.charAt(0) == o2.charAt(0)) {
                     //长的排前面
-                    return o2.charAt(o2.length() - 1) - o1.charAt(o1.length() - 1);
-//                    return o2.length() - o1.length();
+//                    return o2.charAt(o2.length() - 1) - o1.charAt(o1.length() - 1);
+                    return o2.length() - o1.length();
                 }else {
                     //<0排前面
                     return o1.charAt(0) - o2.charAt(0);

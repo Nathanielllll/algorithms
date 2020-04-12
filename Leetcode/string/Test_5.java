@@ -29,8 +29,8 @@ public class Test_5 {
         int maxLen = 0;
         for (int i = 0; i < string.length(); i++) {
 //            1、如果传入重合的索引编码，进行中心扩散，此时得到的最长回文子串的长度是奇数；
-//            2、如果传入相邻的索引编码，进行中心扩散，此时得到的最长回文子串的长度是偶数。
             int len1 = expandAroundCenter(string, i, i);
+//            2、如果传入相邻的索引编码，进行中心扩散，此时得到的最长回文子串的长度是偶数。
             int len2 = expandAroundCenter(string, i, i + 1);
             int len = Math.max(len1, len2);
 
@@ -49,13 +49,12 @@ public class Test_5 {
 
 
     public static int expandAroundCenter(String string, int left, int right) {
-        int L = left;
-        int R = right;
-        while (L >= 0 && R < string.length() && string.charAt(L) == string.charAt(R)) {
-            L--;
-            R++;
+        while (left >= 0 && right < string.length()
+                && string.charAt(left) == string.charAt(right)) {
+            left--;
+            right++;
         }
-        return R - L - 1;
+        return right - left - 1;
     }
 
     public static void main(String[] args) {

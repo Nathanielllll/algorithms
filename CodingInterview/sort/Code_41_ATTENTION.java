@@ -14,9 +14,9 @@ import java.util.PriorityQueue;
  * 先将该元素插入小顶堆，然后将小顶堆的最小元素插入到大顶堆。
  */
 public class Code_41_ATTENTION {
-    PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
 
-    PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
 
     public void insert(Integer number) {
         // 先加入maxHeap中，再从maxHeap中poll最大值放入minHeap。

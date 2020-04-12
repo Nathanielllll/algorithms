@@ -63,16 +63,7 @@ public class Test_146_LRU {
             list = new DoubleList();
         }
 
-        public int get(int key){
-            if (!cache.containsKey(key)) {
-                return -1;
-            }
-            int value = cache.get(key).v;
-            put(key, value);
-            return value;
-        }
-
-
+        //先写put，再写get
         public void put(int key, int value){
             Node node = new Node(key, value);
             if(cache.containsKey(key)){
@@ -82,12 +73,23 @@ public class Test_146_LRU {
             }else {
                 if(list.getSize() == this.cap){
                     Node last = list.removeLast();
+                    //如果没有这个key，为啥还要删除？？？
+                    //因为删除的是原来的list的最后节点！！
                     cache.remove(last.k);
                 }
             }
 
             cache.put(key, node);
             list.addFirst(node);
+        }
+
+        public int get(int key){
+            if (!cache.containsKey(key)) {
+                return -1;
+            }
+            int value = cache.get(key).v;
+            put(key, value);
+            return value;
         }
     }
 

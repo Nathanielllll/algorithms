@@ -10,14 +10,23 @@ public class Code_52 {
     }
 
     public static ListNode findFirstCommonNode(ListNode head1, ListNode head2) {
-        if(head1==null || head2==null){
+        if (head1 == null || head2 == null) {
             return null;
         }
         ListNode cur1 = head1;
         ListNode cur2 = head2;
-        while(cur1!=cur2){
-            cur1 = cur1==null? head2:cur1.next;
-            cur2 = cur2==null? head1:cur2.next;
+        while (cur1 != cur2) {
+            if (cur1 != null) {
+                cur1 = cur1.next;
+            }else {
+                cur1 = head2;
+            }
+
+            if (cur2 != null) {
+                cur2 = cur2.next;
+            }else {
+                cur2 = head1;
+            }
         }
         return cur1;
     }

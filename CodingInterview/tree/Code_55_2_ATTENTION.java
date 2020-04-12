@@ -10,66 +10,6 @@ public class Code_55_2_ATTENTION {
         BinaryTreeNode right;
     }
 
-    public static int treeDepth(BinaryTreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        int left = treeDepth(root.left);
-        int right = treeDepth(root.right);
-        int depth = Math.max(left, right) + 1;
-        return depth;
-    }
-
-    //一个节点会被重复遍历多次，时间效率不高
-    public static boolean isBalanced_1(BinaryTreeNode root) {
-
-        if (root == null) {
-            return true;
-        }
-
-        int left = treeDepth(root.left);
-        int right = treeDepth(root.right);
-        int diff = left - right;
-        if (diff > 1 || diff < -1) {
-            return false;
-        }
-
-        return isBalanced_1(root.left) && isBalanced_1(root.right);
-    }
-
-    //每个节点只遍历一遍
-    public boolean isBalanced_2(BinaryTreeNode root) {
-        return isBST(root).isB;
-    }
-
-    private class ReturnNode {
-        boolean isB;
-        int depth;
-
-        public ReturnNode(int depth, boolean isB) {
-            this.isB = isB;
-            this.depth = depth;
-        }
-    }
-
-    public ReturnNode isBST(BinaryTreeNode root) {
-        if (root == null) {
-            return new ReturnNode(0, true);
-        }
-
-        ReturnNode left = isBST(root.left);
-        ReturnNode right = isBST(root.right);
-        if (left.isB == false || right.isB == false) {
-            return new ReturnNode(0, false);
-        }
-        if (Math.abs(left.depth - right.depth) > 1) {
-            return new ReturnNode(0, false);
-        }
-
-        return new ReturnNode(Math.max(left.depth, right.depth) + 1, true);
-    }
-
-
 
     /**
      * 考虑到 getTreeDepth 函数返回的是int值，同时高度不可能为负数，那么如果求高度过程中我们发现了当前不是平衡二叉树，就返回-1。
@@ -84,6 +24,7 @@ public class Code_55_2_ATTENTION {
     /**
      * 以当前节点为根节点的树的层数
      * 返回-1的话说明 不满足要求不用求了直接 -1 退出
+     *
      * @param root
      * @return
      */
@@ -96,20 +37,35 @@ public class Code_55_2_ATTENTION {
         if (root == null) {
             return 0;
         }
-        int leftDepth = getTreeDepth(root.left);
+
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+
+        int leftDepth = 0;
+        if (root.left != null) {
+            leftDepth = getTreeDepth(root.left);
+        }
         if (leftDepth == -1) {
             return -1;
         }
-        int rightDepth = getTreeDepth(root.right);
+
+
+        int rightDepth = 0;
+        if (root.right != null) {
+            rightDepth = getTreeDepth(root.right);
+        }
         if (rightDepth == -1) {
             return -1;
         }
+
         if (Math.abs(leftDepth - rightDepth) > 1) {
             return -1;
+        }else {
+            return Math.max(leftDepth, rightDepth) + 1;
         }
-        return Math.max(leftDepth, rightDepth) + 1;
-    }
 
+    }
 
 
 }

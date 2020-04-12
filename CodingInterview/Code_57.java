@@ -8,31 +8,26 @@ import java.util.List;
  * 使用双指针。
  */
 public class Code_57 {
-    public static void findNumbersWithSum(int[] data, int sum) {
-        if (data == null || data.length <= 0) {
-            throw new RuntimeException("invalid input");
+    public static int[] twoSum(int[] nums, int target) {
+        if (nums == null || nums.length <= 0) {
+            return new int[]{};
         }
 
-        int low = 0;
-        int high = data.length - 1;
-        while (low != high) {
-            int curSum = data[low] + data[high];
-            if (curSum == sum) {
-                ArrayList arrayList = new ArrayList();
-                arrayList.add(data[low]);
-                arrayList.add(data[high]);
-                System.out.println(arrayList);
-                break;
-            } else if (curSum > sum) {
-                high--;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int curSum = nums[left] + nums[right];
+            if (curSum == target) {
+                int[] res = {nums[left], nums[right]};
+                return res;
+            } else if (curSum > target) {
+                while(left < right && nums[right] == nums[--right]);
             } else {
-                low++;
+                while(left < right && nums[left] == nums[++left]);
             }
         }
+
+        return new int[]{};
     }
 
-    public static void main(String[] args) {
-        int[] data = new int[]{1, 2, 4, 7, 11, 15};
-        findNumbersWithSum(data, 15);
-    }
 }

@@ -1,10 +1,7 @@
 package sort;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * 最小的k个数，要分是不是大数的情况
@@ -79,12 +76,19 @@ public class Code_40 {
             return new int[]{};
         }
 
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o2.compareTo(o1);
-            }
-        });
+        //方法1
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        //方法2
+//        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                return o2.compareTo(o1);
+//            }
+//        });
+
+        //方法3
+//        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> o2.compareTo(o1));
 
         for (int i = 0; i < arr.length; i++) {
             if (maxHeap.size() < k) {
@@ -98,7 +102,7 @@ public class Code_40 {
         int[] result = new int[k];
         int i = 0;
         for (Integer integer : maxHeap) {
-            if(i<k){
+            if (i < k) {
                 result[i] = integer;
             }
             i++;

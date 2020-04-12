@@ -4,6 +4,7 @@ import java.util.Stack;
 
 /**
  * 二叉搜索树与双向链表
+ * 使用中序遍历完成
  */
 public class Code_36_ATTENTION {
     class Node {
@@ -11,13 +12,14 @@ public class Code_36_ATTENTION {
         public Node left;
         public Node right;
 
-        public Node() {}
+        public Node() {
+        }
 
         public Node(int _val) {
             val = _val;
         }
 
-        public Node(int _val,Node _left,Node _right) {
+        public Node(int _val, Node _left, Node _right) {
             val = _val;
             left = _left;
             right = _right;
@@ -26,7 +28,7 @@ public class Code_36_ATTENTION {
 
     public Node treeToDoublyList(Node root) {
 
-        if (root==null) {
+        if (root == null) {
             return null;
         }
 
@@ -47,7 +49,7 @@ public class Code_36_ATTENTION {
                 if (pre == null) {
                     head = temp;
                 //其他节点，将前一个节点的右指针指向当前节点
-                }else {
+                } else {
                     pre.right = temp;
                 }
                 //将当前节点的左指针指向前一个节点

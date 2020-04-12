@@ -20,27 +20,24 @@ public class Code_31_ATTENTION {
         }
 
         int len = pushed.length;
-        int p1 = 0;
-        int p2 = 0;
+        int p1 = 0;//push
+        int p2 = 0;//pop
 
         Stack<Integer> stack = new Stack<>();
 
         while (p2 < len) {
+            //不能在push了，如果stack.peek() != 要弹出的数字，只能为false
             if (p1 >= len && stack.peek() != popped[p2]) {
                 return false;
             }
-
-            if (stack.isEmpty()) {
+            //stack为空 或者 stack.peek() != 要弹出的数字
+            if (stack.isEmpty() || (!stack.isEmpty() && stack.peek() != popped[p2])) {
                 stack.push(pushed[p1]);
                 p1++;
-            } else {
-                if (stack.peek() == popped[p2]) {
-                    stack.pop();
-                    p2++;
-                } else {
-                    stack.push(pushed[p1]);
-                    p1++;
-                }
+            //stack.peek() == 要弹出的数字
+            } else if (!stack.isEmpty() && stack.peek() == popped[p2]){
+                stack.pop();
+                p2++;
             }
 
         }

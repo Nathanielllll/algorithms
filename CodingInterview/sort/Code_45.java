@@ -18,7 +18,8 @@ public class Code_45 {
         if (arr.length == 1) {
             return String.valueOf(arr[0]);
         }
-        String string = new String();
+        String string = "";
+        //本质上用冒泡排序，先排好最前面的
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
                 String a = arr[i] + "" + arr[j];

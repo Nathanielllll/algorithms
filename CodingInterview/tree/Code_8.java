@@ -22,28 +22,28 @@ public class Code_8 {
         }
     }
 
-    public static Node getMostLeft(Node head) {
-        if (head == null) {
+    public static Node getMostLeft(Node root) {
+        if (root == null) {
             return null;
         }
-        while (head.left != null) {
-            head = head.left;
+        while (root.left != null) {
+            root = root.left;
         }
-        return head;
+        return root;
     }
 
-    public static Node getSuccessorNode(Node head) {
-        if (head == null) {
+    public static Node getSuccessorNode(Node root) {
+        if (root == null) {
             return null;
         }
-        if (head.right != null) {
-            return getMostLeft(head.right);
+        if (root.right != null) {
+            return getMostLeft(root.right);
         } else {
-            Node parent = head.parent;
-            //并且它是它父节点的右子节点
-            while (parent != null && head == parent.right) {
-                head = parent;
-                parent = head.parent;
+            Node parent = root.parent;
+            //它是它父节点的左子节点，那么下个节点就是它的父节点
+            while (parent != null && root != parent.left) {
+                root = parent;
+                parent = root.parent;
             }
             return parent;
         }

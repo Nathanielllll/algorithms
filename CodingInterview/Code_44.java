@@ -4,7 +4,7 @@
 public class Code_44 {
 
     public static void main(String[] args) {
-        System.out.println(digitAtIndex(1001));
+        System.out.println(digitAtIndex(11));
     }
 
     public static int digitAtIndex(int index) {
@@ -23,7 +23,13 @@ public class Code_44 {
         }
     }
 
-    private static int digitAtIndex(int index, int digits) {
+    /**
+     *
+     * @param index 这个index是指：在digits位上的index，而不是原始的index
+     * @param digits
+     * @return
+     */
+    public static int digitAtIndex(int index, int digits) {
         //对应的数值
         int number = beginNumberFor(digits) + index / digits;
         //从数值右边开始算的位置

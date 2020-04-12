@@ -15,7 +15,7 @@ public class Code_55 {
             return 0;
         }
 
-        if ((root.left == null) && (root.right == null)) {
+        if (root.left == null && root.right == null) {
             return 1;
         }
         int left = 0;
@@ -28,7 +28,6 @@ public class Code_55 {
             right = maxDepth(root.right);
         }
 
-        int depth = Math.max(left, right) + 1;
-        return depth;
+        return Math.max(left, right) + 1;
     }
 }

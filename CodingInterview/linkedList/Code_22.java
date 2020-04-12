@@ -30,27 +30,27 @@ public class Code_22 {
 //        k大于链表的长度；
 //        输入的参数k为0； 鲁棒性也是很重要的~
 
-        ListNode former = head, latter = head;
+        ListNode fast = head, slow = head;
         //考虑特殊情况1、3
-        if(head == null || k == 0){
+        if (head == null || k == 0) {
             return null;
         }
 
-        for(int i = 0;i < k;i++) {
+        //走了k步
+        for (int i = 0; i < k; i++) {
             //考虑特殊情况2
-            if(former == null && i < k){
+            if (fast == null && i < k) {
                 return null;
             }
-            former = former.next;
+            fast = fast.next;
         }
 
-        while(former != null) {
-            former = former.next;
-            latter = latter.next;
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
         }
-        return latter;
+        return slow;
     }
-
 
 
 }

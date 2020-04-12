@@ -10,7 +10,7 @@ package string;
  * num1 和num2 都不包含任何前导零。
  * 你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。
  */
-public class Coding_415 {
+public class Test_415 {
     public static String addStrings(String num1, String num2) {
         StringBuffer res = new StringBuffer();
         int carry = 0;

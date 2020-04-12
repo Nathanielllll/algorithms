@@ -12,34 +12,34 @@ public class Code_39 {
     public static int majorityElement(int[] nums) {
         int count = 1;
         int number = nums[0];
-        for(int i=1; i<nums.length; i++){
-            if(count==0){
-                number=nums[i];
+        for (int i = 1; i < nums.length; i++) {
+            if (count == 0) {
+                number = nums[i];
                 count = 1;
                 continue;
             }
 
-            if(nums[i]==number){
+            if (nums[i] == number) {
                 count++;
-            }else{
+            } else {
                 count--;
             }
         }
         return number;
     }
 
-    //使用partition的方法。
+    //使用partition的方法找出中位数
     public static int moreThanHalfNum(int[] arr) {
         if (checkInvalidArray(arr)) {
             return 0;
         }
-        int middle = arr.length >> 1;
+        int middle_index = arr.length >> 1;
         int start = 0;
         int end = arr.length - 1;
         int index = partition(arr, start, end);
-        while (index != middle) {
+        while (index != middle_index) {
             //下标大于n/2，则中位数在左边
-            if (index > middle) {
+            if (index > middle_index) {
                 end = index - 1;
             } else {
                 start = index + 1;
@@ -47,11 +47,12 @@ public class Code_39 {
             index = partition(arr, start, end);
         }
 
-        int result = arr[index];
-        if (!checkMoreThanHalf(arr, result)) {
+        //找出中位数
+        int mid_num = arr[middle_index];
+        if (!checkMoreThanHalf(arr, mid_num)) {
             return 0;
         }
-        return result;
+        return mid_num;
     }
 
     //用partition找出下标
@@ -103,7 +104,7 @@ public class Code_39 {
 
     public static void main(String[] args) {
         // 存在出现次数超过数组长度一半的数字
-        int numbers[] = {1,2,3};
+        int numbers[] = {1, 2, 3};
         System.out.println(moreThanHalfNum(numbers));
 
         // 出现次数超过数组长度一半的数字都出现在数组的前半部分

@@ -12,22 +12,22 @@ public class Code_5 {
             return null;
         }
 
-        int length = s.length();
+        int oldLength = s.length();
         //空格的个数
         int numberOfBlank = 0;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < oldLength; i++) {
             if (s.charAt(i) == ' ') {
                 numberOfBlank++;
             }
         }
 
         //新的string的长度
-        int targetLength = numberOfBlank * 2 + length;
-        char[] ans = new char[targetLength];
+        int newLength = numberOfBlank * 2 + oldLength;
+        char[] ans = new char[newLength];
 
         //p1, p2双指针
-        int p1 = length - 1;
-        int p2 = targetLength - 1;
+        int p1 = oldLength - 1;
+        int p2 = newLength - 1;
 
         while (p1 != p2) {
             if (s.charAt(p1) != ' ') {
@@ -43,7 +43,7 @@ public class Code_5 {
             ans[p1] = s.charAt(p1);
             p1--;
         }
-        return new String(ans);
+        return String.valueOf(ans);
     }
 
     public static void main(String[] args) {

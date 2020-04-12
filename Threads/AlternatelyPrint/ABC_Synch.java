@@ -53,7 +53,7 @@ public class ABC_Synch {
     //打印‘A’的方法
     public static void printA() throws InterruptedException {
         lock.lock();
-        if (num != 1) { //标识符等于1的时候打印A
+        if (num != 1) { //标识符等于1的时候打印A，不等于1的时候阻塞当前线程
             conditionA.await();
         }
         System.out.print(Thread.currentThread().getName());

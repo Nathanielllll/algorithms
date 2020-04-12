@@ -41,12 +41,10 @@ public class Code_18_2_ATTENTION {
         }
         ListNode cur = head;
         while (cur != null) {
-            ListNode next = cur.next;
-            while (next != null && cur.value == next.value) {
-                next = next.next;
+            while (cur.next != null && cur.value == cur.next.value) {
+                cur.next = cur.next.next;
             }
-            cur.next = next;
-            cur = next;
+            cur = cur.next;
         }
         return head;
     }
