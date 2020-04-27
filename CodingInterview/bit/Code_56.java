@@ -45,17 +45,33 @@ public class Code_56 {
     }
 
     public static int findFirstBitIs1(int num) {
-        int indexBit = 0;
-        while (((num & 1) == 0) && indexBit < 32) {
-            num = num >> 1;
-            indexBit++;
+        int mask = 1;
+        for (int i = 0; i < 32; i++) {
+            if ((num & mask) != 0) {
+                return i;
+            }
+            mask <<= 1;
         }
-        return indexBit;
+        return -1;
     }
 
     public static boolean isBit1(int num, int indexBit) {
-        num >>= indexBit;
-        //＆同为１时为１，否则为０
-        return (num & 1) == 1;
+        int mask = 1;
+        mask <<= indexBit;
+        return (num & mask) != 0;
     }
+//    public static int findFirstBitIs1(int num) {
+//        int indexBit = 0;
+//        while (((num & 1) == 0) && indexBit < 32) {
+//            num = num >> 1;
+//            indexBit++;
+//        }
+//        return indexBit;
+//    }
+//
+//    public static boolean isBit1(int num, int indexBit) {
+//        num >>= indexBit;
+//        //＆同为１时为１，否则为０
+//        return (num & 1) == 1;
+//    }
 }

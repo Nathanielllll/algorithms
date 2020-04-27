@@ -1,7 +1,5 @@
 package dp;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 /***
  * 礼物的最大价值。从棋盘的左上角开始拿格子的礼物
  * 使用动态规划：f(i,j)=max{f(i-1,j), f(i,j-1)} + gift(i,j)

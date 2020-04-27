@@ -40,10 +40,6 @@ public class Test_4 {
             }
         }
 
-
-        //1 0 1
-        //0 1 0
-        //1 0 1
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (j < cols - 1) {

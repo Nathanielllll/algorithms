@@ -32,7 +32,7 @@ public class Code_56_2 {
         int result = 0;
         /**记住！从数组存放的二进制转化为十进制*/
         for (int i = 0; i < 32; i++) {
-            result = result << 1;
+            result = result * 2;
             result += bitSum[i];
         }
         return result;

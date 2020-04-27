@@ -25,14 +25,14 @@ public class Code_49 {
             uglyNumbers[nextUglyIndex] = min;
 
             //分别得到T2、T3、T5
-            while (uglyNumbers[multiply2] * 2 <= uglyNumbers[nextUglyIndex]) {
+            if (uglyNumbers[multiply2] * 2 == min) {
                 multiply2++;
             }
-            while (uglyNumbers[multiply3] * 3 <= uglyNumbers[nextUglyIndex]) {
-                multiply3++;
+            if (uglyNumbers[multiply3] * 3 == min) {
+                multiply2++;
             }
-            while (uglyNumbers[multiply5] * 5 <= uglyNumbers[nextUglyIndex]) {
-                multiply5++;
+            if (uglyNumbers[multiply5] * 5 == min) {
+                multiply2++;
             }
             nextUglyIndex++;
         }

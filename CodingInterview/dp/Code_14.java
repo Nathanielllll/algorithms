@@ -26,24 +26,24 @@ public class Code_14 {
             return 2;
         }
 
-        int[] products = new int[length + 1];
+        int[] dp = new int[length + 1];
         //在length >= 4的情况下，这几个其实不可分割的（因为最大）
-        products[0] = 0;
-        products[1] = 1;
-        products[2] = 2;
-        products[3] = 3;
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 3;
         int max;
         for (int n = 4; n <= length; n++) {
             max = 0;
             //i <= n/2是因为实际上是对称的
             //此时需要用：公式为f(n)=max(f(i)*f(n-i)) 其中0<i<n
             for (int i = 1; i <= n / 2; i++) {
-                int product = products[i] * products[n - i];
+                int product = dp[i] * dp[n - i];
                 max = Math.max(max, product);
             }
-            products[n] = max;
+            dp[n] = max;
         }
-        return products[length];
+        return dp[length];
     }
 
     /**

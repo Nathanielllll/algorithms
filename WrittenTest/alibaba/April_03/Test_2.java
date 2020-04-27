@@ -40,27 +40,32 @@ public class Test_2 {
     }
 
     /**
-     *
      * @param array
-     * @param i ==row
-     * @param j ==col
+     * @param i     ==row
+     * @param j     ==col
      * @param count 消耗的最小体力值
      */
-    public static void dfs(int[][] array, int i, int j, int count) {
-        if (i < 0 || j < 0 || j >= array[0].length ||
-                (i < array.length && dp[i][j] > 0 && array[i][j] + count > dp[i][j])) {//如果此时同一个值已经被遍历过并且取值更小，则没必要再对它遍历
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, -1, 0, 1};
+    public static void dfs(int[][] array, int row, int col, int count) {
+        if (row < 0 || col < 0 || col >= array[0].length ||
+                //如果此时同一个值已经被遍历过并且取值更小，则没必要再对它遍历
+                (row < array.length && dp[row][col] > 0 && array[row][col] + count > dp[row][col])) {
             return;
         }
-        if (i == array.length) {
+        if (row == array.length) {
             res = Math.min(res, count);
             return;
         }
 
-        int count1 = count + array[i][j];
-        dp[i][j] = count1;//用来记录遍历到该点所消耗的体力值
-        dfs(array, i + 1, j, count1);
-        dfs(array, i, j - 1, count1);
-        dfs(array, i, j + 1, count1);
-        dfs(array, i - 1, j, count1);
+        //用来记录遍历到该点所消耗的体力值
+        int count1 = count + array[row][col];
+        dp[row][col] = count1;
+
+        for (int i = 0; i < 4; i++) {
+            int nextRow = row + dx[i];
+            int nextCol = col + dy[i];
+            dfs(array, nextRow, nextCol, count1);
+        }
     }
 }

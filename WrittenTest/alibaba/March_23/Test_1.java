@@ -28,6 +28,4 @@ public class Test_1 {
         else
             return (half * half * 2) % mod;
     }
-
-
 }
