@@ -24,7 +24,8 @@ public class Code_17 {
             if (sum >= 10) { //在此题当中即为sum == 10
                 //最高位产生进位
                 if (i == 0)
-                    isOverFlow = true;
+                    return true;
+//                    isOverFlow = true;
                 //普通位产生进位
                 else {
                     carry = 1;
@@ -37,7 +38,8 @@ public class Code_17 {
                 break;
             }
         }
-        return isOverFlow;
+//        return isOverFlow;
+        return false;
     }
 
     //自己写出一个打印字符串表示数字的函数。如038要打印成38
@@ -58,7 +60,7 @@ public class Code_17 {
     }
 
     public static void main(String[] args) {
-        int[] number = new int[3];
+        int[] number = new int[2];
         //第二个循环
         while (!increment(number)) {
             printNumber(number);

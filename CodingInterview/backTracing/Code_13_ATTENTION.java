@@ -70,7 +70,7 @@ public class Code_13_ATTENTION {
     }
 
     public static void main(String[] args) {
-        System.out.println(movingCount(5, 10, 10) + "[21]");
+        System.out.println(movingCount(1, 2, 1) + "[2]");
         System.out.println(movingCount(15, 20, 20) + "[359]");
         System.out.println(movingCount(10, 1, 100) + "[29]");
         System.out.println(movingCount(10, 1, 10) + "[10]");

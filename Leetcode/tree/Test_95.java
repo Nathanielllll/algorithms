@@ -27,7 +27,7 @@ import java.util.List;
  *    2     1         2                 3
  */
 public class Test_95 {
-    public class TreeNode {
+    private class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

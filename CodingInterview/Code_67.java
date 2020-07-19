@@ -45,7 +45,6 @@ public class Code_67 {
                     isBeginning = true;
                     index++;
                 } else if (c == '-') {
-                    isPositive = false;
                     isBeginning = true;
                     index++;
                 } else if (isNumber(c)) {

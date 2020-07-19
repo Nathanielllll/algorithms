@@ -30,9 +30,12 @@ public class Code_41_ATTENTION {
     }
 
     public double getMedian() {
+        if (maxHeap.isEmpty()) {
+            return 0;
+        }
         if (maxHeap.size() == minHeap.size()) {
             return (maxHeap.peek() + minHeap.peek()) * 0.5;
         }
-        return maxHeap.peek();
+        return maxHeap.peek() * 1.0;
     }
 }

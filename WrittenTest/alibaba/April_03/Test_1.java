@@ -38,7 +38,7 @@ class Pair {
         this.val = val;
     }
 }
-
+//200  150   80  100   82    50   90
 public class Test_1 {
     static int cnt = 0;
 

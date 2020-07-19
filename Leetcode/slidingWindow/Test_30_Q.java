@@ -66,7 +66,7 @@ public class Test_30_Q {
                 String string_right = s.substring(right, right + len);
                 if (needs.containsKey(string_right)) {
                     window.put(string_right, window.getOrDefault(string_right, 0) + 1);
-                    if (window.get(string_right) == needs.get(string_right)) {
+                    if (window.get(string_right).equals(needs.get(string_right))) {
                         match++;
                     }
                 }

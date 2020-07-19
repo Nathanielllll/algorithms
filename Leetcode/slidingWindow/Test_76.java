@@ -55,7 +55,7 @@ public class Test_76 {
                 window.put(character_right, window.getOrDefault(character_right, 0) + 1);
 
                 //character匹配的时候
-                if (window.get(character_right) == needs.get(character_right)) {
+                if (window.get(character_right).equals(needs.get(character_right))) {
                     match++;
                 }
             }

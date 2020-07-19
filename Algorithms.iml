@@ -11,7 +11,10 @@
       <sourceFolder url="file://$MODULE_DIR$/Sort" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/BFS&amp;DFS&amp;Dijkstra" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/WrittenTest" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/BFS&amp;DFS" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Graph" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/NewCodeCourse" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/leetcode_plugin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CrackingTheCodingInterview" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

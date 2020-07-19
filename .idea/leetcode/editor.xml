@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P101SymmetricTree .java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P101SymmetricTree .java" />
+              <option name="questionId" value="101" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P2AddTwoNumbers .java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P2AddTwoNumbers .java" />
+              <option name="questionId" value="2" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P3LongestSubstringWithoutRepeatingCharacters .java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P3LongestSubstringWithoutRepeatingCharacters .java" />
+              <option name="questionId" value="3" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P95UniqueBinarySearchTreesIi .java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P95UniqueBinarySearchTreesIi .java" />
+              <option name="questionId" value="95" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P98ValidateBinarySearchTree .java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="$PROJECT_DIR$/leetcode_plugin/leetcode/editor/cn/P98ValidateBinarySearchTree .java" />
+              <option name="questionId" value="98" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="/var/folders/nb/gsq_lwms4vlcz6gx8vr2w5xh0000gp/T/leetcode/editor/cn/[1]两数之和.java">
+          <value>
+            <LeetcodeEditor>
+              <option name="path" value="/var/folders/nb/gsq_lwms4vlcz6gx8vr2w5xh0000gp/T/leetcode/editor/cn/[1]两数之和.java" />
+              <option name="questionId" value="1" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

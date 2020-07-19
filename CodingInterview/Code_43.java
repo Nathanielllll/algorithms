@@ -34,4 +34,9 @@ public class Code_43 {
         }
         return count;
     }
+
+    public static void main(String[] args) {
+        int n = 1410065408;
+        System.out.println(countDigitOne(1));
+    }
 }

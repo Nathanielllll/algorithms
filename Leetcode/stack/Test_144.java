@@ -16,7 +16,7 @@ public class Test_144 {
     }
 
     public static List<Integer> preorderTraversal(TreeNode node) {
-        List<Integer> list = new ArrayList<>();
+        LinkedList<Integer> list = new LinkedList<>();
         if (node == null) {
             return list;
         }

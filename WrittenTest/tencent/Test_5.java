@@ -41,7 +41,7 @@ public class Test_5 {
         Scanner scanner = new Scanner(System.in);
         List<Pair> list = new LinkedList<>();
         while (scanner.hasNext()) {
-            String line = scanner.nextLine();
+            String line = scanner.next();
             String[] strings = line.split(" ");
 
             int left = Integer.parseInt(strings[0]);
@@ -52,14 +52,80 @@ public class Test_5 {
             Collections.sort(list, new Comparator<Pair>() {
                 @Override
                 public int compare(Pair o1, Pair o2) {
-                    return o1.left - o2.left;
+                    if (o1.left == o2.left) {
+                        return o1.right - o2.right;
+                    }else {
+                        return o1.left - o2.left;
+                    }
                 }
             });
 
+            int size = list.size();
+            int[][] nums = new int[size][2];
+            for (int i = 0; i < size; i++) {
+                nums[i][0] = list.get(i).left;
+                nums[i][1] = list.get(i).right;
+            }
 
+            System.out.println(minLength(nums));
 
         }
 
-        System.out.println(list);
+    }
+
+//    public static void main(String[] args) {
+//        //4 6
+//        //3 6
+//        //2 4
+//        //0 2
+//        //4 7
+//        int[][] nums = {{4,6},{3,6},{2,4},{0,2},{4,7}};
+//        System.out.println(minLength(nums));
+//    }
+
+    public static int minLength(int[][] nums){
+//        Arrays.sort(nums, new Comparator<int[]>() {
+//            @Override
+//            public int compare(int[] o1, int[] o2) {
+//                if(o1[0] == o2[0]){
+//                    return o1[1] - o2[1];
+//                }else {
+//                    return o1[0] - o2[0];
+//                }
+//            }
+//        });
+
+        int length = nums.length;
+        int[] dp = new int[length];
+        Arrays.fill(dp, length);
+        dp[0] = 1;
+
+        int riverLen = nums[0][1];
+        for (int i = 1; i < length; i++) {
+            riverLen = Math.max(riverLen, nums[i][1]);
+            for (int j = 0; j < i; j++) {
+                int i_0 = nums[i][0];
+                int j_1 = nums[j][1];
+                if (i_0 <= j_1) {
+                    dp[i] = Math.min(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int minTimes = length;
+        for (int i = 0; i < length; i++) {
+            if (nums[i][1] == riverLen) {
+                minTimes = Math.min(minTimes, dp[i]);
+            }
+        }
+
+        if (minTimes == length) {
+            return -1;
+        }else {
+            return minTimes;
+        }
+
+
+
     }
 }
