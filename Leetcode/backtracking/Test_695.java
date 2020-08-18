@@ -1,5 +1,10 @@
 package backtracking;
 
+import bfs.Test_130;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。
  *
@@ -49,6 +54,54 @@ public class Test_695 {
                     subProcess(grid, row - 1, col, rows, cols, used) +
                     subProcess(grid, row, col + 1, rows, cols, used) +
                     subProcess(grid, row, col - 1, rows, cols, used);
+        }
+        return count;
+    }
+
+    int[] dx = {-1, 1, 0, 0};
+    int[] dy = {0, 0, -1, 1};
+
+    private class Point {
+        int row;
+        int col;
+
+        public Point(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+
+    public int maxAreaOfIsland_1(int[][] grid) {
+        int res = 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+        boolean[][] used = new boolean[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == 1) {
+                    res = Math.max(res, bfs(grid, i, j, used));
+                }
+            }
+        }
+        return res;
+    }
+
+    private int bfs(int[][] grid, int i, int j, boolean[][] used){
+        int count = 0;
+        Queue<Point> queue = new LinkedList<>();
+        queue.add(new Point(i, j));
+        while (!queue.isEmpty()) {
+            Point temp = queue.poll();
+            int row = temp.row;
+            int col = temp.col;
+            if(row >= 0 && row < grid.length && col >= 0 && col < grid[0].length
+                && !used[row][col] && grid[row][col] == 1){
+                used[row][col] = true;
+                count++;
+                for (int k = 0; k < 4; k++) {
+                    queue.add(new Point(row + dx[k], col + dy[k]));
+                }
+            }
         }
         return count;
     }

@@ -1,0 +1,17 @@
+@startuml
+LZD -> isupergw: 1: getDeliveryContent(spaceCode+spaceVersion, maxLimit)
+isupergw -> AGH行业产品: 1.1: getDeliveryContent(spaceCode+spaceVersion, maxLimit)
+AGH行业产品 -> icdpcore: 1.1.1: pullDelivery(spaceCode+spaceVersion, maxLimit, 最大金额)
+icdpcore -> icdpcore: 1.1.1.1: 投放单元召回
+icdpcore -> ipss: 1.1.1.2: 支付人群定向（userId, deliveryInfoList)
+ipss --> icdpcore: 1.1.1.3:
+icdpcore -> icdpcore: 1.1.1.4: 命中投放单元关联投放任务(营销活动内容)
+icdpcore -> ipromotion: 1.1.1.5: 批量活动咨询(userId, campaignIdList, 活动支付方式, 最大支付金额)
+ipromotion --> icdpcore: 1.1.1.6:
+icdpcore -> ipss: 1.1.1.7: 投放内容排序(userId, 活动id内容列表, 活动支付方式)
+ipss --> icdpcore: 1.1.1.8: 排序结果
+icdpcore -> icdpcore: 1.1.1.9: 创意组装
+icdpcore --> AGH行业产品: 1.1.1.10: 展示创意
+AGH行业产品 --> isupergw: 1.2: 展示创意
+isupergw --> LZD: 1.3: 展示创意
+@enduml

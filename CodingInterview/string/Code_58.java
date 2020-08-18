@@ -16,116 +16,22 @@ public class Code_58 {
 输出: "example good a"
 解释: 如果两个单词间有多余的空格，将反转后单词间的空格减少到只含一个。
      */
-    public static String reverseWords(String s) {
-        // 如 ""
-        if (s == null || s.length() <= 0) {
-            return "";
-        }
-        // 如 "a"
-        if (s.length() == 1 && s.charAt(0) != ' ') {
-            return s;
-        }
+    public String reverseWords(String s) {
+        s = s.trim();
+        int p1 = s.length() - 1;
+        int p2 = p1;
 
-        char[] chars = s.toCharArray();
-        int left = 0;
-        int right = chars.length - 1;
-
-        while (left <= right && chars[left] == ' ') {
-            left++;
-        }
-        // 这种情况 "  "
-        if (left == chars.length) {
-            return "";
-        }
-        while (left <= right && chars[right] == ' ') {
-            right--;
-        }
-        // 这种情况 "  a  "
-        if (left == right) {
-            return String.valueOf(chars[left]);
-        }
-
-        char[] chars1 = new char[right - left + 1];
-        for (int i = 0; i < chars1.length; i++) {
-            chars1[i] = chars[i + left];
-        }
-
-        reverse(chars1, 0, chars1.length - 1);
-
-        int start = 0;
-        int end = 0;
-        while (end < chars1.length) {
-            char c = chars1[end];
-            if (c != ' ') {
-                end++;
+        StringBuffer sb = new StringBuffer();
+        while (p1 >= 0) {
+            while (p1 >= 0 && s.charAt(p1) != ' ') {
+                p1--;
             }
-            if (c == ' ' || end == chars1.length) {
-                reverse(chars1, start, end - 1);
-                end++;
-                start = end;
+            sb.append(s.substring(p1 + 1, p2 + 1) + " ");
+            while (p1 >= 0 && s.charAt(p1) == ' ') {
+                p1--;
             }
+            p2 = p1;
         }
-
-//        return String.valueOf(chars1);
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < chars1.length; i++) {
-            if (i > 0 && chars1[i - 1] == ' ' && chars1[i] == ' ') {
-                continue;
-            } else {
-                stringBuffer.append(chars1[i]);
-            }
-        }
-
-        return stringBuffer.toString();
-    }
-
-    private static void reverse(char[] chars, int start, int end) {
-        char temp;
-        while (start <= end) {
-            temp = chars[end];
-            chars[end] = chars[start];
-            chars[start] = temp;
-            start++;
-            end--;
-        }
-    }
-
-    public static void reverse(StringBuffer string, int start, int end) {
-        char temp;
-        while (start <= end) {
-            temp = string.charAt(end);
-            string.setCharAt(end, string.charAt(start));
-            string.setCharAt(start, temp);
-            start++;
-            end--;
-        }
-    }
-
-    public static void reverseSentence(StringBuffer sentence) {
-        if (sentence == null || sentence.length() <= 0) {
-            return;
-        }
-
-        int length = sentence.length();
-        reverse(sentence, 0, sentence.length() - 1);
-        int start = 0;
-        int end = 0;
-        while (end < length) {
-            char c = sentence.charAt(end);
-            if (c != ' ') {
-                end++;
-            }
-            if (c == ' ' || end == sentence.length()) {
-                reverse(sentence, start, end - 1);
-                end++;
-                start = end;
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        StringBuffer stringBuffer = new StringBuffer("He is a  student.");
-        reverseSentence(stringBuffer);
-        System.out.println(stringBuffer);
+        return sb.toString().trim();
     }
 }

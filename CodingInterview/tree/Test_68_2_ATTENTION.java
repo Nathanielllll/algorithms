@@ -7,10 +7,6 @@ package tree;
  *
  * 例如，给定如下二叉搜索树:  root = [6,2,8,0,4,7,9,null,null,3,5]
  *
- *
- *
- *  
- *
  * 示例 1:
  *
  * 输入: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
@@ -48,9 +44,9 @@ public class Test_68_2_ATTENTION {
 
         if (left != null && right != null) { //  p, q 分别位于 x 的左子树和右子树；
             return root;
-        } else if (left != null) {// p, q 都在 x 的左子树（也包括祖先其自身，另一个字节点在左子树）；
+        } else if (left != null) {// p, q 至少一个在 x 的左子树
             return left;
-        } else if (right != null) {// p, q 都在 x 的左子树（也包括祖先其自身，另一个字节点在左子树）；
+        } else if (right != null) {// p, q 至少一个在 x 的右子树
             return right;
         }
         return null;

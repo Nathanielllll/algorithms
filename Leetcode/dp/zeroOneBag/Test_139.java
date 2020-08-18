@@ -59,9 +59,6 @@ public class Test_139 {
     }
 
     public static void main(String[] args) {
-
-
-
         String s = "applepenapple";
         List<String> wordDict = Arrays.asList(new String[]{"apple","pen"});
         System.out.println(wordBreak(s, wordDict));
