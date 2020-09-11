@@ -46,7 +46,7 @@ public class Test_437_ATTENTION {
         int ans = 0;
         sum -= node.val;
         /**
-         * 注意一下这个条件，让and往上加
+         * 注意一下这个条件，让ans往上加
          * */
         if(sum == 0) ans++;
         return ans + pathSumFromNode(node.left, sum) + pathSumFromNode(node.right, sum);

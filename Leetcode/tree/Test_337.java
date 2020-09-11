@@ -14,42 +14,36 @@ public class Test_337 {
         }
     }
 
-    private static class Info{
-        int headYes;
-        int headNo;
+    private class Info{
+        int robYes;
+        int robNo;
 
-        public Info(int headYes, int headNo) {
-            this.headYes = headYes;
-            this.headNo = headNo;
+        public Info(int robYes, int robNo) {
+            this.robYes = robYes;
+            this.robNo = robNo;
         }
     }
 
-    public static int rob(TreeNode root) {
+    public int rob(TreeNode root) {
         if (root == null) {
             return 0;
         }
+
         Info info = process(root);
-        return Math.max(info.headYes, info.headNo);
+        return Math.max(info.robYes, info.robNo);
     }
 
-    private static Info process(TreeNode root){
-        if (root.left == null && root.right == null) {
-            return new Info(root.val, 0);
-        }
-        int headNo = 0;
-        int headYes = root.val;
-
-        if (root.left != null) {
-            Info left_info = process(root.left);
-            headYes += left_info.headNo;
-            headNo += Math.max(left_info.headNo, left_info.headYes);
-        }
-        if (root.right != null) {
-            Info right_info = process(root.right);
-            headYes += right_info.headNo;
-            headNo += Math.max(right_info.headNo, right_info.headYes);
+    private Info process(TreeNode node){
+        if (node == null) {
+            return new Info(0, 0);
         }
 
-        return new Info(headYes, headNo);
+        Info leftInfo = process(node.left);
+        Info rightInfo = process(node.right);
+
+        int robYes = node.val + leftInfo.robNo + rightInfo.robNo;
+        int robNo = Math.max(leftInfo.robNo, leftInfo.robYes) + Math.max(rightInfo.robNo, rightInfo.robYes);
+
+        return new Info(robYes, robNo);
     }
 }

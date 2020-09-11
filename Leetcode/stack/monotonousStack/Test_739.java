@@ -1,5 +1,7 @@
-package stack;
+package stack.monotonousStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /*
@@ -38,10 +40,53 @@ for(int i = T.size() - 1; i >= 0; i--){
 
  */
 public class Test_739 {
-    public static int[] dailyTemperatures(int[] T) {
 
+    /**更具有适普性的方法*/
+    public int[] dailyTemperatures_1(int[] T) {
         int[] res = new int[T.length];
+        Stack<List<Integer>> stack = new Stack<>();
+        for (int i = 0; i < T.length; i++) {
+            while(!stack.isEmpty() && T[stack.peek().get(0)] < T[i]){
+                List<Integer> popIs = stack.pop();
+                // 取位于下面位置的列表中，最晚加入的那个
+                int leftLessIndex = stack.isEmpty() ? -1 : stack.peek().get(
+                        stack.peek().size() - 1);
+                for (Integer popi : popIs) {
+                    res[popi] = i;
+                }
+            }
+            if (!stack.isEmpty() && T[stack.peek().get(0)] == T[i]) {
+                stack.peek().add(Integer.valueOf(i));
+            } else {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(i);
+                stack.push(list);
+            }
+        }
 
+        while (!stack.isEmpty()) {
+            List<Integer> popIs = stack.pop();
+            // 取位于下面位置的列表中，最晚加入的那个
+            int leftLessIndex = stack.isEmpty() ? -1 : stack.peek().get(
+                    stack.peek().size() - 1);
+            for (Integer popi : popIs) {
+                res[popi] = -1;
+            }
+        }
+
+        for (int i = 0; i < res.length; i++) {
+            if (res[i] == -1) {
+                res[i] = 0;
+            }else {
+                res[i] = res[i] - i;
+            }
+        }
+        return res;
+    }
+
+
+    public static int[] dailyTemperatures(int[] T) {
+        int[] res = new int[T.length];
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < T.length; i++) {
             //每当我们遇到一个比当前栈顶所对应的数（T[stack.peek()]）大的数的时候，我们就遇到了一个“大数“。

@@ -32,10 +32,12 @@ public class Test_25 {
     }
 
     public static ListNode reverseKGroup(ListNode head, int k) {
-        ListNode dummy = new ListNode(0);
+        if(head==null) return head;
+
+        ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
-        ListNode pre = dummy;
+        ListNode start = dummy;
         ListNode end = dummy;
 
         while (end.next != null) {
@@ -45,18 +47,18 @@ public class Test_25 {
             if (end == null) {
                 break;
             }
-            ListNode start = pre.next;
+
             ListNode next = end.next;
+            ListNode pre = start;
 
+            start = start.next;
             end.next = null;
-            pre.next = reverse(start);
-            //reverse以后，start变成了最后一个节点
-            start.next = next;
 
-            //pre和end要在同时出现的
-            pre = start;
-            end = pre;
+            pre.next = reverse(start);
+            start.next = next;
+            end = start;
         }
+
         return dummy.next;
     }
     public static ListNode reverse(ListNode node) {

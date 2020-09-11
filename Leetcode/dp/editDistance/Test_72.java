@@ -42,7 +42,7 @@ package dp.editDistance;
  *             return min(
  *                 dp(i, j - 1) + 1,    # 插入 s1的前i个和s2的前j-1个都匹配了，但是s1[i]!=s2[j]，只要s1插入一个s2[j]就可以了
  *                 dp(i - 1, j) + 1,    # 删除
- *                 dp(i - 1, j - 1) + 1 # 替换
+ *                 dp(i - 1, j - 1)) + 1 # 替换
  *
  */
 public class Test_72 {

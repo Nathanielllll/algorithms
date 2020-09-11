@@ -23,10 +23,12 @@ public class Test_24 {
     }
 
     public ListNode swapPairs(ListNode head) {
+        if(head==null) return head;
+
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
-        ListNode pre = dummy;
+        ListNode start = dummy;
         ListNode end = dummy;
 
         while (end.next != null) {
@@ -36,15 +38,18 @@ public class Test_24 {
             if (end == null) {
                 break;
             }
-            ListNode start = pre.next;
+
             ListNode next = end.next;
+            ListNode pre = start;
+
+            start = start.next;
             end.next = null;
+
             pre.next = reverse(start);
             start.next = next;
-            pre = start;
-            //pre和end要在同时出现的
-            end = pre;
+            end = start;
         }
+
         return dummy.next;
     }
 
