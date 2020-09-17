@@ -21,7 +21,6 @@ public class Test_20 {
         hashMap.put('(', ')');
         hashMap.put('{', '}');
         hashMap.put('[', ']');
-        hashMap.put(' ', ' ');
 
         int length = s.length();
 

@@ -31,6 +31,7 @@ public class Test_3 {
         int left = 0;
         int right = 0;
         while (right < s.length()) {
+            /*在最后计算result的时候，一定能保证window里面的char的值为1，也就整个window里面的char可以得到：无重复字符的子串*/
             Character character_right = s.charAt(right);
             window.put(character_right, window.getOrDefault(character_right, 0) + 1);
             right++;

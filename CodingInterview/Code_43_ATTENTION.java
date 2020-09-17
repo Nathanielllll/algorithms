@@ -14,7 +14,7 @@
  * 这个方法只需要遍历每个位数，对于整数n，其位数一共有lgn个，所以时间复杂度为O(logn)。
  *
  */
-public class Code_43 {
+public class Code_43_ATTENTION {
     public static int countDigitOne(int n) {
         int count = 0;
         long i = 1;//指向遍历的位数，如i=1即个位，i=10即十位，...，因为n可以有31位，所以10^31用long存储
@@ -22,7 +22,7 @@ public class Code_43 {
             //n/i控制遍历的次数，将所有的位数都遍历完毕
             long high = n / (10 * i);//将当前位之前的所有高位都存在high中
             long cur = (n / i) % 10;//将当前位记录在cur中，即我们每次都需要统计当前位上1出现的次数
-            long low = n - (n / i) * i;
+            long low = n % i;
             if (cur == 0) {
                 count += high * i;
             } else if (cur == 1) {
@@ -37,6 +37,6 @@ public class Code_43 {
 
     public static void main(String[] args) {
         int n = 1410065408;
-        System.out.println(countDigitOne(1));
+        System.out.println(countDigitOne(n));
     }
 }

@@ -140,8 +140,8 @@ public class Test_4 {
 
 
     public static void main(String[] args) {
-        int[] nums2 = {1};
-        int[] nums1 = {2, 3, 4, 5};
+        int[] nums1 = {3, 4};
+        int[] nums2 = {1, 2, 5};
 //        int[] nums1 = {3, 4, 5, 8};
 //        int[] nums2 = {1, 2, 6, 7, 9,10};
         System.out.println(findMedianSortedArrays(nums1, nums2));

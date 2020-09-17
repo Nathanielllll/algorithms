@@ -14,13 +14,13 @@ import java.util.Stack;
 输入: "25525511135"
 输出: ["255.255.11.135", "255.255.111.35"]
  */
-public class Test_93 {
+public class Test_93_ATTENTION {
     public static void main(String[] args) {
         System.out.println(restoreIpAddresses("25525511135"));
     }
     public static List<String> restoreIpAddresses(String s){
         List<String> ans = new ArrayList<>();
-        if (s == null || s.length() == 0) {
+        if (s == null || s.length() == 0 || s.length() > 12) {
             return ans;
         }
         Stack<String> stack = new Stack<>();

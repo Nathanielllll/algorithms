@@ -36,9 +36,17 @@ public class Test_226 {
             return null;
         }
 
-        TreeNode temp = invertTree(root.left);
-        root.left = invertTree(root.right);
+//        TreeNode temp = invertTree(root.left);
+//        root.left = invertTree(root.right);
+//        root.right = temp;
+
+        TreeNode temp = root.left;
+        root.left = root.right;
         root.right = temp;
+        invertTree(root.left);
+        invertTree(root.right);
+
         return root;
     }
+
 }

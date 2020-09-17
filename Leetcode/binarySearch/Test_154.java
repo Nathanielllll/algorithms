@@ -29,7 +29,7 @@ public class Test_154 {
             return nums[0];
         }
 
-        if(nums[left] == nums[right]){
+        if (nums[left] == nums[right]) {
             int result = nums[left];
             for (int i = left + 1; i <= right; i++) {
                 if (result > nums[i]) {
@@ -53,6 +53,9 @@ public class Test_154 {
                 return nums[mid];
             }
 
+            /**
+             * 注意！这里一定是>=，不能是>
+             */
             if (nums[mid] >= nums[0]) {
                 left = mid + 1;
             } else {

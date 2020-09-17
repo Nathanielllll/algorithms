@@ -18,7 +18,7 @@ s = "3[a2[c]]", 返回 "accaccacc".
 s = "2[abc]3[cd]ef", 返回 "abcabccdcdcdef".
 
 */
-public class Test_394 {
+public class Test_394_ATTENTION {
     public static void main(String[] args) {
         String s = "11[ab]";//abcabccdcdcdef
         System.out.println(decodeString(s));

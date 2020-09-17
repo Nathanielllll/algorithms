@@ -24,7 +24,7 @@ import java.util.HashMap;
  * 使用sunday算法
  * https://leetcode-cn.com/problems/implement-strstr/solution/python3-sundayjie-fa-9996-by-tes/
  */
-public class Test_28 {
+public class Test_28_ATTENTION {
     //Sunday算法
     public static int strStr(String string, String pattern) {
         if (pattern == null || pattern.length() < 1) {
@@ -46,17 +46,26 @@ public class Test_28 {
             shift.put(pattern.charAt(i), patternLen - i);
         }
 
-        //有等于号
+        // 有等于号
+        /*
+         为什么这里<=是OK的，但是下面>=是错误的呢？
+         因为这里的<=是针对于string.substring(curIndex, nextIndex)，最后一位是取不到的。
+         但是下面的>=是针对于string.charAt(nextIndex)，是可以取到的，就会发生越界行为。
+         */
         while (s_index + patternLen <= stringLen) {
             int nextCharIndex = s_index + patternLen;
             //匹配成功
             if (string.substring(s_index, nextCharIndex).equals(pattern)) {
                 return s_index;
             } else {
+                // 边界情况
+                if (s_index >= stringLen - patternLen) {
+                    return -1;
+                }
+
                 //若c存在于Pattern中，则 idx = idx + 偏移表[c]
-                /**注意一定是nextCharacter < stringLen，如果是==，还怎么增加？*/
                 //所以查看 string.substring(s_index, nextCharacter) 的下一个字符 k
-                if (nextCharIndex < stringLen && shift.containsKey(string.charAt(nextCharIndex))) {
+                if (shift.containsKey(string.charAt(nextCharIndex))) {
                     s_index += shift.get(string.charAt(nextCharIndex));
                 //否则，idx = idx + len(pattern) + 1
                 } else {

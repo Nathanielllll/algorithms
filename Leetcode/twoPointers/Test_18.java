@@ -64,6 +64,7 @@ public class Test_18 {
 //                    break;
 //                }
 
+                /**当然是从j+1开始！！*/
                 int left = j + 1;
                 int right = nums.length - 1;
                 while (left < right) {

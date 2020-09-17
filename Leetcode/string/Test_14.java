@@ -20,20 +20,21 @@ public class Test_14 {
         if (strs == null || strs.length < 1) {
             return "";
         }
+        String ans = strs[0];
 
-        String initString = strs[0];
-        //遍历字符串组
         for (int i = 1; i < strs.length; i++) {
-            //字符串的index
-            int j = 0;
-            for (; j < strs[i].length() && j < initString.length(); j++) {
-                if (initString.charAt(j) != strs[i].charAt(j)) {
+            String s = strs[i];
+            int p1 = 0, p2 = 0;
+            while(p1 < ans.length() && p2 < s.length()){
+                if (ans.charAt(p1) != s.charAt(p2)) {
                     break;
                 }
+                p1++;
+                p2++;
             }
-            initString = initString.substring(0, j);
+            ans = ans.substring(0, p1);
         }
-        return initString;
+        return ans;
     }
 
     public static void main(String[] args) {

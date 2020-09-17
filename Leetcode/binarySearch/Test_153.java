@@ -47,7 +47,7 @@ public class Test_153 {
                 return nums[mid];
             }
 
-            // > or >=无所谓
+            // > or >=无所谓，但是在154题一定是>=
             if (nums[mid] > nums[0]) {
                 left = mid + 1;
             } else {

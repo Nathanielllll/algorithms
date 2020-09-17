@@ -24,7 +24,7 @@ package binarySearch;
 public class Test_162_ATTENTION {
     public static int findPeakElement(int[] nums) {
         if (nums.length == 1) {
-            return nums[0];
+            return 0;
         }
 
         int left = 0;

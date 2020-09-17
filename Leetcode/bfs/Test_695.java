@@ -1,4 +1,4 @@
-package backtracking;
+package bfs;
 
 import bfs.Test_130;
 

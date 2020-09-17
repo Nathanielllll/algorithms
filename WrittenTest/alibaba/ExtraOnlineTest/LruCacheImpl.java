@@ -39,9 +39,6 @@ public class LruCacheImpl implements LruCache {
         if(cache.containsKey(cacheKey)){
             //删除list中旧节点，新的插到头部
             linkedList.remove(cache.get(cacheKey));
-            linkedList.addFirst(node);
-            //更新cache中的数据
-            cache.put(cacheKey, node);
         //不包含这个key
         }else {
             //如果list满了
@@ -51,12 +48,12 @@ public class LruCacheImpl implements LruCache {
                 //cache中删除最后一个节点对应的key、node
                 cache.remove(last_node.key);
             }
-
-            //直接添加到头部
-            linkedList.addFirst(node);
-            //更新cache中的数据
-            cache.put(cacheKey, node);
         }
+
+        //直接添加到头部
+        linkedList.addFirst(node);
+        //更新cache中的数据
+        cache.put(cacheKey, node);
     }
 
     @Override
