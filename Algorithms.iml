@@ -15,6 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/NewCodeCourse" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/leetcode_plugin" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CrackingTheCodingInterview" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/WrittenTest_Autumn" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

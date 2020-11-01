@@ -25,6 +25,12 @@ import java.util.Stack;
  1
   \
    2
+
+这里我们有个【规律】发现这两个节点：（记住即可了）
+第一个节点，是第一个按照中序遍历时候前一个节点大于后一个节点，我们选取前一个节点，这里指节点 4；
+
+第二个节点，是在第一个节点找到之后，后面出现前一个节点大于后一个节点，我们选择后一个节点，这里指节点 1；
+
  */
 public class Test_99 {
     public static class TreeNode {
@@ -36,6 +42,7 @@ public class Test_99 {
             val = x;
         }
     }
+
     public void recoverTree(TreeNode root) {
         if (root == null) {
             return;
@@ -50,13 +57,13 @@ public class Test_99 {
             if (root != null) {
                 stack.push(root);
                 root = root.left;
-            }else if(!stack.isEmpty()){
+            } else if (!stack.isEmpty()) {
                 root = stack.pop();
 
                 if (firstNode == null && preNode.val > root.val) {
                     firstNode = preNode;
                 }
-                if(firstNode != null && preNode.val > root.val){
+                if (firstNode != null && preNode.val > root.val) {
                     secondNode = root;
                 }
                 preNode = root;

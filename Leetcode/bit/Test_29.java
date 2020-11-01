@@ -37,7 +37,7 @@ public class Test_29 {
 
         long result = 0;
 
-        while (n2 <= n1) {
+        while (n1 >= n2) {
             int shift = 0;
             while (n1 >= (n2 << shift)) {
                 shift++;

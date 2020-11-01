@@ -11,12 +11,12 @@ package bit;
 输入: [0,1]
 输出: 0
 
-找m和n，最左的不同的位置
+方法：找m和n，最左的相同的位置。因为右边那些不同的位置，按位与都会变成0
  */
 public class Test_201 {
     public int rangeBitwiseAnd(int m, int n) {
         int t = 0;
-        while (m < n){
+        while (m != n){
             m = m >> 1;
             n = n >> 1;
             t += 1;

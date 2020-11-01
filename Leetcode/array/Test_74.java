@@ -28,19 +28,18 @@ package array;
  *
  */
 public class Test_74 {
-    public static boolean searchMatrix(int[][] matrix, int number) {
-        if (matrix == null) {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
             return false;
         }
+        int i = 0;
+        int j = matrix[0].length - 1;
 
-        //左下角开始的坐标
-        int row = matrix.length - 1;
-        int col = 0;
-        while (row >= 0 && col <= matrix[0].length - 1) {
-            if (number > matrix[row][col]) {
-                col++;
-            } else if (number < matrix[row][col]) {
-                row--;
+        while (i < matrix.length && j >= 0) {
+            if (matrix[i][j] > target) {
+                j--;
+            } else if (matrix[i][j] < target) {
+                i++;
             } else {
                 return true;
             }
