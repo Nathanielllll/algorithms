@@ -45,6 +45,5 @@ public class Code_60_ATTENTION {
             ans[i - n] = ((double) dp[n][i]) / total;
         }
         return ans;
-
     }
 }

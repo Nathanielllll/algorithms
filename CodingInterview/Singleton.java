@@ -1,12 +1,14 @@
 public class Singleton {
 
-    private static volatile Singleton uniqueInstance;
+    private volatile static Singleton uniqueInstance;
 
     private Singleton() {
     }
 
-    public static Singleton getUniqueInstance(){
+    public  static Singleton getUniqueInstance() {
+        //先判断对象是否已经实例过，没有实例化过才进入加锁代码
         if (uniqueInstance == null) {
+            //类对象加锁
             synchronized (Singleton.class) {
                 if (uniqueInstance == null) {
                     uniqueInstance = new Singleton();
@@ -14,10 +16,5 @@ public class Singleton {
             }
         }
         return uniqueInstance;
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        Object object = new Object();
-        object.wait();
     }
 }

@@ -1,6 +1,7 @@
 package BlockingQueue;
 
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -60,4 +61,28 @@ public class BlockingQueue2<T> {
         return t;
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        BlockingQueue2<String> blockingQueue2 = new BlockingQueue2<>();
+
+        //启动消费者线程
+        for (int i = 0; i < 10; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 5; j++) {
+                    System.out.println(Thread.currentThread().getName() + " is consuming: ");
+                    System.out.println(blockingQueue2.get());
+                    System.out.println();
+                }
+            },"consumer" + i).start();
+        }
+
+
+        //生产者线程
+        for (int i = 0; i < 2; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 25; j++) {
+                    blockingQueue2.put(Thread.currentThread().getName() + " " + j);
+                }
+            }, "producer" + i).start();
+        }
+    }
 }

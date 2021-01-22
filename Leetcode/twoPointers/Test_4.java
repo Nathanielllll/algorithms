@@ -25,7 +25,7 @@ package twoPointers;
  * <p>
  * 假设：
  * cut1 + cut2 = length / 2。cut1和cut2是在分界线左边的数字数目
- *            L1|R1
+ *               L1|R1
  * num1 = [3, 4, 5, 8]          cut1 =
  * num2 = [1, 2, 6, 7, 9]
  *               L2|R2
@@ -65,6 +65,7 @@ public class Test_4 {
         /**特别注意的地方*/
         int cutR = nums1.length;
 
+        // 本质上还是二分法
         while (true) {
             int cut1 = (cutL + cutR) / 2;// cutL和cutR的中间数
             int cut2 = length / 2 - cut1;// 因为必有cut1 + cut2 = length / 2

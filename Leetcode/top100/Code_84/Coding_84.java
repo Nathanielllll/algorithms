@@ -19,20 +19,26 @@ import java.util.Stack;
  */
 public class Coding_84 {
     public static int largestRectangleArea(int[] heights) {
+        int result = 0;
+        // 找两边比它小的数字
         Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
-        int maxArea = 0;
         for (int i = 0; i < heights.length; i++) {
-            while (stack.peek() != -1 && heights[stack.peek()] > heights[i]) {
-                maxArea = Math.max(maxArea, heights[stack.pop()] * (i - stack.peek() - 1));
+            while (!stack.isEmpty() && heights[stack.peek()] > heights[i]) {
+                int curHeight = heights[stack.pop()];
+                int leftIndex = stack.isEmpty() ? -1 : stack.peek();
+                int rightIndex = i;
+                result = Math.max(result, curHeight * (rightIndex - leftIndex - 1));
             }
             stack.push(i);
         }
 
-        while (stack.peek() != -1) {
-            maxArea = Math.max(maxArea, heights[stack.pop()] * (heights.length - stack.peek() - 1));
+        while (!stack.isEmpty()) {
+            int curHeight = heights[stack.pop()];
+            int leftIndex = stack.isEmpty() ? -1 : stack.peek();
+            int rightIndex = heights.length;
+            result = Math.max(result, curHeight * (rightIndex - leftIndex - 1));
         }
-        return maxArea;
+        return result;
     }
 
     public static void main(String[] args) {

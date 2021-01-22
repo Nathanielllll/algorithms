@@ -29,42 +29,30 @@ public class Code_55_2_ATTENTION {
      * @return
      */
     //https://leetcode-cn.com/problems/balanced-binary-tree/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-25/
+    
+
     public boolean isBalanced(BinaryTreeNode root) {
-        return getTreeDepth(root) != -1;
+        return helper(root) != -1;
     }
+    //输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
+    public int helper(BinaryTreeNode root) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
 
-    private int getTreeDepth(BinaryTreeNode root) {
-        if (root == null) {
-            return 0;
-        }
+        int leftDepth = helper(root.left);
+        // 如果左子树不是平衡二叉树，则整棵树必然不是平衡二叉树
+        if (leftDepth == -1) return -1;
+        int rightDepth = helper(root.right);
+        // 如果右子树不是平衡二叉树，则整棵树必然不是平衡二叉树
+        if (rightDepth == -1) return -1;
 
-        if (root.left == null && root.right == null) {
-            return 1;
-        }
-
-        int leftDepth = 0;
-        if (root.left != null) {
-            leftDepth = getTreeDepth(root.left);
-        }
-        if (leftDepth == -1) {
-            return -1;
-        }
-
-
-        int rightDepth = 0;
-        if (root.right != null) {
-            rightDepth = getTreeDepth(root.right);
-        }
-        if (rightDepth == -1) {
-            return -1;
-        }
-
-        if (Math.abs(leftDepth - rightDepth) > 1) {
-            return -1;
-        }else {
+        if (Math.abs(leftDepth - rightDepth) <= 1) {
             return Math.max(leftDepth, rightDepth) + 1;
         }
-
+        // -1 表示不是平衡二叉树
+        else {
+            return -1;
+        }
     }
 
 

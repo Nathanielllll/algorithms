@@ -37,13 +37,13 @@ public class Dijkstra {
         return distanceMap;
     }
 
-    public static GraphNode getMinDistanceAndUnselectedNode(HashMap<GraphNode, Integer> distanceMap, HashSet<GraphNode> touchedNodes) {
+    public static GraphNode getMinDistanceAndUnselectedNode(HashMap<GraphNode, Integer> distanceMap, HashSet<GraphNode> selectedNodes) {
         GraphNode minNode = null;
         int minDistance = Integer.MAX_VALUE;
         for (Map.Entry<GraphNode, Integer> entry : distanceMap.entrySet()) {
             GraphNode node = entry.getKey();
             int distance = entry.getValue();
-            if (!touchedNodes.contains(node) && distance < minDistance) {
+            if (!selectedNodes.contains(node) && distance < minDistance) {
                 minNode = node;
                 minDistance = distance;
             }

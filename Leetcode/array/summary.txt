@@ -1,0 +1,2 @@
+剑指offer的Code_3和LeetCode的41、442、448全是同样的套路，可以参考下面链接，所说的抽屉原理
+https://leetcode-cn.com/problems/find-all-duplicates-in-an-array/solution/chou-ti-yuan-li-ji-yu-yi-huo-yun-suan-jiao-huan-li/

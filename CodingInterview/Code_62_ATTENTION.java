@@ -1,4 +1,4 @@
-public class Code_62 {
+public class Code_62_ATTENTION {
     /*
     0,1,,n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈里删除第m个数字。求出这个圆圈里剩下的最后一个数字。
 

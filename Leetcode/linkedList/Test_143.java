@@ -1,4 +1,5 @@
 package linkedList;
+
 /*
 给定一个单链表 L：L0→L1→…→Ln-1→Ln ，
 将其重新排列后变为： L0→Ln→L1→Ln-1→L2→Ln-2→…
@@ -24,55 +25,64 @@ public class Test_143 {
     }
 
 
-    public static void reorderList(ListNode head) {
-        if (head == null || head.next == null) {
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null || head.next.next == null) {
             return;
         }
-
-        ListNode slow = head;
         ListNode fast = head.next;
+        ListNode slow = head;
+
         while (true) {
             if (fast == null || fast.next == null) {
                 break;
             }
 
-            slow = slow.next;
             fast = fast.next.next;
+            slow = slow.next;
         }
 
-        ListNode second = slow.next;
+        ListNode newHead = slow.next;
         slow.next = null;
-        //4->3
-        second = reverse(second);
 
-        mergeList(head, second);
+        newHead = reverseList(newHead);
 
+        while(newHead != null){
+            ListNode head_next = head.next;
+            head.next = newHead;
+            ListNode newHead_next = newHead.next;
+            newHead.next = head_next;
+            head = head_next;
+            newHead = newHead_next;
+        }
     }
 
-    public static ListNode reverse(ListNode node){
+    private ListNode reverseList(ListNode head) {
+        if (head == null) {
+            return null;
+        }
         ListNode next = null;
         ListNode pre = null;
-        while (node != null) {
-            next = node.next;
-            node.next = pre;
-            pre = node;
-            node = next;
+        while (head != null) {
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
         }
-
         return pre;
     }
 
-
-    public static void mergeList(ListNode cur1, ListNode cur2){
-        ListNode next1 = null;
-        ListNode next2 = null;
-        while (cur1 != null && cur2 != null) {
-            next1 = cur1.next;
-            next2 = cur2.next;
-            cur1.next = cur2;
-            cur2.next = next1;
-            cur1 = next1;
-            cur2 = next2;
+    // 合并两个链表
+    static int count = 1;
+    public static ListNode mergeList_1(ListNode cur1, ListNode cur2) {
+        count++;
+        if (cur1 == null) return cur2;
+        if (cur2 == null) return cur1;
+        if (count % 2 == 0) {
+            cur1.next = mergeList_1(cur1.next, cur2);
+            return cur1;
+        } else {
+            cur2.next = mergeList_1(cur1, cur2.next);
+            return cur2;
         }
     }
 

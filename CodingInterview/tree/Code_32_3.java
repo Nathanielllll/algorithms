@@ -1,9 +1,6 @@
 package tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 之字形打印二叉树
@@ -15,48 +12,43 @@ public class Code_32_3 {
         BinaryTreeNode right;
     }
 
-    public static void printTreeInZ(BinaryTreeNode root) {
+    public List<List<Integer>> levelOrder(BinaryTreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
-            return;
+            return res;
         }
 
-        Stack<BinaryTreeNode> stack_even = new Stack<>();//偶数行
-        Stack<BinaryTreeNode> stack_odd = new Stack<>();//奇数行
-        BinaryTreeNode temp;
+        int level = 0;
 
-        stack_even.add(root);
-        boolean reverse = true;
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int cnt = queue.size();
+            LinkedList<Integer> list = new LinkedList<>();
+            for (int i = 0; i < cnt; i++) {
+                BinaryTreeNode curNode = queue.poll();
 
-        while (!stack_even.isEmpty() || !stack_odd.isEmpty()) {
-            if (reverse) {
-                for (int i = stack_even.size(); i > 0; i--) {
-                    temp = stack_even.pop();
-                    System.out.print(temp.value + " ");
-                    if (temp.left != null) {
-                        stack_odd.add(temp.left);
-                    }
-                    if (temp.right != null) {
-                        stack_odd.add(temp.right);
-                    }
+                // 只需要在这里判断即可，queue的put顺序不变
+                if (level % 2 == 0) {
+                    list.add(curNode.value);
+                }else {
+                    list.addFirst(curNode.value);
                 }
-            } else {
-                for (int i = stack_odd.size(); i > 0; i--) {
-                    temp = stack_odd.pop();
-                    System.out.print(temp.value + " ");
-                    if (temp.right != null) {
-                        stack_even.add(temp.right);
-                    }
-                    if (temp.left != null) {
-                        stack_even.add(temp.left);
-                    }
+
+                if (curNode.left != null) {
+                    queue.add(curNode.left);
+                }
+                if (curNode.right != null) {
+                    queue.add(curNode.right);
                 }
             }
-            System.out.println();
-            reverse = !reverse;
+            res.add(list);
+
+            level++;
         }
-
-
+        return res;
     }
+
 
     public static List<List<Integer>> zigzagLevelOrder(BinaryTreeNode root) {
         // if (root == null) {

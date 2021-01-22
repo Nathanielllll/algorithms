@@ -47,7 +47,7 @@ public class Code_36_ATTENTION {
                 /**这里是不同于普通中序遍历的地方*/
                 //说明这个是第一个节点，将head设置为当前节点
                 if (pre == null) {
-                    head = temp;
+                    head = temp; // **** 这个地方需要一定注意，一定要有这个才能正确！！
                 //其他节点，将前一个节点的右指针指向当前节点
                 } else {
                     pre.right = temp;

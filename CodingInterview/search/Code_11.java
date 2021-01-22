@@ -39,6 +39,7 @@ public class Code_11 {
                 return nums[mid];
             }
 
+            // 注意：这里一定是 >= 而不是 >。因为以[3,3,3,1]为例，最小值确实是在右边。
             if (nums[mid] >= nums[0]) {
                 left = mid + 1;
             } else {

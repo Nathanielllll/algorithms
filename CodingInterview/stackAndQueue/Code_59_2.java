@@ -24,7 +24,7 @@ import java.util.Stack;
 输出: [null,-1,-1]
 
  */
-public class Test_59_2 {
+public class Code_59_2 {
     class MaxQueue {
         Queue<Integer> queue;
         Deque<Integer> help;

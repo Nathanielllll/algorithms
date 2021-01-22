@@ -4,7 +4,7 @@
 public class Code_44 {
 
     public static void main(String[] args) {
-        System.out.println(digitAtIndex(11));
+        System.out.println(digitAtIndex(1000000000));
     }
 
     public static int digitAtIndex(int index) {

@@ -20,6 +20,8 @@ public class TopologicalSorting {
         HashMap<GraphNode, Integer> inMap = new HashMap<>();
         // 入度为0的点，才能进这个队列
         Queue<GraphNode> zeroInQueue = new LinkedList<>();
+
+        // 在inMap放入节点和它的入度，在zeroInQueue中放入入度为0的节点
         for (GraphNode node : graph.nodes.values()) {
             inMap.put(node, node.in);
             if (node.in == 0) {//首先要找入度为0的节点！

@@ -15,7 +15,6 @@ public class BlockingQueue1<T> {
          * 此时被拿走一个，此线程A被叫醒了，它会从wait继续往下执行，想往队列里面扔一个。
          * 但是！！它还没往里面扔一个的时候，已经有另外一个线程B往里面扔了一个
          */
-
         while (lists.size() == MAX) {
             try {
                 this.wait();//进入睡眠，并且释放锁
@@ -51,7 +50,9 @@ public class BlockingQueue1<T> {
         for (int i = 0; i < 10; i++) {
             new Thread(() -> {
                 for (int j = 0; j < 5; j++) {
+                    System.out.println(Thread.currentThread().getName() + " is consuming: ");
                     System.out.println(blockingQueue1.get());
+                    System.out.println();
                 }
             },"c" + i).start();
         }

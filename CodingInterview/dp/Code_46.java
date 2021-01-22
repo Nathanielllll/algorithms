@@ -20,24 +20,24 @@ public class Code_46 {
      * 'Z' -> 26
      */
     //从0开始记 0～a
-    public int translateNum(int num) {
-        String s = String.valueOf(num);
-        int length = s.length();
-        int[] dp = new int[length + 1];
-        dp[length] = 1;
-        dp[length - 1] = 1;
-        for (int i = length - 2; i >= 0; i--) {
+    public static int translateNum(int num) {
+        String num_string = String.valueOf(num);
+        int len = num_string.length();
+
+        int[] dp = new int[len + 1];
+        dp[len] = 1;
+        dp[len - 1] = 1;
+
+        for (int i = len - 2; i >= 0; i--) {
             int ans1 = dp[i + 1];
-            int ans2 = 0;
-            int ten = (s.charAt(i) - '0') * 10;
-            int one = s.charAt(i + 1) - '0';
-            int value = ten + one;
-            if (value <= 25 && value >= 10) {
-                ans2 = dp[i + 2];
-            }
+            int ans2 = meetRequire(num_string.substring(i, i + 2)) ? dp[i+2] : 0;
             dp[i] = ans1 + ans2;
         }
         return dp[0];
+    }
+
+    private static boolean meetRequire(String str){
+        return "10".compareTo(str) <= 0 && str.compareTo("25") <= 0;
     }
 
     //从1开始记 1～a
