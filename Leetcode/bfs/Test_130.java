@@ -28,6 +28,7 @@ public class Test_130 {
 
      */
 
+    // =============dfs==============
     private int[] dx = {0, 0, -1, 1};
     private int[] dy = {1, -1, 0, 0};
 
@@ -79,6 +80,7 @@ public class Test_130 {
         }
     }
 
+    // =============bfs==============
     public void solve_1(char[][] board) {
         if (board == null || board.length == 0) return;
         int rows = board.length;
@@ -116,6 +118,90 @@ public class Test_130 {
                     queue.add(new Point(temp.row + dx[k], temp.col + dy[k]));
                 }
             }
+        }
+    }
+
+    // =============unionFind==============
+    public void solve_3(char[][] board) {
+        if (board == null || board.length == 0) return;
+        int rows = board.length;
+        int cols = board[0].length;
+
+        // 用一个虚拟节点, 边界上的O 的父节点都是这个虚拟节点
+        Djset djset = new Djset(rows * cols + 1);
+        int dummyNode = rows * cols;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] == 'O') {
+                    boolean isEdge = i == 0 || j == 0 || i == rows - 1 || j == cols - 1;
+                    if (isEdge) {
+                        djset.union(node(i, j, cols), dummyNode);
+                    } else {
+                        for (int k = 0; k < 4; k++) {
+                            int nextRow = i + dx[k];
+                            int nextCol = j + dy[k];
+                            if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols
+                                    && board[nextRow][nextCol] == 'O') {
+                                djset.union(node(i, j, cols), node(nextRow, nextCol, cols));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if(board[i][j] == 'O' && !djset.isConnected(node(i, j, cols), dummyNode)){
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
+
+    int node(int i, int j, int cols) {
+        return i * cols + j;
+    }
+
+    class Djset {
+        private int[] parent;
+        private int[] rank;
+
+        public Djset(int length) {
+            this.parent = new int[length];
+            for (int i = 0; i < length; i++) {
+                parent[i] = i;
+            }
+            this.rank = new int[length];
+        }
+
+        public int findRoot(int x) {
+            if (x != parent[x]) {
+                parent[x] = findRoot(parent[x]);
+            }
+            return parent[x];
+        }
+
+        public void union(int x, int y) {
+            int x_root = findRoot(x);
+            int y_root = findRoot(y);
+
+            if (x_root == y_root) {
+                return;
+            }
+            if (rank[x_root] < rank[y_root]) {
+                parent[x_root] = y_root;
+            } else if (rank[y_root] < rank[x_root]) {
+                parent[y_root] = x_root;
+            } else {
+                parent[x_root] = y_root;
+                rank[y_root]++;
+            }
+        }
+
+        boolean isConnected(int node1, int node2) {
+            return findRoot(node1) == findRoot(node2);
         }
     }
 }

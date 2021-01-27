@@ -49,7 +49,6 @@ public class Test_200 {
     }
 
     private void bfs(int[][] grid, int i, int j, boolean[][] used) {
-//        int count = 0;
         Queue<Point> queue = new LinkedList<>();
         queue.add(new Point(i, j));
         while (!queue.isEmpty()) {
@@ -61,7 +60,6 @@ public class Test_200 {
                 if (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length
                         && !used[row][col] && grid[row][col] == 1) {
                     used[row][col] = true;
-//                    count++;
                     for (int l = 0; l < 4; l++) {
                         queue.add(new Point(row + dx[l], col + dy[l]));
                     }
@@ -69,6 +67,17 @@ public class Test_200 {
             }
 
         }
-//        return count > 0;
+    }
+
+    private void dfs(int[][] grid, int row, int col, boolean[][] used){
+        if (row >= 0 && row < grid.length && col >= 0 && col < grid[0].length
+                && !used[row][col] && grid[row][col] == 1) {
+            used[row][col] = true;
+            for (int i = 0; i < 4; i++) {
+                int nextRow = row + dx[i];
+                int nextCol = col + dy[i];
+                dfs(grid, nextRow, nextCol, used);
+            }
+        }
     }
 }

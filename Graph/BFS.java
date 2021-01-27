@@ -1,3 +1,5 @@
+import commonStructures.Graph;
+import commonStructures.GraphGenerator;
 import commonStructures.GraphNode;
 
 import java.util.HashMap;
@@ -15,6 +17,13 @@ public class BFS {
      *
      * BFS就是求最短距离的！！！！
      */
+
+    public static void main(String[] args) {
+        Integer[][] matrix= {{7,0,1}, {3,1,2},{5,0,2},
+                {3,2,3},{4,2,4},{1,4,5},{2,4,6},{3,5,7}};
+        Graph graph = GraphGenerator.createGraph(matrix);
+        bfs(graph.nodes.get(2));
+    }
 
     public static void bfs(GraphNode node) {
         if (node == null) {

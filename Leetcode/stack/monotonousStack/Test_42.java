@@ -41,25 +41,24 @@ public class Test_42 {
         return ans;
     }
 
-    //递增栈
+    // 单调栈
     public static int trap_2(int[] height) {
         int sum = 0;
-        Stack<Integer> stack = new Stack<>();
-        int current = 0;
-        while (current < height.length) {
-            //如果栈不空并且当前指向的高度大于栈顶高度就一直循环
-            while (!stack.empty() && height[current] > height[stack.peek()]) {
-                int h = height[stack.peek()]; //取出要出栈的元素
-                stack.pop(); //出栈
-                if (stack.empty()) { // 栈空就出去
-                    break;
-                }
-                int distance = current - stack.peek() - 1; //两堵墙之前的距离。
-                int min = Math.min(height[stack.peek()], height[current]);
+
+        Stack<Integer> indexStack = new Stack<>(); // 递增栈，记录位置
+        for (int i = 0; i < height.length; i++) {
+            while(!indexStack.isEmpty() && height[indexStack.peek()] < height[i]){
+                int curIndex = indexStack.pop();
+                int h = height[curIndex];
+
+                int leftMaxIndex = indexStack.isEmpty() ? curIndex : indexStack.peek();
+                int rightMaxIndex = i;
+
+                int distance = rightMaxIndex - leftMaxIndex - 1; //两堵墙之前的距离。
+                int min = Math.min(height[rightMaxIndex], height[leftMaxIndex]);
                 sum = sum + distance * (min - h);
             }
-            stack.push(current); //当前指向的墙入栈
-            current++; //指针后移
+            indexStack.push(i);
         }
         return sum;
     }
