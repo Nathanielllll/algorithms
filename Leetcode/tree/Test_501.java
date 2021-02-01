@@ -1,5 +1,6 @@
 package tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,43 +15,52 @@ public class Test_501 {
         }
     }
 
-    private int curCount;
+    private int count;
     private int maxCount;
-    private int preNum = Integer.MAX_VALUE;
-    private List<Integer> ans;
-
+    private int preValue;
+    private List<Integer> resultList;
     public int[] findMode(TreeNode root) {
-        curCount = 1;
-        maxCount = 1;
-        ans = new LinkedList<>();
-        inOrder(root);
-        int[] res = new int[ans.size()];
-        for (int i = 0; i < ans.size(); i++) {
-            res[i] = ans.get(i);
+        count = 0;
+        maxCount = 0;
+        preValue = Integer.MAX_VALUE;
+        resultList = new ArrayList<>();
+        helper(root);
+
+        int[] result = new int[resultList.size()];
+        for (int i = 0; i < resultList.size(); i++) {
+            result[i] = resultList.get(i);
         }
-        return res;
+        return result;
     }
 
-    private void inOrder(TreeNode root) {
-        if (root == null) return;
 
-        inOrder(root.left);
+    private void helper(TreeNode root){
+        if(root == null) return;
 
-        if (preNum == Integer.MAX_VALUE) {
-            curCount = maxCount = 1;
-            ans.add(root.val);
+        helper(root.left);
+
+        //下面是对当前节点的一些逻辑操作
+        int nodeValue = root.val;
+        if (nodeValue == preValue) {
+            //如果节点值等于current，count就加1
+            count++;
         } else {
-            curCount = root.val == preNum ? curCount + 1 : 1;
-            if (curCount == maxCount) {
-                ans.add(root.val);
-            } else if (curCount > maxCount) {
-                ans.clear();
-                ans.add(root.val);
-                maxCount = curCount;
-            }
+            //否则，就表示遇到了一个新的值，curent和count都要
+            //重新赋值
+            preValue = nodeValue;
+            count = 1;
         }
-        preNum = root.val;
+        if (count == maxCount) {
+            //如果count == maxCount，就把当前节点加入到集合中
+            resultList.add(nodeValue);
+        } else if (count > maxCount) {
+            //否则，当前节点的值重复量是最多的，直接把list清空，然后
+            //把当前节点的值加入到集合中
+            resultList.clear();
+            resultList.add(nodeValue);
+            maxCount = count;
+        }
 
-        inOrder(root.right);
+        helper(root.right);
     }
 }

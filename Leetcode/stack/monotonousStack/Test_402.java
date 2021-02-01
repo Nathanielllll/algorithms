@@ -29,35 +29,34 @@ num 不会包含任何前导零。
 一个简单的思路就是：
 每次丢弃一次，k 减去 1。当 k 减到 0 ，我们可以提前终止遍历。
 而当遍历完成，如果 k 仍然大于 0。不妨假设最终还剩下 x 个需要丢弃，那么我们需要选择删除末尾 x 个元素。
+
+和Test_1673是一样的！
  */
 public class Test_402 {
     public String removeKdigits(String num, int k) {
-        //初始化一个stack
+        char[] numsCharArray = num.toCharArray();
         Stack<Character> stack = new Stack<>();
-        for (char c : num.toCharArray()) {
-            //当栈顶的元素大于即将要加入栈的元素，弹出栈顶元素（要在k不为0的前提下）
-            while (!stack.isEmpty() && stack.peek() > c && k > 0) {
-                stack.pop();
-                k--;
-            }
-            stack.push(c);
-        }
-        //再次判断k是否为0，不为0的话，说明还有栈顶的元素需要被弹出
-        while (k > 0) {
-            stack.pop();
-            k--;
-        }
+        int poped = k;
+        int rest = num.length() - k;
 
-        StringBuilder res = new StringBuilder();
-        boolean headZero = true;//移除的是100204这个case中的前两个0的这种情况，204之间的0不需要被移除（k=1）
-        for (char c : stack) {
+        for(char curNum : numsCharArray){
+            while (!stack.isEmpty() && stack.peek() > curNum && poped > 0) {
+                stack.pop();
+                poped--;
+            }
+            stack.push(curNum);
+        }
+        StringBuffer resultBuffer = new StringBuffer();
+
+        boolean headZero = true;
+        for (int i = 0; i < rest; i++) {
+            char c = stack.get(i);
             if (c == '0' && headZero) {
                 continue;
             }
-            res.append(c);
+            resultBuffer.append(c);
             headZero = false;
         }
-        //再次判断下是否没有元素了
-        return res.toString().equals("") ? "0" : res.toString();
+        return resultBuffer.toString().equals("") ? "0" : resultBuffer.toString();
     }
 }

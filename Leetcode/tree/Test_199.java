@@ -1,5 +1,6 @@
 package tree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -30,6 +31,37 @@ public class Test_199 {
             val = x;
         }
     }
+
+    /**
+     * 变化的前序遍历
+     */
+    List<Integer> result;
+    public List<Integer> rightSideView_1(TreeNode root) {
+        result = new ArrayList<>();
+        if (root == null) return result;
+        helper(root, 0);
+        return result;
+    }
+
+    private void helper(TreeNode node, int depth) {
+        if (node == null) {
+            return;
+        }
+
+        if (depth == result.size()) {
+            result.add(node.val);
+        }
+        depth++;
+
+        helper(node.right, depth);
+        helper(node.left, depth);
+    }
+
+    /**
+     * 层序遍历
+     * @param root
+     * @return
+     */
     public List<Integer> rightSideView(TreeNode root) {
         LinkedList<Integer> res = new LinkedList<>();
         if (root == null) {

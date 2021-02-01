@@ -1,4 +1,4 @@
-package dfs;
+package tree;
 
 /*
 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
@@ -21,7 +21,7 @@ package dfs;
 从根到叶子节点路径 1->3 代表数字 13.
 因此，数字总和 = 12 + 13 = 25.
  */
-public class Test_129 {
+public class Test_129_ATTENTION {
     public class TreeNode {
         int val;
         TreeNode left;

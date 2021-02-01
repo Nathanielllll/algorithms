@@ -28,7 +28,7 @@ public class Test_20 {
         for (int i = 0; i < length; i++) {
             if(hashMap.containsKey(s.charAt(i))){
                 stack.push(s.charAt(i));
-                //stack.isEmpty()可能是因为s里面有其他不是括号的char
+                //stack里面必须要有一个'('和当前的')'对应。因此stack.isEmpty()则返回false
             }else if(stack.isEmpty() || s.charAt(i) != hashMap.get(stack.pop())){
                 return false;
             }

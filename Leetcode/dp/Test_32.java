@@ -1,5 +1,7 @@
 package dp;
 
+import java.util.Stack;
+
 /**
  * 给定一个只包含 '(' 和 ')' 的字符串，找出最长的包含有效括号的子串的长度。
  *
@@ -18,20 +20,46 @@ package dp;
  * ()(()()  )
  */
 public class Test_32 {
-    public static int longestValidParentheses(String s) {
-        int ans = 0;
-        int[] dp = new int[s.length()];
 
+    // dp
+    public static int longestValidParentheses(String s) {
+        int max = 0;
+        int[] dp = new int[s.length()];
         for (int i = 1; i < s.length(); i++) {
-            if (s.charAt(i) == ')') {
+            char c = s.charAt(i);
+            if (c == ')') {
                 if (s.charAt(i - 1) == '(') {
                     dp[i] = (i - 2 >= 0 ? dp[i - 2] : 0) + 2;
-                } else if (s.charAt(i - 1) == ')' && i - dp[i - 1] - 1 >= 0 && s.charAt(i - dp[i - 1] - 1) == '(') {
-                    dp[i] = (i - dp[i - 1] - 2 >= 0 ? dp[i - dp[i - 1] - 2] : 0) + dp[i - 1] + 2;
+                } else if (s.charAt(i - 1) == ')') {
+                    int preIndex = i - dp[i - 1] - 1;
+                    if (preIndex >= 0 && s.charAt(preIndex) == '(') {
+                        dp[i] = (preIndex - 1 >= 0 ? dp[preIndex - 1] : 0) + dp[i - 1] + 2;
+                    }
                 }
-                ans = Math.max(ans, dp[i]);
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+
+    // 栈
+    public int longestValidParentheses_1(String s) {
+        int max = 0;
+        Stack<Integer> indexStack = new Stack<>();
+        indexStack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                indexStack.push(i);
+            } else if (c == ')') {
+                indexStack.pop();
+                if (indexStack.isEmpty()) {
+                    indexStack.push(i);
+                } else {
+                    max = Math.max(max, i - indexStack.peek());
+                }
             }
         }
-        return ans;
+        return max;
     }
 }

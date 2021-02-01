@@ -8,32 +8,61 @@ package stack.monotonousStack;
 
  */
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 /*
-即求左边离它最近的大于它的数字！
+求左边【最远】的比【它】小的数的位置 ==> 求左边离它【最近】的大于它的数字的位置 + 1
+ */
+//class StockSpanner {
+//
+//    private Stack<Integer> prices;
+//    private Stack<Integer> indexes;
+//
+//    public StockSpanner() {
+//        prices = new Stack<>();
+//        indexes = new Stack<>();
+//    }
+//
+//    public int next(int price) {
+//        int ans = 1;
+//        while(!prices.isEmpty() && prices.peek() <= price) {
+//            prices.pop();
+//            ans += indexes.pop();
+//        }
+//        indexes.push(ans);
+//        prices.push(price);
+//        return ans;
+//    }
+//
+//}
+
+/**
+ * 相比上面的解法，更好理解但是速度更慢。
  */
 class StockSpanner {
-
-    private Stack<Integer> prices;
-    private Stack<Integer> indexes;
+    private final List<Integer> priceList;
+    private final Stack<Integer> indexStack;
 
     public StockSpanner() {
-        prices = new Stack<>();
-        indexes = new Stack<>();
+        priceList = new LinkedList<>();
+        indexStack = new Stack<>();
     }
 
     public int next(int price) {
-        int ans = 1;
-        while(!prices.isEmpty() && prices.peek() <= price) {
-            prices.pop();
-            ans += indexes.pop();
+        // 注意是<=
+        while(!indexStack.isEmpty() && priceList.get(indexStack.peek()) <= price){
+            indexStack.pop();
         }
-        indexes.push(ans);
-        prices.push(price);
-        return ans;
-    }
 
+        int curIndex = priceList.size();
+        int count = curIndex - (indexStack.isEmpty() ? -1 : indexStack.peek());
+
+        indexStack.push(curIndex);
+        priceList.add(price);
+        return count;
+    }
 }
 
 public class Test_901 {

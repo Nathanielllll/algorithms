@@ -25,38 +25,34 @@ public class Test_652 {
         }
     }
 
-
-
     // 记录所有子树以及出现的次数
     HashMap<String, Integer> memo = new HashMap<>();
     // 记录重复的子树根节点
-    LinkedList<TreeNode> res = new LinkedList<>();
+    LinkedList<TreeNode> result = new LinkedList<>();
 
     /* 主函数 */
     List<TreeNode> findDuplicateSubtrees(TreeNode root) {
         traverse(root);
-        return res;
+        return result;
     }
 
     /* 辅助函数 */
     String traverse(TreeNode root) {
         if (root == null) {
-            return "#";
+            return "null,";
         }
+        String ans = root.val + ",";
+        ans += traverse(root.left);
+        ans += traverse(root.right);
 
-        String left = traverse(root.left);
-        String right = traverse(root.right);
-
-        String subTree = left + "," + right+ "," + root.val;
-
-        int freq = memo.getOrDefault(subTree, 0);
+        int freq = memo.getOrDefault(ans, 0);
         freq += 1;
         // 给子树对应的出现次数加一
-        memo.put(subTree, freq);
+        memo.put(ans, freq);
         // 多次重复也只会被加入结果集一次
         if (freq == 2) {
-            res.add(root);
+            result.add(root);
         }
-        return subTree;
+        return ans;
     }
 }

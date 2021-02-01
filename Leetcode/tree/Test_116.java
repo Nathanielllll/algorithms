@@ -45,7 +45,8 @@ public class Test_116 {
     }
 
     private void connectTwoNode(Node node1, Node node2) {
-        if(node1 == null || node2 == null) return;
+        // 因为node2 == null， node1.next = null即可
+        if(node1 == null) return;
 
         node1.next = node2;
         connectTwoNode(node1.left, node1.right);

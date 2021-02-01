@@ -27,7 +27,7 @@ package tree;
 
 输出：42
  */
-public class Test_124 {
+public class Test_124_ATTENTION {
     public class TreeNode {
         int val;
         TreeNode left;
@@ -37,6 +37,7 @@ public class Test_124 {
             val = x;
         }
     }
+
     int res = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
         if (root == null) return 0;

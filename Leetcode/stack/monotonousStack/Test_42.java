@@ -42,6 +42,7 @@ public class Test_42 {
     }
 
     // 单调栈
+    // 找到两边比它高的位置，然后找到较小的高度，再进行计算
     public static int trap_2(int[] height) {
         int sum = 0;
 

@@ -40,7 +40,7 @@ import java.util.Stack;
  */
 public class Test_71 {
     public static void main(String[] args) {
-        System.out.println(simplifyPath("/..."));
+        System.out.println(simplifyPath("/../"));
     }
 
     public static String simplifyPath(String path) {

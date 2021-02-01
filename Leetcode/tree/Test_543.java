@@ -31,31 +31,37 @@ public class Test_543 {
 
     因此最后结果是：===> 到某个点的最大距离：左子树的最大距离、右子树的最大距离、左右子树的高度和，这三者的最大值
      */
-    private class Info{
-        public int maxDistance;
-        public int height;
-        public Info(int dis, int h) {
-            maxDistance = dis;
-            height  = h;
+    class Info{
+        int maxDiameter;
+        int depth;
+
+        public Info(int maxDiameter, int depth) {
+            this.maxDiameter = maxDiameter;
+            this.depth = depth;
         }
     }
-
-    private Info process(TreeNode node){
-        if (node==null){
-            return new Info(0, 0);
-        }
-        Info leftInfo = process(node.left);
-        Info rightInfo = process(node.right);
-        int p1 = leftInfo.maxDistance;
-        int p2 = rightInfo.maxDistance;
-        int p3 = leftInfo.height + rightInfo.height;
-        int maxDistance = Math.max(p1, Math.max(p2, p3));
-        int height = Math.max(leftInfo.height, rightInfo.height) + 1;
-        return new Info(maxDistance, height);
-    }
-
 
     public int diameterOfBinaryTree(TreeNode root) {
-        return process(root).maxDistance;
+        if (root == null) {
+            return 0;
+        }
+        Info info = helper(root);
+        return info.maxDiameter;
+    }
+
+    private Info helper(TreeNode root){
+        if(root == null) return new Info(0, 0);
+
+        Info leftInfo = helper(root.left);
+        Info rightInfo = helper(root.right);
+
+        // 经过root
+        int p1 = leftInfo.depth + rightInfo.depth;
+        // 不经过root
+        int p2 = Math.max(leftInfo.maxDiameter, rightInfo.maxDiameter);
+        int maxDiameter = Math.max(p1, p2);
+
+        int depth = Math.max(leftInfo.depth, rightInfo.depth) + 1;
+        return new Info(maxDiameter, depth);
     }
 }

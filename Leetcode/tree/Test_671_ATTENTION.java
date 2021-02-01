@@ -25,7 +25,7 @@ package tree;
 输出: -1
 说明: 最小的值是 2, 但是不存在第二小的值。
  */
-public class Test_671 {
+public class Test_671_ATTENTION {
     public class TreeNode {
         int val;
         TreeNode left;
@@ -36,26 +36,22 @@ public class Test_671 {
         }
     }
 
-    int first = Integer.MAX_VALUE, second = Integer.MAX_VALUE;
-    int count = 0;
+    long ans = Long.MAX_VALUE;
 
     public int findSecondMinimumValue(TreeNode root) {
-        helper(root);
-        return count == 0 ? -1 : second;
+        if (root == null) return -1;
+        // 由题目可知，root.val必然是最小值
+        int minval = root.val;
+        dfs(root, minval);
+        if (ans == Long.MAX_VALUE) return -1;
+        return (int) ans;
     }
 
-    public void helper(TreeNode root) {
-        if (root == null)
-            return;
-
-        if (root.val < first) {
-            second = first;
-            first = root.val;
-        } else if (root.val <= second && root.val > first) {
-            count++;
-            second = root.val;
-        }
-        helper(root.left);
-        helper(root.right);
+    private void dfs(TreeNode root, int minval) {
+        if (root == null) return;
+        if (minval < root.val && root.val < ans)
+            ans = root.val;
+        dfs(root.left, minval);
+        dfs(root.right, minval);
     }
 }
