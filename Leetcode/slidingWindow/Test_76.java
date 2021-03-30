@@ -29,6 +29,49 @@ import java.util.HashMap;
  * 4、重复第 2 和第 3 步，直到 right 到达字符串 S 的尽头。
  */
 public class Test_76 {
+    public static String minWindow_1(String s, String t) {
+        String result = "";
+
+        HashMap<Character, Integer> window = new HashMap<>();
+        HashMap<Character, Integer> needs = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            needs.put(t.charAt(i), needs.getOrDefault(t.charAt(i), 0) + 1);
+        }
+
+        int left = 0;
+        int right = 0;
+        int match = 0;
+        int minLength = Integer.MAX_VALUE ;
+        while (right < s.length()) {
+            char right_char = s.charAt(right);
+            if (needs.containsKey(right_char)) {
+                window.put(right_char, window.getOrDefault(right_char, 0) + 1);
+                if (window.get(right_char).equals(needs.get(right_char))) {
+                    match++;
+                }
+            }
+            right++;
+
+            while (match == needs.size()) {
+                if (right - left < minLength) {
+                    minLength = right - left;
+                    result = s.substring(left, right);
+                }
+
+                char left_char = s.charAt(left);
+                if (needs.containsKey(left_char)) {
+                    window.put(left_char, window.getOrDefault(left_char, 0) - 1);
+                    if (window.get(left_char) < needs.get(left_char)) {
+                        match--;
+                    }
+                }
+                left++;
+            }
+        }
+        return result;
+    }
+
+
     public static String minWindow(String s, String t) {
         HashMap<Character, Integer> window = new HashMap<>();
         HashMap<Character, Integer> needs = new HashMap<>();

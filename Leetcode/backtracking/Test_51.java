@@ -1,5 +1,6 @@
 package backtracking;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -32,54 +33,62 @@ import java.util.Stack;
  * 解释: 4 皇后问题存在两个不同的解法。
  */
 public class Test_51 {
-    public static List<List<String>> solveNQueens(int n) {
-        List<List<String>> result = new LinkedList<>();
-        //都没有结果？？
+    List<List<String>> result;
+
+    public List<List<String>> solveNQueens(int n) {
+        result = new ArrayList<>();
         if (n <= 0) {
             return result;
         }
 
         //用stack来存储，有效的不攻击的皇后的：每一列的行号
         Stack<Integer> positions = new Stack<>();
-        solveNQueens(result, n, positions);
-
+        process(positions, n);
         return result;
     }
 
-    public static void solveNQueens(List<List<String>> result, int n, Stack<Integer> positions) {
+    private void process(Stack<Integer> positions, int n) {
         if (positions.size() == n) {
-            addResult(result, n, positions);
+            addResult(n, positions);
         }
 
-        //那一列的n个位置都需要尝试
+        //那一列的全部n行都需要尝试
         for (int i = 0; i < n; i++) {
-            if (noAttack(i, positions)) {
+            if (noAttack(positions, i)) {
                 positions.push(i);
-                solveNQueens(result, n, positions);
+                process(positions, n);
                 positions.pop();
             }
         }
     }
 
-    //确定不相互攻击的函数
-    private static boolean noAttack(int n, Stack<Integer> positions) {
+    private boolean noAttack(Stack<Integer> positions, int curRow) {
         for (int i = 0; i < positions.size(); i++) {
-            //行：positions.get(i)    列：i
-            //行：n                   列：position.size()
-            if (positions.get(i) == n) {
+            // 两个位置分别是：(curPos, positions.size())  (positions.get(i), i)
+            int row1 = positions.get(i);
+            int col1 = i;
+
+            int row2 = curRow;
+            int col2 = positions.size();
+
+            // 1. 必然不是在同一列，因此不用判断
+
+            // 2. 判断不是在同一行
+            if (row1 == row2) {
                 return false;
             }
-            if (Math.abs(positions.get(i) - n) == Math.abs(i - positions.size())) {
+
+            // 3. 判断是不是在一条斜线上面
+            if (Math.abs(row1 - row2) == Math.abs(col1 - col2)) {
                 return false;
             }
         }
         return true;
     }
 
-    //返回题目所需要的格式
-    private static void addResult(List<List<String>> result, int n, Stack<Integer> positions) {
-        List<String> list = new LinkedList<>();
-        for (int i = 0; i < positions.size(); i++) {
+    private void addResult(int n, Stack<Integer> positions) {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
             StringBuffer stringBuffer = new StringBuffer();
             for (int j = 0; j < n; j++) {
                 if (j == positions.get(i)) {
@@ -91,10 +100,5 @@ public class Test_51 {
             list.add(stringBuffer.toString());
         }
         result.add(list);
-    }
-
-    public static void main(String[] args) {
-
-        System.out.println(solveNQueens(4));
     }
 }

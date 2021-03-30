@@ -84,6 +84,7 @@ public class Test_30_Q {
                     String string_left = s.substring(left, left + len);
                     if (needs.containsKey(string_left)) {
                         window.put(string_left, window.getOrDefault(string_left, 0) - 1);
+                        // 注意是 <
                         if (window.get(string_left) < needs.get(string_left)) {
                             match--;
                         }

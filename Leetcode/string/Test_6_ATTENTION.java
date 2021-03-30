@@ -1,9 +1,9 @@
 package string;
 
 /**
- * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
+ * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行Z 字形排列。
  * <p>
- * 比如输入字符串为 "LEETCODEISHIRING" 行数为 3 时，排列如下：
+ * 比如输入字符串为 "LEETCODEISHIRING"行数为 3 时，排列如下：
  * <p>
  * L   C   I   R
  * E T O E S I I G
@@ -13,14 +13,14 @@ package string;
  * 请你实现这个将字符串进行指定行数变换的函数：
  * <p>
  * string convert(string s, int numRows);
- * 示例 1:
+ * 示例1:
  * <p>
  * 输入: s = "LEETCODEISHIRING", numRows = 3
  * 输出: "LCIRETOESIIGEDHN"
- * 示例 2:
+ * 示例2:
  * <p>
- * 输入: s = "LEETCODEISHIRING", numRows = 4
- * 输出: "LDREOEIIECIHNTSG"
+ * 输入: s = "LEETCODEISHIRING", numRows =4
+ * 输出:"LDREOEIIECIHNTSG"
  * 解释:
  * <p>
  * L     D     R
@@ -70,8 +70,8 @@ public class Test_6_ATTENTION {
     }
 
     public static void main(String[] args) {
-//        输入: s = "LEETCODEISHIRING", numRows = 4
-//        输出: "LDREOEIIECIHNTSG"
+//        输入: s = "LEETCODEISHIRING", numRows =4
+//        输出:"LDREOEIIECIHNTSG"
         System.out.println(convert("LEETCODEISHIRING", 4).equals("LDREOEIIECIHNTSG"));
     }
 }

@@ -37,20 +37,20 @@ public class Test_329 {
         }
         int rows = matrix.length;
         int cols = matrix[0].length;
-        int[][] lookup = new int[rows][cols];
+        int[][] memo = new int[rows][cols];
 
         int maxLength = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                maxLength = Math.max(maxLength, dfs(matrix, lookup, i, j));
+                maxLength = Math.max(maxLength, dfs(matrix, memo, i, j));
             }
         }
         return maxLength;
     }
 
-    public static int dfs(int[][] matrix, int[][] lookup, int row, int col) {
-        if (lookup[row][col] != 0) {
-            return lookup[row][col];
+    public static int dfs(int[][] matrix, int[][] memo, int row, int col) {
+        if (memo[row][col] != 0) {
+            return memo[row][col];
         }
 
         int res = 1;
@@ -59,10 +59,10 @@ public class Test_329 {
             int nextCol = col + dy[i];
             if (nextRow >= 0 && nextRow < matrix.length && nextCol >= 0 && nextCol < matrix[0].length
                     && matrix[nextRow][nextCol] > matrix[row][col]) {
-                res = Math.max(res, 1 + dfs(matrix, lookup, nextRow, nextCol));
+                res = Math.max(res, 1 + dfs(matrix, memo, nextRow, nextCol));
             }
         }
-        lookup[row][col] = Math.max(lookup[row][col], res);
-        return lookup[row][col];
+        memo[row][col] = Math.max(memo[row][col], res);
+        return memo[row][col];
     }
 }

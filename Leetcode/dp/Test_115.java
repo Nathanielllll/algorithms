@@ -9,8 +9,6 @@ public class Test_115 {
 
     题目数据保证答案符合 32 位带符号整数范围。
 
-
-
     示例 1：
 
     输入：S = "rabbbit", T = "rabbit"
@@ -26,27 +24,29 @@ public class Test_115 {
     ^^ ^^^^
     rabbbit
     ^^^ ^^^
+
+    本题相当于只有删除操作，不用考虑替换增加之类的。
+    dp[i][j]：以i-1为结尾的s子序列中出现以j-1为结尾的t的个数为dp[i][j]。
+    https://leetcode-cn.com/problems/distinct-subsequences/solution/115-bu-tong-de-zi-xu-lie-dong-tai-gui-hu-ko1z/
      */
     public int numDistinct(String s, String t) {
-        int m = t.length();
-        int n = s.length();
-        int[][] dp = new int[m+1][n+1];
-        for (int j = 0; j <= n; j++) {
-            dp[0][j] = 1;
+        int s_length = s.length();
+        int t_length = t.length();
+        int[][] dp = new int[s_length + 1][t_length + 1];
+        for (int i = 0; i <= s_length; i++) {
+            dp[i][0] = 1;
         }
 
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (t.charAt(i-1) == s.charAt(j-1)) {
-                    // 两种情况：保留s[j-1]、不保留s[j-1]
-                    dp[i][j] = dp[i-1][j-1] + dp[i][j-1];
+        for (int i = 1; i <= s_length; i++) {
+            for (int j = 1; j <= t_length; j++) {
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
                 }else {
-                    // 一种情况：不保留s[j-1]
-                    dp[i][j] = dp[i][j-1];
+                    dp[i][j] = dp[i - 1][j];
                 }
             }
         }
-        return dp[m][n];
+        return dp[s_length][t_length];
     }
 
 }

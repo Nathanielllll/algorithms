@@ -1,4 +1,4 @@
-package graph;
+package graph.topologicalSort;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,11 +54,13 @@ public class Test_207 {
                 return false;
         }
         isVisited[visit] = 1;
-        return  true;
+        return true;
     }
 
 
     /**
+     * 拓扑排序/bfs
+     *
      * 上面方法虽然可以高效地解决问题，但该题的本质是考察拓扑排序。
      * 下一题就会要求规划处一个可行的课程安排，DFS就无法办到了。
      * 拓扑排序：

@@ -32,22 +32,17 @@ package dp.zeroOneBag;
 public class Test_494 {
     public static int findTargetSumWays(int[] nums, int S) {
         int sum = 0;
-        for (int num : nums){
-            sum += num;
-        }
+        for(int num : nums) sum+=num;
+
         if (sum < S || (sum + S) % 2 == 1) {
             return 0;
         }
-
-        int W = (sum + S) / 2;
-        int[] dp = new int[W + 1];
+        int W = (sum + S )/2;
+        int[] dp = new int[W+1];
         dp[0] = 1;
-
-        for (int num : nums) {
-            for (int j = W; j >= 1; j--) {
-                if(j >= num){
-                    dp[j] = dp[j] + dp[j - num];
-                }
+        for(int num : nums){
+            for (int i = W; i >= num; i--) {
+                dp[i] = dp[i] + dp[i-num];
             }
         }
         return dp[W];

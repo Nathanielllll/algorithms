@@ -34,16 +34,16 @@ public class Test_33 {
                 return middle;
             } else {
                 // 证明middle在前子数组
-                if(nums[middle] >= nums[left]){
+                if(nums[left] <= nums[middle]){
                     //target在nums[middle]~nums[middle]
-                    if(target >= nums[left] && target < nums[middle]){
+                    if(nums[left] <= target && target < nums[middle]){
                         right = middle - 1;
                     //target不在nums[middle]~nums[middle]
                     }else {
                         left = middle + 1;
                     }
                 }else {
-                    if(target <= nums[right] && target > nums[middle]){
+                    if(nums[middle] < target && target <= nums[right]){
                         left = middle + 1;
                     }else {
                         right = middle - 1;

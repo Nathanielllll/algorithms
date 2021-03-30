@@ -22,15 +22,13 @@ s = "abpcplea", d = ["a","b","c"]
 "a"
  */
 public class Test_524 {
-    public String findLongestWord(String s, List<String> d) {
+    public String findLongestWord(String s, List<String> dictionary) {
         String ans = "";
-        for (String word : d) {
-            int l1 = ans.length(), l2 = word.length();
-            // ans.compareTo(word) < 0) ： ab和ba，需要返回ab
-//            if (l1 > l2 || (l1 == l2 && ans.compareTo(word) < 0)) {
-//                continue;
-//            }
-            if (l1 > l2 || (l1 == l2 && ans.charAt(0) < word.charAt(0))) {
+        for (String word : dictionary) {
+            int ans_len = ans.length();
+            int cur_len = word.length();
+            // 条件二：ans.compareTo(word) < 0) ： ab和ba，需要返回ab
+            if (ans_len > cur_len || (ans_len == cur_len && ans.compareTo(word) < 0)) {
                 continue;
             }
             if (match(s, word)) {
@@ -39,6 +37,7 @@ public class Test_524 {
         }
         return ans;
     }
+
 
     private static boolean match(String s1, String s2) {
         int i = 0;

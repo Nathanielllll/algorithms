@@ -22,25 +22,35 @@ package dp;
 输出：0
 
 解释：已符合要求，不需要额外操作
+
+https://leetcode-cn.com/problems/UlBDOe/solution/qiu-xie-shou-cang-ji-by-leetcode-solution/
  */
 public class LCP_19 {
     public int minimumOperations(String leaves) {
-        int rows = leaves.length();
-        int cols = 3;
-        int[][] dp = new int[rows][cols];
-        dp[0][0] = leaves.charAt(0) == 'y' ? 1 : 0;
+        int length = leaves.length();
+        int[][] dp = new int[length][3];
+
+        int isRed;
+        int isYellow = leaves.charAt(0) == 'y' ? 1 : 0;
+        // 如果是黄色，则需要改变一次
+        dp[0][0] = isYellow;
+        // 这三个位置必然不可能，因此用极大值代替
         dp[0][1] = dp[0][2] = dp[1][2] = Integer.MAX_VALUE;
-        for (int i = 1; i < leaves.length(); i++) {
-            int isRed = leaves.charAt(i) == 'r' ? 1 : 0;
-            int isYellow = leaves.charAt(i) == 'y' ? 1 : 0;
 
+        for (int i = 1; i < length; i++) {
+            isRed = leaves.charAt(i) == 'r' ? 1 : 0;
+            isYellow = leaves.charAt(i) == 'y' ? 1 : 0;
+
+            // 0状态时，前提条件是前面一个也是0状态，才能改变当前树叶
             dp[i][0] = dp[i - 1][0] + isYellow;
-            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + isRed;
+            // 1状态时，前提条件是前面一个也是1状态/前面一个是0状态
+            dp[i][1] = Math.min(dp[i - 1][1], dp[i - 1][0]) + isRed;
+            // 2状态时，前提条件是前面一个也是2状态/前面一个是1状态，并且位置必然要>=2
             if (i >= 2) {
-                dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + isYellow;
+                dp[i][2] = Math.min(dp[i - 1][2], dp[i - 1][1]) + isYellow;
             }
-        }
-        return dp[rows - 1][2];
-    }
 
+        }
+        return dp[length - 1][2];
+    }
 }

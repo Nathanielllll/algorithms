@@ -19,38 +19,29 @@ import java.util.*;
  * 你的算法的时间复杂度必须优于 O(n log n) , n 是数组的大小。
  */
 public class Test_347 {
-    public List<Integer> topKFrequent(int[] nums, int k) {
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (hashMap.containsKey(nums[i])) {
-                hashMap.put(nums[i], hashMap.get(nums[i]) + 1);
-            } else {
-                hashMap.put(nums[i], 1);
-            }
+    public static void main(String[] args) {
+        int[] nums = {1};
+        int k = 1;
+        System.out.println(topKFrequent(nums, k));
+    }
+
+    public static int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> count = new HashMap<>();
+        for(int num : nums){
+            count.put(num, count.getOrDefault(num, 0) + 1);
         }
 
-        // 遍历map，用最小堆保存频率最大的k个元素
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer a, Integer b) {
-                return hashMap.get(a) - hashMap.get(b);
-            }
-        });
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(Comparator.comparingInt(count::get));
 
-
-        for (int key : hashMap.keySet()) {
-            if (minHeap.size() < k) {
-                minHeap.add(key);
-            } else if (!hashMap.isEmpty() && hashMap.get(key) > hashMap.get(minHeap.peek())) {
-                minHeap.remove();
-                minHeap.add(key);
+        for(int num : count.keySet()){
+            minHeap.offer(num);
+            if (minHeap.size() > k) {
+                minHeap.poll();
             }
         }
-
-        List<Integer> result = new LinkedList<>();
-
-        for (int key : minHeap) {
-            result.add(key);
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = minHeap.poll();
         }
         return result;
     }

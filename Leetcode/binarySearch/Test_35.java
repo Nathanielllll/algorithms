@@ -27,35 +27,20 @@ public class Test_35 {
         if (nums == null || nums.length <= 0) {
             return -1;
         }
-
-        int start = 0;
-        int end = nums.length - 1;
-
-        while (start <= end) {
-            int middle = (start + end) >> 1;
-            if (nums[middle] == target) {
-                return middle;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
             } else {
-                if (nums[middle] > target) {
-                    if (middle > 0 && nums[middle - 1] < target) {
-                        return middle;
-                    } else if (middle == 0) {
-                        return 0;
-                    }else {
-                        end = middle - 1;
-                    }
-                }else if (nums[middle] < target) {
-                    if (middle < nums.length - 1 && nums[middle + 1] > target){
-                        return middle + 1;
-                    } else if (middle == nums.length - 1) {
-                        return nums.length;
-                    } else {
-                        start = middle + 1;
-                    }
-                }
+                return mid;
             }
         }
-        return -1;
+
+        return left;
     }
 
     public static void main(String[] args) {

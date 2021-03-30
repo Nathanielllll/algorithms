@@ -1,8 +1,10 @@
 package array;
 
+import java.util.PriorityQueue;
+
 public class Test_215 {
     public static void main(String[] args) {
-        int[] nums = {3,2,1,5,6,4};
+        int[] nums = {3, 2, 1, 5, 6, 4};
         int k = 2;
         System.out.println(findKthLargest(nums, k));
     }
@@ -25,7 +27,7 @@ public class Test_215 {
         return nums[target_index];
     }
 
-    public static int partition(int[] nums, int left, int right){
+    public static int partition(int[] nums, int left, int right) {
         int target = nums[right];
         int less = left - 1;
         int more = right;
@@ -34,7 +36,7 @@ public class Test_215 {
                 swap(nums, ++less, left++);
             } else if (nums[left] > target) {
                 swap(nums, --more, left);
-            }else {
+            } else {
                 left++;
             }
         }
@@ -42,9 +44,21 @@ public class Test_215 {
         return left;
     }
 
-    public static void swap(int[] nums, int i, int j){
+    public static void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    // 方法二：小根堆
+    public static int findKthLargest_1(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for (int num : nums) {
+            minHeap.offer(num);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+        return minHeap.peek();
     }
 }

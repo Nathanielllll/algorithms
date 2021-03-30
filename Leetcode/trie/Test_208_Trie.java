@@ -1,4 +1,4 @@
-package tree;
+package trie;
 
 public class Test_208_Trie {
     class Trie {

@@ -1,9 +1,6 @@
 package backtracking;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Test_140 {
     /*
@@ -28,43 +25,35 @@ public class Test_140 {
     https://leetcode-cn.com/problems/word-break-ii/solution/javadfsjian-zhi-xie-fa-lei-si-shang-yi-ge-dan-ci-c/
      */
 
-    List<String> ans;
-    //剪枝：这里用boolean[] cantBreak的cantBreak[start]标识以start作为下标的子串不能在接下去的DFS完成字符串匹配。
-    boolean[] cantBreak;
+    List<String> result;
+    Stack<String> stack;
 
     public List<String> wordBreak(String s, List<String> wordDict) {
-        HashSet<String> hashSet = new HashSet<>(wordDict);
-        Stack<String> stack = new Stack<>();
-        ans = new LinkedList<>();
-        cantBreak = new boolean[s.length()];
+        result = new ArrayList<>();
+        stack = new Stack<>();
 
-        backTracking(s, wordDict, stack, 0);
-        return ans;
+        backTracking(s, wordDict, 0);
+        return result;
     }
 
-    private void backTracking(String s, List<String> wordDict, Stack<String> stack, int pos){
-        int resCurLen = ans.size();
-
-        if (pos == s.length()) {
-            String sentence = "";
-            for(String word : stack){
-                sentence += word + " ";
-            }
-            ans.add(sentence.trim());
+    private void backTracking(String string, List<String> wordDict, int pos) {
+        if (pos == string.length()) {
+            String cur = String.join(" ", stack);
+            result.add(cur);
             return;
         }
 
-        if(cantBreak[pos]) return;
+        for (int i = 1; i <= string.length(); i++) {
+            if (pos + i > string.length()) {
+                break;
+            }
 
-        for (int i = 1; i <= s.length() && i + pos <= s.length(); i++) {
-            String segment = s.substring(pos, pos + i);
-
+            String segment = string.substring(pos, pos + i);
             if (wordDict.contains(segment)) {
                 stack.push(segment);
-                backTracking(s, wordDict, stack, pos + i);
+                backTracking(string, wordDict, pos + i);
                 stack.pop();
             }
         }
-        cantBreak[pos] = ans.size() <= resCurLen;
     }
 }

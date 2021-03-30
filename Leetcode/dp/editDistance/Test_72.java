@@ -51,11 +51,11 @@ public class Test_72 {
         int len2 = word2.length();
 
         int[][] dp = new int[len1 + 1][len2 + 1];
-        //第一行，是 word1 为空变成 word2 最少步数，就是插入操作
+        // 相当于对 word1 执行 i 次删除操作
         for (int i = 1; i <= len1; i++) {
             dp[i][0] = i;
         }
-        //第一列，是 word2 为空，需要的最少步数，就是删除操作
+        // 相当于对 word1执行 j 次插入操作
         for (int j = 0; j <= len2; j++) {
             dp[0][j] = j;
         }

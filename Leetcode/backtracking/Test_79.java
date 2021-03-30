@@ -19,21 +19,16 @@ package backtracking;
  * 给定 word = "ABCB", 返回 false.
  */
 public class Test_79 {
-    public boolean exist(char[][] board, String word) {
-        if (board == null || board.length < 1 || board[0].length < 1 ||
-                board.length * board[0].length < word.length()) {
-            return false;
-        }
+    int[] dx = {1, -1, 0, 0};
+    int[] dy = {0, 0, -1, 1};
 
+    public boolean exist(char[][] board, String word) {
         int rows = board.length;
         int cols = board[0].length;
-
-        boolean[][] used = new boolean[rows][cols];
-        int length = 0;
-
+        boolean[][] visited = new boolean[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (backTracking(board, rows, cols, i, j, used, word, length)) {
+                if (dfs(board, i, j, 0, word, visited)) {
                     return true;
                 }
             }
@@ -41,37 +36,25 @@ public class Test_79 {
         return false;
     }
 
-    public boolean backTracking(char[][] board, int rows, int cols, int row, int col,
-                                boolean[][] used, String word, int length) {
-
-        if (length == word.length()) {
+    private boolean dfs(char[][] board, int row, int col, int step, String word, boolean[][] visited) {
+        if (step == word.length()) {
             return true;
         }
+
         boolean result = false;
-        if (row >= 0 && row < rows && col >= 0 && col < cols
-                && !used[row][col] && word.charAt(length) == board[row][col]) {
-            used[row][col] = true;
-            length++;
-            result = backTracking(board, rows, cols, row + 1, col, used, word, length) ||
-                    backTracking(board, rows, cols, row - 1, col, used, word, length) ||
-                    backTracking(board, rows, cols, row, col + 1, used, word, length) ||
-                    backTracking(board, rows, cols, row, col - 1, used, word, length);
-            length--;
-            used[row][col] = false;
+        if (row >= 0 && row < board.length && col >= 0 && col < board[0].length
+                && !visited[row][col] && word.charAt(step) == board[row][col]) {
+            visited[row][col] = true;
+            step++;
+            for (int k = 0; k < 4; k++) {
+                int nextRow = dx[k] + row;
+                int nextCol = dy[k] + col;
+                result = result || dfs(board, nextRow, nextCol, step, word, visited);
+            }
+            step--;
+            visited[row][col] = false;
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        Test_79 solution = new Test_79();
-        char[][] board = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
-        String word = "ABCCED";
-        String word_1 = "SEE";
-        String word_2 = "ABCB";
-
-        System.out.println(solution.exist(board, word));
-        System.out.println(solution.exist(board, word_1));
-        System.out.println(solution.exist(board, word_2));
     }
 
 }

@@ -54,6 +54,19 @@ public class Test_17 {
             return;
         }
 
+        // 上面的逻辑相比：return放在判断pos的地方
+//        if (stack.size() == digits.length()) {
+//            StringBuilder cur = new StringBuilder();
+//            for (char ch : stack) {
+//                cur.append(ch);
+//            }
+//            result.add(cur.toString());
+//        }
+//
+//        if (pos >= digits.length()) {
+//            return;
+//        }
+
         String value = letterMap[digits.charAt(pos) - '0'];
         for (int i = 0; i < value.length() && stack.size() <= digits.length(); i++) {
             stack.push(value.charAt(i));

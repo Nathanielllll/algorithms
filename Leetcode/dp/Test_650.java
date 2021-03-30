@@ -20,13 +20,19 @@ Paste (粘贴) : 你可以粘贴你上一次复制的字符。
 
 1、质数次数为其本身。
 
-2、合数次数为将其分解到所有不能再分解的质数的操作次数的和。
+2、合数次数为将其分解到所有不能再分解的质数和。
+
+举例子：36 = 2 * 2 * 3 * 3  ===>  10
  */
 public class Test_650 {
-    public int minSteps(int n) {
+    public static void main(String[] args) {
+        System.out.println(minSteps(36));
+    }
+
+    public static int minSteps(int n) {
         int ans = 0;
         for (int i = 2; i <= n; i++) {
-            if (n % i == 0) {
+            while (n % i == 0) {
                 ans += i;
                 n /= i;
             }

@@ -10,7 +10,7 @@ package dp;
  * 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
  */
 public class Test_53 {
-    public int maxSubArray(int[] nums) {
+    public int maxSubArray_1(int[] nums) {
         int len = nums.length;
         int sum = nums[0];
         int max = nums[0];
@@ -24,5 +24,22 @@ public class Test_53 {
             max = Math.max(max, sum);
         }
         return max;
+    }
+
+    /*
+    sum(i,j) = sum(0,j) - sum(0,i)
+
+    我们只要记录前i总和最小值就可以了!
+     */
+    public int maxSubArray(int[] nums) {
+        int all_sum = 0;
+        int min_sum = 0;
+        int result = Integer.MIN_VALUE;
+        for(int num : nums){
+            all_sum += num;
+            result = Math.max(result, all_sum - min_sum);
+            min_sum = Math.min(min_sum, all_sum);
+        }
+        return result;
     }
 }

@@ -19,29 +19,22 @@ package twoPointers;
 /**假设会有重复的数字！！*/
 //这个不就是三数之和的简化版嘛？即15题
 public class Test_167_ATTENTION {
-    public static int[] twoSum(int[] numbers, int target) {
-        if (numbers == null || numbers.length < 2) {
-            return null;
-        }
-
-        int index1 = 0;
-        int index2 = numbers.length - 1;
-
-        while (index1 < index2) {
-            int sum = numbers[index1] + numbers[index2];
-            if (target < sum) {
-                while (index1 < index2 && numbers[index2] == numbers[--index2]) ;
-            } else if (target < sum) {
-                while (index1 < index2 && numbers[index1] == numbers[++index1]) ;
-            } else {
-                return new int[]{index1, index2};
+    public int[] twoSum(int[] numbers, int target) {
+        int left = 0;
+        int right = numbers.length - 1;
+        while (left < right) {
+            int sum = numbers[left] + numbers[right];
+            if (sum == target) {
+                return new int[]{left + 1, right + 1};
+            }else {
+                if (sum > target) {
+                    while(left < right && numbers[right] == numbers[--right]);
+                }else {
+                    while(left < right && numbers[left] == numbers[++left]);
+                }
             }
         }
-        return null;
-    }
-
-    public static void main(String[] args) {
-
+        return new int[]{-1, -1};
     }
 
 }

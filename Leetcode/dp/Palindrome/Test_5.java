@@ -1,4 +1,4 @@
-package string;
+package dp.Palindrome;
 
 
 /**
@@ -20,7 +20,55 @@ package string;
  * 使用中心扩散的方法，而不是马拉车算法
  */
 public class Test_5 {
-    public static String longestPalindrome(String string) {
+
+    public static void main(String[] args) {
+        System.out.println(longestPalindrome("babad"));
+    }
+
+    // dp i在前面，j在后面
+    public static String longestPalindrome(String s) {
+        int maxLen = 1;
+        int begin = 0;
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+
+        for (int j = 0; j < length; j++) {
+            for (int i = 0; i <= j; i++) {
+                if (s.charAt(i) == s.charAt(j) && (j - i <= 1 || dp[i + 1][j - 1])) {
+                    dp[i][j] = true;
+                }
+                if (dp[i][j] == true && j - i + 1 > maxLen) {
+                    begin = i;
+                    maxLen = j - i + 1;
+                }
+            }
+        }
+        return s.substring(begin, begin + maxLen);
+    }
+
+    // 中心扩散法1
+    public String longestPalindrome1(String s) {
+        // ababa 求最长公共子串
+        int len = s.length();
+        String result = "";
+
+        for (int i = 0; i < len * 2 - 1; i++) {
+            int left = i / 2;
+            int right = left + i % 2;
+            while (left >= 0 && right < len && s.charAt(left) == s.charAt(right)) {
+                String tmp = s.substring(left, right + 1);
+                if (tmp.length() > result.length()) {
+                    result = tmp;
+                }
+                left--;
+                right++;
+            }
+        }
+        return result;
+    }
+
+    // 中心扩散法2
+    public static String longestPalindrome2(String string) {
         if (string == null || string.length() < 1) {
             return null;
         }
@@ -55,10 +103,5 @@ public class Test_5 {
             right++;
         }
         return right - left - 1;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(longestPalindrome("babad"));
-        System.out.println(longestPalindrome("cbbd"));
     }
 }

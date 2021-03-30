@@ -6,7 +6,7 @@ https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/s
 
 我们想求的最终答案是 dp[n - 1][K][0]，即最后一天，最多允许 K 次交易，最多获得多少利润。
 
-1. 转移方程
+1. 转移方程。【注意】买进股票的时候，算一次交易；卖出股票的时候，不算交易的次数。
 dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
               max(   选择 rest  ,           选择 sell      )
 

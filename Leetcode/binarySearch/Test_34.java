@@ -19,57 +19,57 @@ import java.util.Arrays;
  * 输出: [-1,-1]
  */
 public class Test_34 {
-    public static int[] searchRange(int[] nums, int target) {
+    public int[] searchRange(int[] nums, int target) {
         if (nums == null || nums.length < 1) {
             return new int[] {-1, -1};
         }
         //求第一个
-        int first = searchFirst(nums, target, 0, nums.length-1);
+        int first = findFirst(nums, target);
+        if (first == -1) {
+            return new int[] {-1, -1};
+        }
         //求第二个
-        int last = searchLast(nums, target, 0, nums.length-1);
+        int last = findLast(nums, target);
         return new int[] {first, last};
     }
 
-    /**一定要注意细节，如while (start <= end)    0～nums.length-1*/
-    private static int searchFirst(int[] nums, int target, int start, int end) {
-        while (start <= end) {
-            int middle = (start + end) / 2;
-            if (nums[middle] < target) {
-                start = middle + 1;
-            } else if (nums[middle] > target) {
-                end = middle - 1;
-            } else {
-                if (middle > 0 && nums[middle] == nums[middle - 1]) {
-                    end = middle - 1;
-                } else if(middle == 0 || nums[middle] != nums[middle - 1]){
-                    return middle;
+    private int findFirst(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            }else {
+                if (mid == 0 || nums[mid - 1] != target) {
+                    return mid;
+                }else {
+                    right = mid - 1;
                 }
             }
         }
         return -1;
     }
 
-    private static int searchLast(int[] nums, int target, int start, int end) {
-        while (start <= end) {
-            int middle = (start + end) / 2;
-            if (nums[middle] < target) {
-                start = middle + 1;
-            } else if (nums[middle] > target) {
-                end = middle - 1;
-            } else {
-                if (middle < nums.length - 1 && nums[middle] == nums[middle + 1]) {
-                    start = middle + 1;
-                } else if(middle == nums.length - 1 || nums[middle] != nums[middle + 1]){
-                    return middle;
+    private int findLast(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            }else {
+                if (mid == nums.length - 1 || nums[mid + 1] != target) {
+                    return mid;
+                }else {
+                    left = mid + 1;
                 }
             }
         }
         return -1;
-    }
-
-    public static void main(String[] args) {
-        int[] nums = {5, 7, 7, 8, 8, 10};
-        int target = 18;
-        System.out.println(Arrays.toString(searchRange(null, 0)));
     }
 }

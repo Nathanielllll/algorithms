@@ -13,7 +13,7 @@ package backtracking;
 https://leetcode-cn.com/problems/sudoku-solver/solution/37-jie-shu-du-hui-su-sou-suo-suan-fa-xiang-jie-by-/
 
  */
-public class Test_37 {
+public class Test_37_ATTENTION {
     public void solveSudoku(char[][] board) {
         backtracking(board);
     }

@@ -40,4 +40,31 @@ public class Test_69 {
         }
         return -1;
     }
+
+    /**
+     * 注意了long，不然会出现越界的情况
+     * @param x
+     * @return
+     */
+    public static int mySqrt_1(int x) {
+        if (x == 0 || x == 1) {
+            return x;
+        }
+
+        long left = 0;
+        long right = x / 2 + 1;
+        while (left <= right) {
+            long mid = (left + right) >> 1;
+            if (x >= mid * mid) {
+                if (x < (mid + 1) * (mid + 1)) {
+                    return (int)mid;
+                }else {
+                    left = mid + 1;
+                }
+            }else {
+                right = mid - 1;
+            }
+        }
+        return -1;
+    }
 }

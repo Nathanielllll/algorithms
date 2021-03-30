@@ -6,8 +6,6 @@ package dp.longestCommonSubsequence;
  *
  * 若这两个字符串没有公共子序列，则返回 0。
  *
- *  
- *
  * 示例 1:
  *
  * 输入：text1 = "abcde", text2 = "ace"

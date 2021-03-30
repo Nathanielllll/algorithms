@@ -100,16 +100,6 @@ public class Test_721 {
         }
         return result;
     }
-
-
-    /**
-     * 使用dfs
-     * @param accounts
-     * @return
-     */
-//    public List<List<String>> accountsMerge_1(List<List<String>> accounts) {
-//
-//    }
 }
 
 

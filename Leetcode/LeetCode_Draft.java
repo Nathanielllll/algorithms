@@ -1,196 +1,50 @@
-import tree.Test_530;
-import tree.Test_95;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class LeetCode_Draft {
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+    /*
+    [0,t],[t+1,2t+1], 因此要num / (t + 1)。比如t==9，则每个桶的大小为10
+     */
 
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
+    private static long getId(long num, long t) {
+        return num >= 0 ? num / (t + 1) : (num + 1) / t;
     }
 
-
-//    public int maxPathSum(TreeNode root) {
-//
-//
-//    }
-
-//    public int numSimilarGroups(String[] strs) {
-//
-//    }
-
-    private int result;
-    public int maxPathSum(TreeNode root) {
-        result = Integer.MIN_VALUE;
-
-        helper(root);
-        return result;
-    }
-
-    private int helper(TreeNode root){
-        if(root == null) return 0;
-
-        int left = Math.max(0, helper(root.left));
-        int right = Math.max(0,  helper(root.right));
-
-        int sum = root.val + left + right;
-        result = Math.max(result, sum);
-        return sum;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    class UnionFind {
-        private int[] parents;
-        private int[] rank;
-
-        public UnionFind(int length) {
-            this.parents = new int[length];
-            for (int i = 0; i < length; i++) {
-                parents[i] = i;
-            }
-            this.rank = new int[length];
+    //在整数数组 nums 中，是否存在两个下标 i 和 j，使得nums [i] 和nums [j]的差的绝对值小于等于 t ，且满足 i 和 j 的差的绝对值也小于等于 ķ 。
+    public static boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t1) {
+        if (t1 < 0) {
+            return false;
         }
 
-        public boolean isSameRoot(int x, int y) {
-            return find(x) == find(y);
-        }
+        long t = (long) t1;
 
-        public int find(int x) {
-            if (x != parents[x]) {
-                parents[x] = find(parents[x]);
-            }
-            return parents[x];
-        }
+        // 桶的个数为k，因此只要在桶当中，必然是满足条件： i 和 j 的差的绝对值也小于等于 ķ
+        HashMap<Long, Long> bucket = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            long id = getId(nums[i], t);
 
-        public boolean union(int x, int y) {
-            int x_root = find(x);
-            int y_root = find(y);
-            if (x_root == y_root) {
-                return false;
-            } else {
-                if (rank[x_root] < rank[y_root]) {
-                    parents[x_root] = y_root;
-                } else if (rank[x_root] > rank[y_root]) {
-                    parents[y_root] = x_root;
-                } else {
-                    parents[x_root] = y_root;
-                    rank[y_root]++;
-                }
+            if (bucket.containsKey(id)) {
                 return true;
             }
-        }
-    }
 
-//    public static void main(String[] args) {
-//        LeetCode_Draft test = new LeetCode_Draft();
-//        int[][] grid = {{0, 1, 2, 3, 4}, {24, 23, 22, 21, 5}, {12, 13, 14, 15, 16}, {11, 17, 18, 19, 20}, {10, 9, 8, 7, 6}};
-//        System.out.println(test.swimInWater(grid));
-//    }
-
-    int[] dx = {0, 0, 1, -1};
-    int[] dy = {1, -1, 0, 0};
-    private int rows;
-    private int cols;
-
-    public int swimInWater(int[][] grid) {
-        rows = grid.length;
-        cols = grid[0].length;
-
-        // int[]{value, row, col}
-        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>(new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
+            if (bucket.containsKey(id - 1) && Math.abs(bucket.get(id - 1) - nums[i]) <= t) {
+                return true;
             }
-        });
 
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                priorityQueue.add(new int[]{grid[row][col], row, col});
+            if (bucket.containsKey(id + 1) && Math.abs(bucket.get(id + 1) - nums[i]) <= t) {
+                return true;
+            }
+
+
+            bucket.put(id, (long) nums[i]);
+            if (i >= k) {
+                bucket.remove(getId(nums[i - k], t));
             }
         }
-
-        UnionFind unionFind = new UnionFind(rows * cols + 1);
-        for (int i = 0; i < rows * cols; i++) {
-            int[] cur = priorityQueue.poll();
-            int value = cur[0];
-            int row = cur[1];
-            int col = cur[2];
-            int nodeIndex = nodeIndex(row, col);
-
-            for (int j = 0; j < 4; j++) {
-                int nextRow = row + dx[j];
-                int nextCol = col + dy[j];
-                if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols
-                        && value >= grid[nextRow][nextCol]) {
-                    int nextNodeIndex = nodeIndex(nextRow, nextCol);
-                    unionFind.union(nodeIndex, nextNodeIndex);
-                }
-            }
-
-            if (unionFind.isSameRoot(0, nodeIndex(rows - 1, cols - 1))) {
-                return value;
-            }
-        }
-        return -1;
+        return false;
     }
 
-    private int nodeIndex(int row, int col) {
-        return row * cols + col;
-    }
+
 }

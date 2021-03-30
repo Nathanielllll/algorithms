@@ -25,8 +25,6 @@ public class Test_234 {
     }
 
     public boolean isPalindrome(ListNode head) {
-
-
         ListNode fast = head;
         ListNode slow = head;
 
