@@ -65,7 +65,6 @@ public class Test_146_LRU {
 
         //先写put，再写get
         public void put(int key, int value){
-            Node node = new Node(key, value);
             if(cache.containsKey(key)){
                 //删除list当中的key对应的原来的node
                 Node original_node = cache.get(key);
@@ -79,6 +78,7 @@ public class Test_146_LRU {
                 }
             }
 
+            Node node = new Node(key, value);
             cache.put(key, node);
             list.addFirst(node);
         }

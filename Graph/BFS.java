@@ -30,17 +30,17 @@ public class BFS {
             return;
         }
         Queue<GraphNode> queue = new LinkedList<>();
-        HashSet<GraphNode> set = new HashSet<>();//不让一个节点重复进队列的检查机制
+        HashSet<GraphNode> visited = new HashSet<>();//不让一个节点重复进队列的检查机制
         queue.add(node);
-        set.add(node);
+        visited.add(node);
 
         while (!queue.isEmpty()) {
             GraphNode cur = queue.poll();
             System.out.println(cur.value);
 
             for (GraphNode next : cur.nexts) {
-                if (!set.contains(next)) {
-                    set.add(next);
+                if (!visited.contains(next)) {
+                    visited.add(next);
                     queue.add(next);
                 }
             }

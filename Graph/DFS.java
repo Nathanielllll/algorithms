@@ -23,30 +23,30 @@ public class DFS {
             return;
         }
         Stack<GraphNode> stack = new Stack<>();
-        HashSet<GraphNode> set = new HashSet<>();
+        HashSet<GraphNode> visited = new HashSet<>();
         stack.push(node);
-        set.add(node);
+        visited.add(node);
 
         while (!stack.isEmpty()) {
             GraphNode cur = stack.pop();
             System.out.println(cur.value);
 
             for (GraphNode next : cur.nexts) {
-                if (!set.contains(next)) {
+                if (!visited.contains(next)) {
                     stack.push(next);
-                    set.add(next);
+                    visited.add(next);
                 }
             }
         }
     }
 
 
-    static HashSet<GraphNode> set;
+    static HashSet<GraphNode> visited;
     public static void dfs_1(GraphNode node) {
         if (node == null) {
             return;
         }
-        set = new HashSet<>();
+        visited = new HashSet<>();
 
         helper(node);
     }
@@ -56,10 +56,10 @@ public class DFS {
             return;
         }
 
-        set.add(node);
+        visited.add(node);
         System.out.println(node.value);
         for(GraphNode next : node.nexts){
-            if (!set.contains(next)) {
+            if (!visited.contains(next)) {
                 helper(next);
             }
         }

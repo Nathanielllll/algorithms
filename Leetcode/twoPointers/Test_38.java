@@ -1,8 +1,8 @@
-package string;
+package twoPointers;
 
 public class Test_38 {
     /*
-    给定一个正整数 n（1 ≤ n ≤ 30），输出外观数列的第 n 项。
+    给定一个正整数 n（1 ≤n≤ 30），输出外观数列的第 n 项。
 
     注意：整数序列中的每一项将表示为一个字符串。
 
@@ -24,31 +24,22 @@ public class Test_38 {
     描述前一项，这个数是 1211 即 “一个 1 一个 2 两个 1 ” ，记作 111221
      */
 
-    public String countAndSay(int n) {
-        if (n == 1) {
-            return "1";
-        }
-
-        String s = "1";
-        for (int i = 1; i < n; i++) {
-            String res = "";
-
+    public static String countAndSay(int n) {
+        String string = "1";
+        for (int i = 2; i <= n; i++) {
+            StringBuffer stringBuffer = new StringBuffer();
             int start = 0;
             int end = 0;
-            while (end < s.length()) {
-                while(end < s.length() && s.charAt(start) == s.charAt(end)){
+            while (end < string.length()) {
+                while (end < string.length() && string.charAt(start) == string.charAt(end)) {
                     end++;
                 }
-                res += (end - start) + s.substring(start, start + 1);
+                stringBuffer.append(end - start);
+                stringBuffer.append(string.charAt(start));
                 start = end;
             }
-            s = res;
+            string = stringBuffer.toString();
         }
-        return s;
-    }
-
-    public static void main(String[] args) {
-        Test_38 test = new Test_38();
-        System.out.println(test.countAndSay(6));
+        return string;
     }
 }

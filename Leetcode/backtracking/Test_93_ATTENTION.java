@@ -48,16 +48,20 @@ public class Test_93_ATTENTION {
             }
             // 将 s 的子串开始分段
             String segment = s.substring(pos, pos + i);
-            // 剪枝条件：段的起始位置不能为 0，段拆箱成 int 类型的长度不能大于 255
-            if (segment.startsWith("0") && segment.length() > 1 || (i == 3 && Integer.parseInt(segment) > 255)) {
-                continue;
+
+            if (require(segment)) {
+                stack.push(segment);
+                backTracking(s, pos + i, stack, ans);
+                stack.pop();
             }
-            // 符合要求就加入到 cur 数组中
-            stack.push(segment);
-            // 继续递归遍历下一个位置
-            backTracking(s, pos + i, stack, ans);
-            // 回退到上一个元素，即回溯
-            stack.pop();
         }
+    }
+
+    // 剪枝条件：段的起始位置不能为 0，段拆箱成 int 类型的长度不能大于 255
+    private static boolean require(String str){
+        if (str.startsWith("0") && str.length() > 1) {
+            return false;
+        }
+        return str.compareTo("0") >= 0 && Integer.parseInt(str) <= 255;
     }
 }

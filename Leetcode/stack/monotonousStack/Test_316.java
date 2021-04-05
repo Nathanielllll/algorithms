@@ -20,7 +20,12 @@ import java.util.Stack;
 
  */
 public class Test_316 {
-    public String removeDuplicateLetters(String s) {
+    public static void main(String[] args) {
+        String str = "cbacdcbc";
+        System.out.println(removeDuplicateLetters(str));
+    }
+
+    public static String removeDuplicateLetters(String s) {
         Stack<Character> stack = new Stack<>(); // 单调栈，存放字符
         char[] charArray = s.toCharArray();
         boolean[] visited = new boolean[26]; // 记录该字符是否在单调栈当中

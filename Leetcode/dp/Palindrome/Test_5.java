@@ -36,10 +36,10 @@ public class Test_5 {
             for (int i = 0; i <= j; i++) {
                 if (s.charAt(i) == s.charAt(j) && (j - i <= 1 || dp[i + 1][j - 1])) {
                     dp[i][j] = true;
-                }
-                if (dp[i][j] == true && j - i + 1 > maxLen) {
-                    begin = i;
-                    maxLen = j - i + 1;
+                    if (j - i + 1 > maxLen) {
+                        begin = i;
+                        maxLen = j - i + 1;
+                    }
                 }
             }
         }
