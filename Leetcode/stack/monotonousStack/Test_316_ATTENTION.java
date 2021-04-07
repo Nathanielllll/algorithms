@@ -19,35 +19,36 @@ import java.util.Stack;
 
 
  */
-public class Test_316 {
+public class Test_316_ATTENTION {
     public static void main(String[] args) {
         String str = "cbacdcbc";
         System.out.println(removeDuplicateLetters(str));
     }
 
     public static String removeDuplicateLetters(String s) {
-        Stack<Character> stack = new Stack<>(); // 单调栈，存放字符
-        char[] charArray = s.toCharArray();
-        boolean[] visited = new boolean[26]; // 记录该字符是否在单调栈当中
-        int[] lastIndex = new int[26]; // 存放该字符最后出现的位置
-        for (int i = 0; i < charArray.length; i++) {
-            int index = charArray[i] - 'a';
-            lastIndex[index] = i;
+        HashMap<Character, Integer> lastIndex = new HashMap<>();
+        HashMap<Character, Boolean> visited = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            lastIndex.put(s.charAt(i), i);
+            visited.put(s.charAt(i), false);
         }
 
-        for (int i = 0; i < charArray.length; i++) {
-            if(visited[charArray[i] - 'a']){
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (visited.get(ch)) {
                 continue;
             }
 
-            while(!stack.isEmpty() && stack.peek() > charArray[i] && lastIndex[stack.peek() - 'a'] > i){
-                char c = stack.pop();
-                visited[c - 'a'] = false;
+            while (!stack.isEmpty() && stack.peek() > ch && lastIndex.get(stack.peek()) > i) {
+                visited.put(stack.pop(), false);
             }
 
-            stack.push(charArray[i]);
-            visited[charArray[i] - 'a'] = true;
+            stack.push(ch);
+            visited.put(ch, true);
         }
+
         StringBuffer resultBuffer = new StringBuffer();
         for(char c : stack){
             resultBuffer.append(c);

@@ -137,13 +137,6 @@ public class LeetCode_Draft {
         return result;
     }
 
-    public static void main(String[] args) {
-        Integer[][] matrix = {{7, 0, 1}, {3, 1, 2}, {5, 0, 2},
-                {3, 2, 3}, {4, 2, 4}, {1, 4, 5}, {2, 4, 6}, {3, 5, 7}};
-        Graph graph = GraphGenerator.createGraph(matrix);
-        dfs(graph.nodes.get(2));
-    }
-
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         List<List<Integer>> graph = new ArrayList<>();
         for (int i = 0; i < numCourses; i++) {
@@ -179,6 +172,73 @@ public class LeetCode_Draft {
             }
         }
         return index == numCourses;
+    }
+
+    static class HeapSort {
+        // 大顶堆用来升序排序
+        public void heapSort(int[] nums) {
+            build_heap(nums, nums.length);
+
+            for (int i = nums.length - 1; i >= 0; i--) {
+                swap(nums, 0, i);
+                heapify(nums, i, 0);
+            }
+        }
+
+
+        // 大顶堆
+        public void build_heap(int[] nums, int length) {
+            int last_index = length - 1;
+            int last_parent_index = (last_index - 1) / 2;
+            for (int i = last_parent_index; i >= 0; i--) {
+                heapify(nums, length, i);
+            }
+        }
+
+
+        private void heapify(int[] nums, int length, int index) {
+            if (index > length) {
+                return;
+            }
+            int left_index = index * 2 + 1;
+            int right_index = index * 2 + 2;
+            int max_index = index;
+            if (left_index < length && nums[left_index] > nums[max_index]) {
+                max_index = left_index;
+            }
+
+            if (right_index < length && nums[right_index] > nums[max_index]) {
+                max_index = right_index;
+            }
+
+            if (index != max_index) {
+                swap(nums, index, max_index);
+                heapify(nums, length, max_index);
+            }
+        }
+
+        private void swap(int[] nums, int i, int j) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        HashSet<Integer> hashSet = new HashSet<>();
+        hashSet.add(21);
+        hashSet.add(3);
+        hashSet.add(5);
+        hashSet.add(2);
+        hashSet.add(6);
+        hashSet.add(10);
+
+
+        for (int num : hashSet) {
+            System.out.print((num & 15) + " ");
+            System.out.println(num);
+        }
     }
 
 

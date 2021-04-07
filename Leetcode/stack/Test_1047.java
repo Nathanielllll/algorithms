@@ -10,16 +10,17 @@ public class Test_1047 {
     public static String removeDuplicates(String S) {
         Stack<Character> stack = new Stack<>();
         for (int i = 0; i < S.length(); i++) {
-            if (!stack.isEmpty() && S.charAt(i) == stack.peek()) {
+            char ch = S.charAt(i);
+            if (stack.isEmpty() || stack.peek() != ch) {
+                stack.push(ch);
+            } else {
                 stack.pop();
-                continue;
             }
-            stack.push(S.charAt(i));
         }
-        StringBuffer res = new StringBuffer();
-        for(Character c : stack){
-            res.append(c);
+        StringBuffer resultBuffer = new StringBuffer();
+        for (char ch : stack) {
+            resultBuffer.append(ch);
         }
-        return res.toString();
+        return resultBuffer.toString();
     }
 }

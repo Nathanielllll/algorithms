@@ -3,12 +3,12 @@ import java.util.HashMap;
 public class Test_146_LRU {
 
     static class Node{
-        int k, v;
+        int key, value;
         Node prev, next;
 
-        public Node(int k, int v) {
-            this.k = k;
-            this.v = v;
+        public Node(int key, int value) {
+            this.key = key;
+            this.value = value;
         }
     }
 
@@ -74,7 +74,7 @@ public class Test_146_LRU {
                     Node last = list.removeLast();
                     //如果没有这个key，为啥还要删除？？？
                     //因为删除的是原来的list的最后节点！！
-                    cache.remove(last.k);
+                    cache.remove(last.key);
                 }
             }
 
@@ -87,7 +87,7 @@ public class Test_146_LRU {
             if (!cache.containsKey(key)) {
                 return -1;
             }
-            int value = cache.get(key).v;
+            int value = cache.get(key).value;
             put(key, value);
             return value;
         }
