@@ -10,13 +10,15 @@ public class QuickSort {
             // 加上这个，说明是随机快排。start~end中位置随机选一个，然后和end交换
             swap(nums, start + (int) (Math.random() * (end - start + 1)), end);
 
-            int index = partition(nums, start, end);
-            quickSort(nums, start, index - 1);
-            quickSort(nums, index + 1, end);
+            int[] indexes = partition(nums, start, end);
+            quickSort(nums, start, indexes[0] - 1);
+            quickSort(nums, indexes[1] + 1, end);
         }
     }
 
-    public int partition(int[] nums, int left, int right) {
+    // less 表示<= nums[right]的区域，
+    // more 表示 > nums[right]的区域
+    public int[] partition(int[] nums, int left, int right) {
         int less = left - 1;
         int more = right;
 
@@ -30,8 +32,10 @@ public class QuickSort {
                 left++;
             }
         }
-        swap(nums, left, right);
-        return left;
+        // 把第一个> nums[right]的位置（more）和right位置交换
+        swap(nums, more, right);
+        // 此时 less+1是第一个== nums[right]的位置；more是最后一个 == nums[right]的位置
+        return new int[]{less + 1, more};
     }
 
     public void swap(int[] nums, int i, int j) {
