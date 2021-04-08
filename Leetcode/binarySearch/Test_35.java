@@ -9,7 +9,7 @@ package binarySearch;
  *
  * 输入: [1,3,5,6], 5
  * 输出: 2
- * 示例 2:
+ * 示例2:
  *
  * 输入: [1,3,5,6], 2
  * 输出: 1
@@ -23,7 +23,28 @@ package binarySearch;
  * 输出: 0
  */
 public class Test_35 {
+    // 问题等同于：找到第一个>=target的位置。
+    // 因此isBlue的条件是<target，并且只要返回right即可
     public static int searchInsert(int[] nums, int target) {
+        if (nums == null || nums.length <= 0) {
+            return -1;
+        }
+        int left = -1;
+        int right = nums.length;
+        while (left + 1 != right) {
+            int mid = (left + right) >> 1;
+            if (nums[mid] < target) {
+                left = mid;
+            } else {
+                right = mid;
+            }
+        }
+        return right;
+    }
+
+
+
+    public static int searchInsert_1(int[] nums, int target) {
         if (nums == null || nums.length <= 0) {
             return -1;
         }

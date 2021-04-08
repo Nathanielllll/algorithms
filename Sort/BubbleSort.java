@@ -1,12 +1,12 @@
 public class BubbleSort {
     public static int[] bubbleSort(int[] nums) {
-        if (nums.length == 0){
+        if (nums.length == 0) {
             return nums;
         }
 
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = 0; j < nums.length - 1 - i; j++) {
-                if(nums[j] > nums[j + 1]){
+        for (int i = nums.length - 1; i >= 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] > nums[j + 1]) {
                     swap(nums, j, j + 1);
                 }
             }
@@ -14,9 +14,14 @@ public class BubbleSort {
         return nums;
     }
 
-    public static void swap(int[] nums, int i, int j){
+    public static void swap(int[] nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1,3,7,3,2,5,9,10};
+        bubbleSort(nums);
     }
 }

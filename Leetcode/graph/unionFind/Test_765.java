@@ -30,6 +30,72 @@ public class Test_765 {
         System.out.println(minSwapsCouples_2(row));
     }
 
+    // 并查集
+    public static int minSwapsCouples(int[] row) {
+        int length = row.length / 2;
+        UnionFind unionFind = new UnionFind(length);
+        for (int i = 0; i < row.length; i += 2) {
+            // 如果row[i] / 2, row[i + 1] / 2可以计算出row[i]和row[i + 1]的root
+            // 如果他们不是属于同一个root，就会union到一起，也就是会交换一次位置
+            unionFind.union(row[i] / 2, row[i + 1] / 2);
+        }
+        return unionFind.getCount();
+    }
+
+    static class UnionFind {
+        private int[] parent;
+        private int count;
+        private int[] rank;
+
+        public UnionFind(int length) {
+            this.parent = new int[length];
+            this.count = 0;
+            this.rank = new int[length];
+
+            for (int i = 0; i < length; i++) {
+                parent[i] = i;
+            }
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public int find(int x) {
+            if (x != parent[x]) {
+                parent[x] = find(parent[x]);
+            }
+            return parent[x];
+        }
+
+        public void union(int x, int y) {
+            int x_root = find(x);
+            int y_root = find(y);
+            if (x_root == y_root) {
+                return;
+            }
+
+            if (rank[x_root] < rank[y_root]) {
+                parent[x_root] = y_root;
+            } else if (rank[y_root] < rank[x_root]) {
+                parent[y_root] = x_root;
+            } else {
+                parent[x_root] = y_root;
+                rank[y_root]++;
+            }
+            count++;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     /**
      * 贪心算法
      *
@@ -83,58 +149,5 @@ public class Test_765 {
         nums[j] = temp;
     }
 
-    // 并查集
-    public static int minSwapsCouples(int[] row) {
-        int length = row.length / 2;
-        UnionFind unionFind = new UnionFind(length);
-        for (int i = 0; i < row.length; i += 2) {
-            unionFind.union(row[i] / 2, row[i + 1] / 2);
-        }
-        return length - unionFind.getCount();
-    }
 
-    static class UnionFind {
-        private int[] parent;
-        private int count;
-        private int[] rank;
-
-        public UnionFind(int length) {
-            this.parent = new int[length];
-            this.count = length;
-            this.rank = new int[length];
-
-            for (int i = 0; i < length; i++) {
-                parent[i] = i;
-            }
-        }
-
-        public int getCount() {
-            return count;
-        }
-
-        public int find(int x) {
-            if (x != parent[x]) {
-                parent[x] = find(parent[x]);
-            }
-            return parent[x];
-        }
-
-        public void union(int x, int y) {
-            int x_root = find(x);
-            int y_root = find(y);
-            if (x_root == y_root) {
-                return;
-            }
-
-            if (rank[x_root] < rank[y_root]) {
-                parent[x_root] = y_root;
-            } else if (rank[y_root] < rank[x_root]) {
-                parent[y_root] = x_root;
-            } else {
-                parent[x_root] = y_root;
-                rank[y_root]++;
-            }
-            count--;
-        }
-    }
 }

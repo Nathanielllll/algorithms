@@ -1,0 +1,14 @@
+在升序的数组中，二分查找的框架：
+left = -1, right = N
+while left + 1 != right
+    m = (left + right) / 2
+    if isBlue(m)
+        left = m
+    else
+        right = m
+return left of right
+
+1. 找到第一个 >=5 的元素，isBlue的条件是 <5，返回right
+2. 找到最后一个 <5 的元素，isBlue的条件是 <5，返回left
+3. 找到第一个 >5 的元素，isBlue的条件是 <=5，返回right
+4. 找到最后一个 <=5 的元素，isBlue的条件是 <=5，返回left

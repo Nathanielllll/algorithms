@@ -24,49 +24,84 @@ import java.util.HashSet;
 输出：1
  */
 public class Test_839 {
-    int[] parents;
+    class UnionFind {
+        private int[] parents;
+        private int[] rank;
 
-    public int numSimilarGroups(String[] strs) {
-        int length = strs.length;
-        parents = new int[length];
-        for (int i = 0; i < length; i++) {
-            parents[i] = i;
+        public UnionFind(int length) {
+            this.parents = new int[length];
+            for (int i = 0; i < length; i++) {
+                parents[i] = i;
+            }
+            this.rank = new int[length];
         }
-        for (int i = 0; i < length; i++) {
-            for (int j = i + 1; j < length; j++) {
-                int fi = find(i), fj = find(j);
-                if (fi == fj) {
-                    continue;
+
+        public boolean isSameRoot(int x, int y) {
+            return find(x) == find(y);
+        }
+
+        public int find(int x) {
+            if (x != parents[x]) {
+                parents[x] = find(parents[x]);
+            }
+            return parents[x];
+        }
+
+        public boolean union(int x, int y) {
+            int x_root = find(x);
+            int y_root = find(y);
+            if (x_root == y_root) {
+                return false;
+            } else {
+                if (rank[x_root] < rank[y_root]) {
+                    parents[x_root] = y_root;
+                } else if (rank[x_root] > rank[y_root]) {
+                    parents[y_root] = x_root;
+                } else {
+                    parents[x_root] = y_root;
+                    rank[y_root]++;
                 }
-                if (check(strs[i], strs[j])) {
-                    parents[fi] = fj;
-                }
+                return true;
             }
         }
-        int ret = 0;
-        for (int i = 0; i < length; i++) {
-            if (parents[i] == i) {
-                ret++;
-            }
-        }
-        return ret;
     }
 
-    public int find(int x) {
-        return parents[x] == x ? x : (parents[x] = find(parents[x]));
-    }
-
-    public boolean check(String a, String b) {
+    public boolean isSimilar(String a, String b) {
         int len = a.length();
         int num = 0;
         for (int i = 0; i < len; i++) {
             if (a.charAt(i) != b.charAt(i)) {
                 num++;
-                if (num > 2) {
-                    return false;
-                }
+            }
+            if (num > 2) {
+                return false;
             }
         }
         return true;
+    }
+
+    public int numSimilarGroups(String[] strs) {
+        UnionFind unionFind = new UnionFind(strs.length);
+
+        for (int i = 0; i < strs.length; i++) {
+            for (int j = i + 1; j < strs.length; j++) {
+                if (unionFind.find(i) == unionFind.find(j)) {
+                    continue;
+                }
+                String str1 = strs[i];
+                String str2 = strs[j];
+                if (isSimilar(str1, str2)) {
+                    unionFind.union(i, j);
+                }
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < unionFind.parents.length; i++) {
+            if (unionFind.parents[i] == i) {
+                count++;
+            }
+        }
+        return count;
     }
 }
