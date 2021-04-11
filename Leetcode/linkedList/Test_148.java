@@ -14,7 +14,7 @@ package linkedList;
  * <p>
  */
 public class Test_148 {
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
 
@@ -29,6 +29,7 @@ public class Test_148 {
             return head;
         }
 
+        // 如果是fast = head，在fast长度为2的时候，递归后长度始终为2，不能再分，因此导致栈溢出
         ListNode fast = head.next, slow = head;
         while (true) {
             if (fast == null || fast.next == null) {
@@ -40,23 +41,27 @@ public class Test_148 {
 
         ListNode next = slow.next;
         slow.next = null;
+
         ListNode left = sortList(head);
         ListNode right = sortList(next);
 
-        ListNode dummy = new ListNode(-1);
-        ListNode cur = dummy;
-        while (left != null && right != null) {
-            if (left.val < right.val) {
-                cur.next = new ListNode(left.val);
-                left = left.next;
-            }else {
-                cur.next = new ListNode(right.val);
-                right = right.next;
-            }
-            cur = cur.next;
-        }
+        return mergeTwoLists(left, right);
+    }
 
-        cur.next = left != null ? left : right;
-        return dummy.next;
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        // 递归
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        if (l1.val <= l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
     }
 }

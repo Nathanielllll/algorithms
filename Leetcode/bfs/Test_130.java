@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /*
-给定一个二维的矩阵，包含 'X' 和 'O'（字母 O）。
+给定一个二维的矩阵，包含'X'和'O'（字母 O）。
 
-找到所有被 'X' 围绕的区域，并将这些区域里所有的 'O' 用 'X' 填充。
+找到所有被 'X' 围绕的区域，并将这些区域里所有的'O' 用 'X' 填充。
 
 示例:
 
@@ -36,7 +36,6 @@ public class Test_130 {
         if (board == null || board.length == 0) return;
         int rows = board.length;
         int cols = board[0].length;
-
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {

@@ -1,11 +1,11 @@
-package dfs;
+package graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class Test_332 {
+public class Test_332_ATTENTION {
     public List<String> findItinerary(List<List<String>> tickets) {
         List<String> result = new ArrayList<>();
         if (tickets == null || tickets.size() == 0) {

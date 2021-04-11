@@ -14,7 +14,7 @@ package dfs;
   [2,1,1]
 ]
 输出: 4
-解释: 最长递增路径为 [1, 2, 6, 9]。
+解释: 最长递增路径为[1, 2, 6, 9]。
 示例 2:
 
 输入: nums =
@@ -24,7 +24,7 @@ package dfs;
   [2,2,1]
 ]
 输出: 4
-解释: 最长递增路径是 [3, 4, 5, 6]。注意不允许在对角线方向上移动。
+解释: 最长递增路径是[3, 4, 5, 6]。注意不允许在对角线方向上移动。
 
  */
 public class Test_329 {
@@ -37,6 +37,7 @@ public class Test_329 {
         }
         int rows = matrix.length;
         int cols = matrix[0].length;
+        // memo表示从当前位置【出发】，最长的长度
         int[][] memo = new int[rows][cols];
 
         int maxLength = 0;

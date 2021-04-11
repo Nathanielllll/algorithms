@@ -23,19 +23,19 @@ public class Test_19 {
     public ListNode removeNthFromEnd(ListNode head, int n){
         ListNode dummy = new ListNode(0);
         dummy.next = head;
-        ListNode first = dummy;
-        ListNode second = dummy;
+        ListNode fast = dummy;
+        ListNode slow = dummy;
         // Advances first pointer so that the gap between first and second is n nodes apart
         //先走了n+1步
         for (int i = 1; i <= n + 1; i++) {
-            first = first.next;
+            fast = fast.next;
         }
         // Move first to the end, maintaining the gap
-        while (first != null) {
-            first = first.next;
-            second = second.next;
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
         }
-        second.next = second.next.next;
+        slow.next = slow.next.next;
         return dummy.next;
     }
 }

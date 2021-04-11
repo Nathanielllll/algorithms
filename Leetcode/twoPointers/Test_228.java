@@ -10,12 +10,12 @@ import java.util.List;
  * <p>
  * 输入: [0,1,2,4,5,7]
  * 输出: ["0->2","4->5","7"]
- * 解释: 0,1,2 可组成一个连续的区间; 4,5 可组成一个连续的区间。
+ * 解释: 0,1,2 可组成一个连续的区间;4,5 可组成一个连续的区间。
  * 示例 2:
  * <p>
  * 输入: [0,2,3,4,6,8,9]
  * 输出: ["0","2->4","6","8->9"]
- * 解释: 2,3,4 可组成一个连续的区间; 8,9 可组成一个连续的区间。
+ * 解释: 2,3,4 可组成一个连续的区间;8,9 可组成一个连续的区间。
  */
 public class Test_228 {
     public static List<String> summaryRanges(int[] nums) {
@@ -26,17 +26,16 @@ public class Test_228 {
             while (right < nums.length - 1 && nums[right] + 1 == nums[right + 1]) {
                 right++;
             }
+            String string;
             if (left != right) {
-                String string = nums[left] + "->" + nums[right];
-                result.add(string);
+                string = nums[left] + "->" + nums[right];
             } else {
-                String string = nums[left] + "";
-                result.add(string);
+                string = nums[left] + "";
             }
+            result.add(string);
 
             right++;
             left = right;
-
         }
         return result;
     }

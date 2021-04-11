@@ -29,8 +29,7 @@ public class Test_138 {
         HashMap<Node, Node> hashMap = new HashMap<>();
         Node cur = head;
         while (cur != null) {
-            Node cur_Node = new Node(cur.val);
-            hashMap.put(cur, cur_Node);
+            hashMap.put(cur, new Node(cur.val));
             cur = cur.next;
         }
         cur = head;

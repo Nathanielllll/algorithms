@@ -63,48 +63,33 @@ public class Test_92 {
     }
 
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        if (head == null) {
-            return null;
-        }
-        if (m < 0 || n < 0 || m > n) {
-            throw new RuntimeException("invalid input");
-        }
-
         ListNode dummy = new ListNode(-1);
         dummy.next = head;
 
-        ListNode pre = dummy;
-        ListNode end = dummy;
-        int i = 0;
-        while (i < m - 1) {
-            i++;
+        ListNode pre = dummy, p2 = dummy;
+        for (int i = 0; i < m - 1; i++) {
             pre = pre.next;
-            end = end.next;
         }
-
-        while (i < n) {
-            i++;
-            end = end.next;
+        ListNode p1 = pre.next;
+        for (int i = 0; i < n; i++) {
+            p2 = p2.next;
         }
-
-        ListNode start = pre.next;
-        ListNode next = end.next;
-
-        end.next = null;
-        pre.next = reverse(start);
-        start.next = next;
+        ListNode next = p2.next;
+        p2.next = null;
+        pre.next = reverse(p1);
+        p1.next = next;
 
         return dummy.next;
     }
 
-    public ListNode reverse(ListNode head){
+    private ListNode reverse(ListNode node){
         ListNode next = null;
         ListNode pre = null;
-        while (head != null) {
-            next = head.next;
-            head.next = pre;
-            pre = head;
-            head = next;
+        while (node != null) {
+            next = node.next;
+            node.next = pre;
+            pre = node;
+            node = next;
         }
         return pre;
     }

@@ -58,51 +58,49 @@ public class Test_695 {
         return count;
     }
 
-    int[] dx = {-1, 1, 0, 0};
-    int[] dy = {0, 0, -1, 1};
 
-    private class Point {
-        int row;
-        int col;
-
-        public Point(int row, int col) {
-            this.row = row;
-            this.col = col;
+    //=====================================bfs==============================
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
+    public static int maxAreaOfIsland_1(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return 0;
         }
-    }
 
-    public int maxAreaOfIsland_1(int[][] grid) {
-        int res = 0;
-        int rows = grid.length;
-        int cols = grid[0].length;
-        boolean[][] used = new boolean[rows][cols];
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int result = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 1) {
-                    res = Math.max(res, bfs(grid, i, j, used));
+                if (matrix[i][j] == 1) {
+                    matrix[i][j] = 0;
+                    Queue<int[]> queue = new LinkedList<>();
+                    queue.add(new int[]{i, j});
+                    result = Math.max(result, bfs(matrix, rows, cols, queue));
                 }
             }
         }
-        return res;
+        return result;
     }
 
-    private int bfs(int[][] grid, int i, int j, boolean[][] used){
-        int count = 0;
-        Queue<Point> queue = new LinkedList<>();
-        queue.add(new Point(i, j));
+    public static int bfs(int[][] matrix, int rows, int cols, Queue<int[]> queue) {
+        int area = 1;
         while (!queue.isEmpty()) {
-            Point temp = queue.poll();
-            int row = temp.row;
-            int col = temp.col;
-            if(row >= 0 && row < grid.length && col >= 0 && col < grid[0].length
-                && !used[row][col] && grid[row][col] == 1){
-                used[row][col] = true;
-                count++;
+            int cnt = queue.size();
+            for (int i = 0; i < cnt; i++) {
+                int[] poll = queue.poll();
                 for (int k = 0; k < 4; k++) {
-                    queue.add(new Point(row + dx[k], col + dy[k]));
+                    int nextRow = poll[0] + dx[k];
+                    int nextCol = poll[1] + dy[k];
+                    if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols
+                            && matrix[nextRow][nextCol] == 1) {
+                        matrix[nextRow][nextCol] = 0;
+                        queue.add(new int[]{nextRow, nextCol});
+                        area++;
+                    }
                 }
             }
         }
-        return count;
+        return area;
     }
 }

@@ -13,7 +13,8 @@ s = "abpcplea", d = ["ale","apple","monkey","plea"]
 
 输出:
 "apple"
-示例 2:
+
+示例2:
 
 输入:
 s = "abpcplea", d = ["a","b","c"]

@@ -29,72 +29,50 @@ public class Test_542 {
     }
 
 
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, -1, 0, 1};
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
 
-    static class Pair{
-        int row;
-        int col;
-
-        public Pair(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
     public static int[][] updateMatrix(int[][] matrix) {
         if (matrix == null || matrix.length == 0) {
-            return new int[][]{};
+            return matrix;
         }
+
         int rows = matrix.length;
         int cols = matrix[0].length;
         int[][] res = new int[rows][cols];
-
-        HashSet<Pair> visited;
-        Queue<Pair> queue;
-
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (matrix[i][j] == 1) {
-                    visited = new HashSet<>();
-                    queue = new LinkedList<>();
-                    //bfs
-                    int min = bfs(matrix, i, j, visited, queue);
-                    res[i][j] = min;
+                    Queue<int[]> queue = new LinkedList<>();
+                    queue.add(new int[]{i, j});
+                    res[i][j] = bfs(matrix, i, j, rows, cols, queue);
                 }
             }
         }
         return res;
     }
 
-    public static int bfs(int[][] matrix, int row, int col,
-                          HashSet<Pair> visited, Queue<Pair> queue){
-        visited.add(new Pair(row, col));
-        queue.add(new Pair(row, col));
-
-        int step = 0;
+    public static int bfs(int[][] matrix, int row, int col, int rows, int cols, Queue<int[]> queue) {
+        int length = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = size - 1; i >= 0; i--) {
-                Pair pair = queue.poll();
-                int r = pair.row;
-                int c = pair.col;
-                for (int j = 0; j < 4; j++) {
-                    int nextRow = r + dx[j];
-                    int nextCol = c + dy[j];
-                    if (nextRow >= 0 && nextRow < matrix.length && nextCol >= 0 && nextCol < matrix[0].length) {
+            int cnt = queue.size();
+            for (int i = 0; i < cnt; i++) {
+                int[] poll = queue.poll();
+                for (int k = 0; k < 4; k++) {
+                    int nextRow = poll[0] + dx[k];
+                    int nextCol = poll[1] + dy[k];
+                    if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols) {
                         if (matrix[nextRow][nextCol] == 0) {
-                            step++;
-                            return step;
-                        }else if(matrix[nextRow][nextCol] == 1
-                                && !visited.contains(new Pair(nextRow, nextCol))){
-                            visited.add(new Pair(nextRow, nextCol));
-                            queue.add(new Pair(nextRow, nextCol));
+                            length++;
+                            return length;
+                        } else {
+                            queue.add(new int[]{nextRow, nextCol});
                         }
                     }
                 }
             }
-            step++;
+            length++;
         }
-        return step;
+        return length;
     }
 }
