@@ -17,50 +17,47 @@ package binarySearch;
  * 输出: [-1,-1]
  */
 public class Test_34 {
-    // 找到第一个 >=target 的元素，isBlue的条件是 <target，返回right
+
     private int findFirst1(int[] nums, int target) {
-        int left = -1;
-        int right = nums.length;
-        while (left + 1 != right) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
             int mid = (left + right) >> 1;
-            if (nums[mid] < target) {
-                left = mid;
-            } else {
+            if (nums[mid] >= target) {
                 right = mid;
+            }else {
+                left = mid + 1;
             }
         }
-        return right < nums.length && nums[right] == target ? right : -1;
+        return nums[left] == target ? left : -1;
     }
 
-    // 找到最后一个 <=target 的元素，isBlue的条件是 <=target，返回left
-    private int findLast2(int[] nums, int target) {
-        int left = -1;
-        int right = nums.length;
-        while (left + 1 != right) {
-            int mid = (left + right) >> 1;
+    private int findLast1(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            int mid = (left + right + 1) >> 1;
             if (nums[mid] <= target) {
                 left = mid;
             } else {
-                right = mid;
+                right = mid - 1;
             }
         }
-        return left >= 0 && nums[left] == target ? left : -1;
+        return nums[left] == target ? left : -1;
     }
 
-
-    
 
     public int[] searchRange(int[] nums, int target) {
         if (nums == null || nums.length < 1) {
             return new int[] {-1, -1};
         }
         //求第一个
-        int first = findFirst(nums, target);
+        int first = findFirst1(nums, target);
         if (first == -1) {
             return new int[] {-1, -1};
         }
         //求第二个
-        int last = findLast(nums, target);
+        int last = findLast1(nums, target);
         return new int[] {first, last};
     }
 

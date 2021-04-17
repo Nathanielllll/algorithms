@@ -1,4 +1,4 @@
-package twoPointers;
+package array.Intervals;
 
 import java.util.ArrayList;
 import java.util.List;

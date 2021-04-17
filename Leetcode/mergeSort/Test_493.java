@@ -1,8 +1,33 @@
-package sort;
+package mergeSort;
 
-public class Code_51 {
+/**
+ * @author luzhi
+ * @date 2021/4/17
+ */
+public class Test_493 {
+    /*
+    给定一个数组nums，如果i < j且nums[i] > 2*nums[j]我们就将(i, j)称作一个重要翻转对。
+
+    你需要返回给定数组中的重要翻转对的数量。
+
+    示例 1:
+
+    输入: [1,3,2,3,1]
+    输出: 2
+    示例 2:
+
+    输入: [2,4,3,5,1]
+    输出: 3
+     */
+    public static void main(String[] args) {
+        int[] nums = {1,3,2,3,1};
+        System.out.println(reversePairs(nums));
+    }
 
     static int count;
+    public static int reversePairs(int[] nums) {
+        return inversePairs(nums);
+    }
 
     public static int inversePairs(int[] data) {
         count = 0;
@@ -26,13 +51,23 @@ public class Code_51 {
     private static void merge(int[] data, int start, int mid, int end, int[] temp) {
         int p1 = start;
         int p2 = mid + 1;
+        while (p1 <= mid && p2 <= end) {
+            if (data[p1] > 2 * (long) data[p2]) {
+                count += mid - p1 + 1;
+                p2++;
+            } else {
+                p1++;
+            }
+        }
+
+        p1 = start;
+        p2 = mid + 1;
         int k = start;
 
         while (p1 <= mid && p2 <= end) {
             if(data[p1] <= data[p2]){
                 temp[k++] = data[p1++];
             }else {
-                count += mid - p1 + 1;
                 temp[k++] = data[p2++];
             }
         }
@@ -45,24 +80,5 @@ public class Code_51 {
         for (int i = start; i <= end; i++) {
             data[i] = temp[i];
         }
-    }
-
-    public static void main(String[] args) {
-        int[] data = {1, 2, 3, 4, 7, 6, 5};
-        System.out.println(inversePairs(data)); // 3
-        int[] data2 = {6, 5, 4, 3, 2, 1};
-        System.out.println(inversePairs(data2)); //  15
-        int[] data3 = {1, 2, 3, 4, 5, 6};
-        System.out.println(inversePairs(data3)); // 0
-        int[] data4 = {1};
-        System.out.println(inversePairs(data4)); // 0
-        int[] data5 = {1, 2};
-        System.out.println(inversePairs(data5)); // 0
-        int[] data6 = {2, 1};
-        System.out.println(inversePairs(data6)); // 1
-        int[] data7 = {1, 2, 1, 2, 1};
-        System.out.println(inversePairs(data7)); // 3
-        int[] data8 = {7,5,6,4};
-        System.out.println(inversePairs(data8)); // 5
     }
 }

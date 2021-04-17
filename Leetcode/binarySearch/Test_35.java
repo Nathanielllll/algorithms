@@ -24,22 +24,25 @@ package binarySearch;
  */
 public class Test_35 {
     // 问题等同于：找到第一个>=target的位置。
-    // 因此isBlue的条件是<target，并且只要返回right即可
     public static int searchInsert(int[] nums, int target) {
-        if (nums == null || nums.length <= 0) {
-            return -1;
+        int len = nums.length;
+        // 特殊判断
+        if (nums[len - 1] < target) {
+            return len;
         }
-        int left = -1;
-        int right = nums.length;
-        while (left + 1 != right) {
+
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
             int mid = (left + right) >> 1;
-            if (nums[mid] < target) {
-                left = mid;
-            } else {
+            if (nums[mid] >= target) {
                 right = mid;
+            }else {
+                left = mid + 1;
             }
         }
-        return right;
+
+        return left;
     }
 
 

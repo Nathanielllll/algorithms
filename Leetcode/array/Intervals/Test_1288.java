@@ -1,4 +1,4 @@
-package array;
+package array.Intervals;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -29,13 +29,13 @@ public class Test_1288 {
         int left = intervals[0][0];
         int right = intervals[0][1];
         for (int i = 1; i < intervals.length; i++) {
-            if (intervals[i][0] >= left && intervals[i][1] <= right) {
+            if (left <= intervals[i][0] && intervals[i][1] <= right) {
                 // 前一个区间覆盖了后一个
                 cnt--;
             } else if (left == intervals[i][0] && right <= intervals[i][1]) {
                 // 后一个区间覆盖了前一个
                 cnt--;
-                right = intervals[i][1];
+                right = Math.max(right, intervals[i][1]);
             } else {
                 // 谁也没有覆盖谁，继续往下走
                 left = intervals[i][0];
