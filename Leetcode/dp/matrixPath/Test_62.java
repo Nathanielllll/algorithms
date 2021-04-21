@@ -8,7 +8,7 @@ import java.util.Arrays;
  * 问总共有多少条不同的路径？
  * 例如，上图是一个7 x 3 的网格。有多少可能的路径？
  *
- * 说明：m 和 n 的值均不超过 100。
+ * 说明：m和 n 的值均不超过 100。
  */
 public class Test_62 {
     public int uniquePaths_1(int m, int n) {

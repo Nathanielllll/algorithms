@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 给定一个排序好的数组 arr ，两个整数 k 和 x ，从数组中找到最靠近 x（两数之差最小）的 k 个数。返回的结果必须要是按升序排好的。
+ * 给定一个排序好的数组arr ，两个整数 k 和 x ，从数组中找到最靠近 x（两数之差最小）的 k 个数。返回的结果必须要是按升序排好的。
  * <p>
  * 整数 a 比整数 b 更接近 x 需要满足：
  * <p>
  * |a - x| < |b - x| 或者
  * |a - x| == |b - x| 且 a < b
- *  
+ * 
  * <p>
  * 示例 1：
  * <p>
@@ -34,28 +34,31 @@ public class Test_658 {
 //        System.out.println(findClosestElements(arr, k, x));
     }
 
-//    public static List<Integer> findClosestElements(int[] arr, int k, int x) {
-//        int left = 0;
-//        int right = arr.length - 1;
-//        while (left <= right) {
-//            if (right - left + 1 == k) {
-//                break;
-//            }
-//
-//            int mid = (left + right) >> 1;
-//            if (Math.abs(x - arr[left]) <= Math.abs(arr[right] - x)) {
-//                right = mid - 1;
-//            } else {
-//                left = mid + 1;
-//            }
-//        }
-//
-//        List<Integer> result = new ArrayList<>();
-//        for (int i = left; i <= right; i++) {
-//            result.add(arr[i]);
-//        }
-//        return result;
-//    }
+    public static List<Integer> findClosestElements(int[] arr, int k, int x) {
+        int size = arr.length;
+
+        int left = 0;
+        int right = size - k;
+
+        while (left < right) {
+            // int mid = left + (right - left) / 2;
+            int mid = (left + right) >>> 1;
+            // 尝试从长度为 k + 1 的连续子区间删除一个元素
+            // 从而定位左区间端点的边界值
+
+            if (x - arr[mid] <= arr[mid + k] - x) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        List<Integer> res = new ArrayList<>();
+        for (int i = left; i < left + k; i++) {
+            res.add(arr[i]);
+        }
+        return res;
+    }
 
 
     // 方法一：排除法（双指针）

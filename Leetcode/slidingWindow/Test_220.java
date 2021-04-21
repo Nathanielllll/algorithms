@@ -24,6 +24,8 @@ public class Test_220 {
         return x < 0 ? (x + 1) / w - 1 : x / w;
     }
 
+    // 找到id分别为m-1, m, m+1的桶，表示他们是可能满足条件：nums [i] 和nums [j]的差的绝对值小于等于 t
+    // if (i >= k) d.remove(getID(nums[i - k], w));则保证满足条件：i 和 j 的差的绝对值也小于等于 ķ
     public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
         if (t < 0) return false;
         // 桶的个数为k，因此只要在桶当中，必然是满足条件： i 和 j 的差的绝对值也小于等于 ķ
