@@ -62,6 +62,7 @@ public class Test_606 {
         if (root == null) return;
         resultBuffer.append(root.val);
         if (root.left != null || root.right != null) { // 当其左孩子或右孩子不为空时，不管当前的根节点是否为空都要输出左孩子的值
+            // 因为root.left==null的时候，会添加()
             resultBuffer.append("(");
             dfs(root.left);
             resultBuffer.append(")");

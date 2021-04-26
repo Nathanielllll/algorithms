@@ -57,6 +57,7 @@ public class Test_887 {
         int right = n + 1;
         while (left < right) {
             int mid = (left + right) >> 1;
+            // 碎了，没碎
             if (dfs(k - 1, mid - 1) >= dfs(k, n - mid)) {
                 right = mid;
             } else {

@@ -23,65 +23,56 @@ public class Test_315 {
     6 的右侧有 1 个更小的元素 (1)
     1 的右侧有 0 个更小的元素
      */
-    private int[] index;
-    private int[] helper;
     private int[] count;
+    // 重要！用索引数组进行排序！
+    private int[] indexes;
+    private int[] temp;
 
     public List<Integer> countSmaller(int[] nums) {
-        List<Integer> res = new ArrayList<>(nums.length);
-
-        index = new int[nums.length];
-        helper = new int[nums.length];
-        count = new int[nums.length];
-        for (int i = 0; i < index.length; i++) {
-            index[i] = i;
+        int length = nums.length;
+        count = new int[length];
+        temp = new int[length];
+        indexes = new int[length];
+        for (int i = 0; i < length; i++) {
+            indexes[i] = i;
         }
 
-        merge(nums, 0, nums.length - 1);
-
-        for (int i = 0; i < count.length; i++) {
-            res.add(i, count[i]);
+        merge(nums, 0, length - 1);
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            result.add(count[i]);
         }
-        return res;
+        return result;
     }
 
-    private void merge(int[] nums, int s, int e) {
-        if (s == e || s > e) return;
-        int mid = (s + e) >> 1;
+    private void merge(int[] nums, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) >>> 1;
+            merge(nums, left, mid);
+            merge(nums, mid + 1, right);
 
-        if (s < mid) {
-            merge(nums, s, mid);
-        }
+            int p1 = left;
+            int p2 = mid + 1;
+            int k = left;
 
-        if (mid + 1 < e) {
-            merge(nums, mid + 1, e);
-        }
-
-        int i = s, j = mid + 1;
-        int hi = s;
-        while (i <= mid && j <= e) {
-            if (nums[index[i]] <= nums[index[j]]) {
-                // 右侧出
-                helper[hi++] = index[j++];
-            } else {
-                // 左侧出 计数
-                count[index[i]] += e - j + 1;
-                helper[hi++] = index[i++];
+            while (p1 <= mid || p2 <= right) {
+                if (p2 > right) {
+                    temp[k++] = indexes[p1++];
+                } else if (p1 > mid) {
+                    temp[k++] = indexes[p2++];
+                } else {
+                    if (nums[indexes[p1]] > nums[indexes[p2]]) {
+                        count[indexes[p1]] += right - p2 + 1;
+                        temp[k++] = indexes[p1++];
+                    } else {
+                        temp[k++] = indexes[p2++];
+                    }
+                }
             }
-        }
 
-        while (i <= mid) {
-            //左侧出
-            helper[hi++] = index[i++];
-        }
-
-        while (j <= e) {
-            // 右侧出
-            helper[hi++] = index[j++];
-        }
-
-        for (int k = s; k <= e; k++) {
-            index[k] = helper[k];
+            for (int i = left; i <= right; i++) {
+                indexes[i] = temp[i];
+            }
         }
     }
 }

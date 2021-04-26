@@ -48,36 +48,27 @@ public class Test_513 {
      * 递归
      */
     private int result;
-    private int depth;
+    private int maxDepth;
     public int findBottomLeftValue_1(TreeNode root) {
         result = 0;
+        maxDepth = -1;
         if(root == null) return 0;
-        depth = depth(root);
+
         helper(root, 0);
         return result;
     }
 
     private void helper(TreeNode root, int curDepth){
-        if (root == null) {
-            return;
+        if (root == null) return;
+
+        if (curDepth > maxDepth) {
+            result = root.val;
+            maxDepth = curDepth;
         }
 
         curDepth++;
-        if (curDepth == depth) {
-            result = root.val;
-        }
-
-        // 先右后左的原因：因为在最后一层的时候，只有在最后到左子节点，才会成功赋值result
-        helper(root.right, curDepth);
         helper(root.left, curDepth);
-    }
-
-    private int depth(TreeNode root){
-        if(root == null) return 0;
-        if(root.left == null && root.right == null) return 1;
-        int leftDepth = depth(root.left);
-        int rightDepth = depth(root.right);
-        return Math.max(leftDepth, rightDepth) + 1;
+        helper(root.right, curDepth);
     }
 
     /**

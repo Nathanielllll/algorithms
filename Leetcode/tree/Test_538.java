@@ -1,4 +1,5 @@
 package tree;
+
 /*
 给定一个二叉搜索树（Binary Search Tree），把它转换成为累加树（Greater Tree)，使得每个节点的值是原来的节点值加上所有大于它的节点值之和。
 
@@ -28,21 +29,19 @@ public class Test_538 {
         }
     }
 
+    private int pre;
     public TreeNode convertBST(TreeNode root) {
+        pre = 0;
         traver(root);
         return root;
     }
 
-    // pre=13, root.val=5
-    private int pre = Integer.MIN_VALUE;
-    private void traver(TreeNode root){
-        if(root == null) return;
+    private void traver(TreeNode root) {
+        if (root == null) return;
 
         traver(root.right);
-        if (pre != Integer.MIN_VALUE) {
-            root.val += pre;
-        }
 
+        root.val += pre;
         pre = root.val;
 
         traver(root.left);

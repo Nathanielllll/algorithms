@@ -1,4 +1,5 @@
 package tree;
+
 /*
 给定一个非空二叉树，返回其最大路径和。
 
@@ -39,24 +40,28 @@ public class Test_124_ATTENTION {
     }
 
     int res = Integer.MIN_VALUE;
+
     public int maxPathSum(TreeNode root) {
         if (root == null) return 0;
         dfs(root);
         return res;
     }
 
-    private int dfs(TreeNode root){
-        if (root == null) {
-            return 0;
-        }
+    private int dfs(TreeNode root) {
+        if (root == null) return 0;
+        int left = dfs(root.left);
+        int right = dfs(root.right);
 
-        //计算左边分支最大值，左边分支如果为负数还不如不选择
-        int leftMax = Math.max(0, dfs(root.left));
-        //计算右边分支最大值，右边分支如果为负数还不如不选择
-        int rightMax = Math.max(0, dfs(root.right));
+        int p1 = root.val;
+        int p2 = root.val + left;
+        int p3 = root.val + right;
+        int cur = Math.max(Math.max(p1, p2), p3);
+
         //left->root->right 作为路径与已经计算过历史最大值做比较
-        res = Math.max(res, root.val + leftMax + rightMax);
-        // 返回经过root的【单边最大分支】给当前root的父节点计算使用
-        return root.val + Math.max(leftMax, rightMax);
+        int p4 = root.val + left + right;
+        res = Math.max(res, Math.max(cur, p4));
+
+        // 少了p4，因为不可能。返回经过root的【单边最大分支】给当前root的父节点计算使用
+        return cur;
     }
 }
