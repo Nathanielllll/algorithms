@@ -21,7 +21,7 @@ public class Test_223 {
      */
 
     /*
-    class Solution:
+    class SolutionEntrance:
     def computeArea(self, A: int, B: int, C: int, D: int, E: int, F: int, G: int, H: int) -> int:
         # 调整两个矩形位置, 让第一个矩形靠最左边
         if A > E:

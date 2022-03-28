@@ -1,6 +1,7 @@
 package array;
 
 import java.util.PriorityQueue;
+import java.util.Random;
 
 public class Test_215 {
     public static void main(String[] args) {
@@ -26,22 +27,26 @@ public class Test_215 {
 
         return nums[target_index];
     }
-
+    private static Random random = new Random(System.currentTimeMillis());
     public static int partition(int[] nums, int left, int right) {
-        int target = nums[right];
-        int less = left - 1;
-        int more = right;
-        while (left < more) {
-            if (nums[left] < target) {
-                swap(nums, ++less, left++);
-            } else if (nums[left] > target) {
-                swap(nums, --more, left);
-            } else {
-                left++;
+        if (right > left) {
+            int randomIdx = left + 1 + random.nextInt(right - left);
+            swap(nums, left, randomIdx);
+        }
+
+        int j = left;
+        int pivot = nums[left];
+        // all in [left + 1, lt] < pivot
+        // all in [lt + 1, i) >= pivot
+        for (int i = left + 1; i <= right; i++) {
+            if (nums[i] < pivot) {
+                ++j;
+                swap(nums, i, j);
             }
         }
-        swap(nums, left, right);
-        return left;
+        swap(nums, j, left);
+        // 交换以后 nums[left..j - 1] < pivot, nums[j] = pivot, nums[j + 1..right] >= pivot
+        return j;
     }
 
     public static void swap(int[] nums, int i, int j) {

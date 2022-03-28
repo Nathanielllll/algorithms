@@ -22,4 +22,15 @@ public class Test_206 {
         }
         return pre;
     }
+
+    public ListNode reverseList01(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode next = head.next;
+        head.next = null;
+        ListNode reversedNode = reverseList(next);
+        next.next = head;
+        return reversedNode;
+    }
 }

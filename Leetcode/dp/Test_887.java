@@ -67,4 +67,29 @@ public class Test_887 {
         dp[k][n] = 1 + Math.max(dfs(k - 1, left - 1), dfs(k, n - left));
         return dp[k][n];
     }
+
+//    // 这种方法的时间复杂度为O(k*n^2)
+//    static int[][] memo;
+//    public static int superEggDrop(int k, int n) {
+//        memo = new int[k + 1][n + 1];
+//        return dfs(k, n);
+//    }
+//
+//    private static int dfs(int k, int n) {
+//        // base case
+//        if (k == 1) return n;
+//        if (n == 0) return 0;
+//
+//        if (memo[k][n] != 0) {
+//            return memo[k][n];
+//        }
+//
+//        int res = Integer.MAX_VALUE;
+//        for (int i = 1; i <= n; i++) {
+//            res = Math.min(res,
+//                    // 第i层楼，碎了；第i层楼，没碎。再加1
+//                    Math.max(dfs(k - 1, i - 1), dfs(k, n - i)) + 1);
+//        }
+//        return memo[k][n] = res;
+//    }
 }

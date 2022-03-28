@@ -21,28 +21,26 @@ public class Test_1288 {
     输出：2
     解释：区间 [3,6] 被区间 [2,8] 覆盖，所以它被删除了。
      */
-    public int removeCoveredIntervals(int[][] intervals) {
-        // 先按起始区间排序
-        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
-        int cnt = intervals.length;
-        // 记录前一个区间
-        int left = intervals[0][0];
-        int right = intervals[0][1];
-        for (int i = 1; i < intervals.length; i++) {
-            if (left <= intervals[i][0] && intervals[i][1] <= right) {
-                // 前一个区间覆盖了后一个
-                cnt--;
-            } else if (left == intervals[i][0] && right <= intervals[i][1]) {
-                // 后一个区间覆盖了前一个
-                cnt--;
-                right = Math.max(right, intervals[i][1]);
+    public static int removeCoveredIntervals(int[][] intervals) {
+//        [1,4],[2,8],[3,6]
+//        [1,4],[2,8],[2,6]
+        Arrays.sort(intervals, (o1, o2) -> {
+            if (o1[0] == o2[0]) {
+                return o2[1] - o1[1];
             } else {
-                // 谁也没有覆盖谁，继续往下走
-                left = intervals[i][0];
+                return o1[0] - o2[0];
+            }
+        });
+
+        int right = intervals[0][1];
+        int cnt = 0;
+        for (int i = 1; i < intervals.length; i++) {
+            if (right >= intervals[i][1]) {
+                cnt++;
+            }else {
                 right = intervals[i][1];
             }
         }
-
-        return cnt;
+        return intervals.length - cnt;
     }
 }

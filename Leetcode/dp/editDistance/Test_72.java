@@ -81,4 +81,38 @@ public class Test_72 {
         }
         return dp[len1][len2];
     }
+
+
+    static int[][] memo;
+    public static int minDistance1(String word1, String word2) {
+        int size1 = word1.length();
+        int size2 = word2.length();
+        memo = new int[size1][size2];
+
+        return dp(size1 - 1, size2 - 1, word1, word2);
+    }
+
+    private static int dp(int i, int j, String word1, String word2) {
+        if (i == -1) {
+            return j + 1;
+        }
+        if (j == -1) {
+            return i + 1;
+        }
+
+        if (memo[i][j] != 0) {
+            return memo[i][j];
+        }
+
+        char ch1 = word1.charAt(i);
+        char ch2 = word2.charAt(j);
+
+        if (ch1 == ch2) {
+            memo[i][j] = dp(i - 1, j - 1, word1, word2);
+        } else {
+            memo[i][j]=  Math.min(dp(i - 1, j, word1, word2),
+                    Math.min(dp(i, j - 1, word1, word2), dp(i - 1, j - 1, word1, word2))) + 1;
+        }
+        return memo[i][j];
+    }
 }

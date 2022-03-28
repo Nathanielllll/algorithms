@@ -8,7 +8,7 @@ Alice 和 Bob 轮流取石子，Alice 总是先开始。在每个玩家的回合
 
 假设 Alice 和 Bob 都采取 最优策略 。如果 Alice 赢了就返回 "Alice" ，Bob 赢了就返回 "Bob"，平局（分数相同）返回 "Tie" 。
 
- 
+
 
 示例 1：
 

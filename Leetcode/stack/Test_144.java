@@ -1,6 +1,5 @@
 package stack;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -15,7 +14,7 @@ public class Test_144 {
         TreeNode right;
     }
 
-    public static List<Integer> preorderTraversal(TreeNode node) {
+    public static List<Integer> preord5erTraversal(TreeNode node) {
         LinkedList<Integer> list = new LinkedList<>();
         if (node == null) {
             return list;

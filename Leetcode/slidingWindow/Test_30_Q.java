@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 给定一个字符串 s 和一些长度相同的单词 words。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+ * 给定一个字符串s和一些长度相同的单词words。找出 s 中恰好可以由words 中所有单词串联形成的子串的起始位置。
  * <p>
- * 注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+ * 注意子串要与words 中的单词完全匹配，中间不能有其他字符，但不需要考虑words中单词串联的顺序。
  * <p>
- *  
+ *
  * <p>
  * 示例 1：
  * <p>
@@ -42,7 +42,7 @@ public class Test_30_Q {
             return result;
         }
 
-        //一些长度相同的单词 words, 因此words里面的word的len是相同
+        //一些长度相同的单词words, 因此words里面的word的len是相同
         int len = words[0].length();
 
 
@@ -75,7 +75,7 @@ public class Test_30_Q {
                 // 当匹配数等于目标集合的大小（说明已经覆盖了目标集合）
                 while (match == needs.size()) {
                     // right - left / len求出窗口中单词数，如果等于目标单词数，则匹配成功，将左指针位置加入list
-                    //因为题目要求：注意子串要与 words 中的单词完全匹配，中间不能有其他字符，但不需要考虑 words 中单词串联的顺序。
+                    //因为题目要求：注意子串要与words 中的单词完全匹配，中间不能有其他字符，但不需要考虑words中单词串联的顺序。
                     if ((right - left) / len == words.length) {
                         result.add(left);
                     }

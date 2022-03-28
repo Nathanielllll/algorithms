@@ -23,14 +23,14 @@ public class Test_322 {
         }
 
         //两个都可以的！！
-//        for (int coin : coins){
-//            for (int i = 1; i <= amount; i++) {
-//                if (i - coin >= 0) {
-//                    //如果不选coin/选了coin
-//                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-//                }
-//            }
-//        }
+        for (int coin : coins){
+            for (int i = 1; i <= amount; i++) {
+                if (i - coin >= 0) {
+                    //如果不选coin/选了coin
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
 
         return dp[amount] == amount + 1 ? -1 : dp[amount];
     }

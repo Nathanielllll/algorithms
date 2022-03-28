@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class HeapSort {
     // 大顶堆用来升序排序
     public void heapSort(int[] nums) {

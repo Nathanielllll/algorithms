@@ -34,7 +34,9 @@ public class Test_409 {
 
         int ans = 0;
         for (int v: count) {
+            // 保证是偶数
             ans += v / 2 * 2;
+            // 保证是奇数、ans是偶数时（换句话说，奇数只能被加一次）
             if (v % 2 == 1 && ans % 2 == 0) {
                 ans++;
             }

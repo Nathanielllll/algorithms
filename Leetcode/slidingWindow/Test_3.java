@@ -1,11 +1,12 @@
 package slidingWindow;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+ * 给定一个字符串，请你找出其中不含有重复字符的最长子串的长度。
  * <p>
- * 示例 1:
+ * 示例1:
  * <p>
  * 输入: "abcabcbb"
  * 输出: 3
@@ -19,8 +20,8 @@ import java.util.HashMap;
  * <p>
  * 输入: "pwwkew"
  * 输出: 3
- * 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
- *      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+ * 解释: 因为无重复字符的最长子串是"wke"，所以其长度为 3。
+ *     请注意，你的答案必须是 子串 的长度，"pwke"是一个子序列，不是子串。
  *
  */
 public class Test_3 {
@@ -47,4 +48,55 @@ public class Test_3 {
         }
         return result;
     }
+
+
+    /**
+     * 如果允许重复一次字符呢
+     * duplicateChar记录遇到的重复值
+     *
+     * @param s
+     * @return
+     */
+    public static int lengthOfLongestSubstring01(String s) {
+        Map<Character, Integer> window = new HashMap<>();
+
+        // '1'表示重复值为空
+        char duplicateChar = '1';
+        int result = 0;
+        int left = 0, right = 0;
+        while (right < s.length()) {
+            char ch_right = s.charAt(right);
+            window.put(ch_right, window.getOrDefault(ch_right, 0) + 1);
+            ++right;
+
+            // 遇到重复值
+            if (window.get(ch_right) > 1) {
+                // 如果duplicateChar为空，则说明第一次遇到重复值。则将它设置为重复值即可
+                if (duplicateChar == '1') {
+                    duplicateChar = ch_right;
+                }
+                // 说明不是第一次遇到重复值
+                else {
+                    // 移动滑动窗口，以去除上一个重复值
+                    while (window.get(duplicateChar) > 1) {
+                        char ch_left = s.charAt(left);
+                        window.put(ch_left, window.getOrDefault(ch_left, 0) - 1);
+                        ++left;
+                    }
+
+                    // 在滑动后，如果当前滑动窗口下，重复值的个数<=1，则说明duplicateChar为空
+                    if (window.get(ch_right) <= 1) {
+                        duplicateChar = '1';
+                    }
+                    // 否则，duplicateChar为ch_right
+                    else {
+                        duplicateChar = ch_right;
+                    }
+                }
+            }
+            result = Math.max(result, right - left);
+        }
+        return result;
+    }
+
 }

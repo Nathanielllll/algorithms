@@ -1,7 +1,7 @@
 package dp.zeroOneBag;
 
 /**
- * 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。
+ * 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号+和-。对于数组中的任意一个整数，你都可以从+或-中选择一个符号添加在前面。
  *
  * 返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
  *
@@ -30,22 +30,31 @@ package dp.zeroOneBag;
  * dp[i][j] = dp[i-1][j](没有选为正) + dp[i-1][j-nums[i]](选为正)
  */
 public class Test_494 {
-    public static int findTargetSumWays(int[] nums, int S) {
+    public static int findTargetSumWays(int[] nums, int target) {
         int sum = 0;
-        for(int num : nums) sum+=num;
+        for (int num : nums) {
+            sum += num;
+        }
 
-        if (sum < S || (sum + S) % 2 == 1) {
+        // 或者为奇数
+        if (sum < target || ((sum + target) & 1) == 1) {
             return 0;
         }
-        int W = (sum + S )/2;
-        int[] dp = new int[W+1];
+        int w = (sum + target) / 2;
+        if (w < 0) {
+            return 0;
+        }
+
+        int[] dp = new int[w + 1];
+        // 都不选，则必然有一种方案
         dp[0] = 1;
-        for(int num : nums){
-            for (int i = W; i >= num; i--) {
-                dp[i] = dp[i] + dp[i-num];
+
+        for (int num : nums) {
+            for (int i = w; i >= num; i--) {
+                dp[i] = dp[i] + dp[i - num];
             }
         }
-        return dp[W];
+        return dp[w];
     }
 
     public static void main(String[] args) {

@@ -53,4 +53,42 @@ public class Test_354 {
         }
         return result;
     }
+
+    public static int maxEnvelopes1(int[][] envelopes) {
+        Arrays.sort(envelopes, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] != o2[0]) {
+                    return o1[0] - o2[0];
+                } else {
+                    return o2[1] - o1[1];
+                }
+            }
+        });
+
+        int n = envelopes.length;
+        int[] heights = new int[n];
+        for (int i = 0; i < n; i++) {
+            heights[i] = envelopes[i][1];
+        }
+        return lengthOfLIS(heights);
+    }
+
+
+    public static int lengthOfLIS(int[] nums) {
+        //dp[i] 表示以 Si 为结尾的最长递增子序列长度，子序列必须包含 Si
+        //不一定是整个序列最长递增子序列，需要遍历一遍 dp 数组找到最大者。
+        int[] dp = new int[nums.length];
+        Arrays.fill(dp, 1);
+        int res = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if(nums[i] > nums[j]){
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
 }

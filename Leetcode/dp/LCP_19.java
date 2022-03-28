@@ -26,7 +26,7 @@ package dp;
 https://leetcode-cn.com/problems/UlBDOe/solution/qiu-xie-shou-cang-ji-by-leetcode-solution/
  */
 public class LCP_19 {
-    public int minimumOperations(String leaves) {
+    public static int minimumOperations(String leaves) {
         int length = leaves.length();
         int[][] dp = new int[length][3];
 
@@ -52,5 +52,9 @@ public class LCP_19 {
 
         }
         return dp[length - 1][2];
+    }
+
+    public static void main(String[] args) {
+        System.out.println(minimumOperations("ryr"));
     }
 }

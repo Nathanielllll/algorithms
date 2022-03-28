@@ -6,7 +6,7 @@ import java.util.Arrays;
  * @author luzhi
  * @date 2021/4/16
  */
-public class Test_435 {
+public class Test_435_ATTENTION {
     /*
     给定一个区间的集合，找到需要移除区间的最小数量，使剩余区间互不重叠。
 

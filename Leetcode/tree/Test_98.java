@@ -72,7 +72,7 @@ public class Test_98 {
     /**思路二：使用中序遍历的方法*/
     public static boolean isValidBST_2(TreeNode root){
         Stack<TreeNode> stack = new Stack<>();
-        double inorder = - Double.MAX_VALUE;
+        long inorder = Long.MIN_VALUE;
         if (root != null) {
             while (!stack.isEmpty() || root != null) {
                 if (root != null) {

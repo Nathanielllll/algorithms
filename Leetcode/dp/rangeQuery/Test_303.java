@@ -1,7 +1,7 @@
 package dp.rangeQuery;
 
 /**
- * 给定一个整数数组  nums，求出数组从索引 i 到 j  (i ≤ j) 范围内元素的总和，包含 i,  j 两点。
+ * 给定一个整数数组 nums，求出数组从索引i到j(i≤j) 范围内元素的总和，包含i, j两点。
  *
  * 示例：
  *
@@ -13,7 +13,7 @@ package dp.rangeQuery;
  * 说明:
  *
  * 你可以假设数组不可变。
- * 会多次调用 sumRange 方法。
+ * 会多次调用sumRange方法。
  *
  * 求区间 i ~ j 的和，可以转换为 sum[j + 1] - sum[i]，其中 sum[i] 为 0 ~ i - 1 的和。
  */

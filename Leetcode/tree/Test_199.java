@@ -10,8 +10,8 @@ import java.util.Queue;
 
 示例:
 
-输入: [1,2,3,null,5,null,4]
-输出: [1, 3, 4]
+输入:[1,2,3,null,5,null,4]
+输出:[1, 3, 4]
 解释:
 
    1            <---
@@ -32,29 +32,30 @@ public class Test_199 {
         }
     }
 
-    /**
-     * 变化的前序遍历
-     */
+    // dfs
+    int maxDepth;
     List<Integer> result;
-    public List<Integer> rightSideView_1(TreeNode root) {
+    public List<Integer> rightSideView_dfs(TreeNode root) {
         result = new ArrayList<>();
-        if (root == null) return result;
-        helper(root, 0);
+        if (root == null) {
+            return result;
+        }
+
+        maxDepth = -1;
+        traverse(root, 0);
         return result;
     }
 
-    private void helper(TreeNode node, int depth) {
-        if (node == null) {
-            return;
+    private void traverse(TreeNode root, int curDepth) {
+        if (root == null) return;
+        if (curDepth > maxDepth) {
+            maxDepth = curDepth;
+            result.add(root.val);
         }
 
-        if (depth == result.size()) {
-            result.add(node.val);
-        }
-        depth++;
-
-        helper(node.right, depth);
-        helper(node.left, depth);
+        ++curDepth;
+        traverse(root.right, curDepth);
+        traverse(root.left, curDepth);
     }
 
     /**

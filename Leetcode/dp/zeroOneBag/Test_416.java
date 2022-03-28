@@ -11,8 +11,8 @@ package dp.zeroOneBag;
  * 输入: [1, 5, 11, 5]
  * 输出: true
  * 解释: 数组可以分割成 [1, 5, 5] 和 [11].
- *  
- * 示例 2:
+ * 
+ * 示例2:
  * 输入: [1, 2, 3, 5]
  * 输出: false
  * 解释: 数组不能分割成两个元素和相等的子集.
@@ -25,32 +25,36 @@ package dp.zeroOneBag;
  * dp[i][j] = dp[i - 1][j] or dp[i - 1][j - nums[i]]
  */
 public class Test_416 {
-    public static boolean canPartition(int[] nums) {
+    public boolean canPartition(int[] nums) {
+        int len = nums.length;
         int sum = 0;
-        for(int num : nums){
+        for (int num : nums) {
             sum += num;
         }
-        if (sum % 2 == 1) {
+        if ((sum & 1) == 1) {
             return false;
         }
-        int W = sum / 2;
 
-        boolean[] dp = new boolean[W + 1];
+        int target = sum / 2;
+        boolean[] dp = new boolean[target + 1];
         dp[0] = true;
 
-        //先遍历物品，后遍历 重量？
-        for (int num : nums) {
-            for (int j = W; j >= 1; j--) {
-                if(j >= num){
-                    dp[j] = dp[j] || dp[j - num];
+        if (nums[0] <= target) {
+            dp[nums[0]] = true;
+        }
+        for (int i = 1; i < len; i++) {
+            for (int j = target; nums[i] <= j; j--) {
+                if (dp[target]) {
+                    return true;
                 }
+                dp[j] = dp[j] || dp[j - nums[i]];
             }
         }
-        return dp[W];
+        return dp[target];
     }
 
-    public static void main(String[] args) {
-        int[] nums = {1, 2, 3, 5};
-        System.out.println(canPartition(nums));
-    }
+//    作者：liweiwei1419
+//    链接：https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/0-1-bei-bao-wen-ti-xiang-jie-zhen-dui-ben-ti-de-yo/
+//    来源：力扣（LeetCode）
+//    著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 }

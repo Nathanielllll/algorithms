@@ -1,41 +1,35 @@
-import java.util.Arrays;
+import java.util.Random;
 
 public class QuickSort {
-    // 选择最右边的作为目标值，在nums为升序的情况下，复杂度为O(N^2)，
-    // 因为一轮partition的时间复杂度为O(N)
-
-    // 如果划分的位置，导致左右两边都相等，那么时间复杂度为O(NlogN)
     public void quickSort(int[] nums, int start, int end) {
         if (start < end) {
-            // 加上这个，说明是随机快排。start~end中位置随机选一个，然后和end交换
-            swap(nums, start + (int) (Math.random() * (end - start + 1)), end);
-
-            int[] indexes = partition(nums, start, end);
-            quickSort(nums, start, indexes[0] - 1);
-            quickSort(nums, indexes[1] + 1, end);
+            int idx = partition(nums, start, end);
+            quickSort(nums, start, idx - 1);
+            quickSort(nums, idx + 1, end);
         }
     }
 
-    // less 表示<= nums[right]的区域，
-    // more 表示 > nums[right]的区域
-    public int[] partition(int[] nums, int left, int right) {
-        int less = left - 1;
-        int more = right;
+    private Random random = new Random(System.currentTimeMillis());
 
-        int target = nums[right];
-        while (left != more) {
-            if (nums[left] < target) {
-                swap(nums, ++less, left++);
-            } else if (nums[left] > target) {
-                swap(nums, --more, left);
-            } else {
-                left++;
+    public int partition(int[] nums, int left, int right) {
+        if (right > left) {
+            int randomIdx = left + 1 + random.nextInt(right - left);
+            swap(nums, left, randomIdx);
+        }
+
+        int j = left;
+        int pivot = nums[left];
+        // all in [left + 1, lt] < pivot
+        // all in [lt + 1, i) >= pivot
+        for (int i = left + 1; i <= right; i++) {
+            if (nums[i] < pivot) {
+                ++j;
+                swap(nums, i, j);
             }
         }
-        // 把第一个> nums[right]的位置（more）和right位置交换
-        swap(nums, more, right);
-        // 此时 less+1是第一个== nums[right]的位置；more是最后一个 == nums[right]的位置
-        return new int[]{less + 1, more};
+        swap(nums, j, left);
+        // 交换以后 nums[left..j - 1] < pivot, nums[j] = pivot, nums[j + 1..right] >= pivot
+        return j;
     }
 
     public void swap(int[] nums, int i, int j) {
@@ -45,9 +39,8 @@ public class QuickSort {
     }
 
     public static void main(String[] args) {
-        int[] nums = {3, 9, 5, 6, 11, 7, 8};
         QuickSort quickSort = new QuickSort();
+        int[] nums = {4,5,7,3,2,3,5,1,1,2,3};
         quickSort.quickSort(nums, 0, nums.length - 1);
-        System.out.println(Arrays.toString(nums));
     }
 }

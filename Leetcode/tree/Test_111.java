@@ -5,11 +5,11 @@ package tree;
  * <p>
  * 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
  * <p>
- * 说明: 叶子节点是指没有子节点的节点。
+ * 说明:叶子节点是指没有子节点的节点。
  * <p>
  * 示例:
  * <p>
- * 给定二叉树 [3,9,20,null,null,15,7],
+ * 给定二叉树[3,9,20,null,null,15,7],
  */
 public class Test_111 {
     public static class TreeNode {

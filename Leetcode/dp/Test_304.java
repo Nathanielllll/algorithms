@@ -24,7 +24,7 @@ public class Test_304 {
         int[][] sums;
 
         public NumMatrix(int[][] matrix) {
-            if(matrix==null||matrix.length==0){
+            if (matrix == null || matrix.length == 0) {
                 return;
             }
             int rows = matrix.length;
@@ -55,11 +55,11 @@ public class Test_304 {
         public int sumRegion(int row1, int col1, int row2, int col2) {
             if (row1 == 0 && col1 == 0) {
                 return sums[row2][col2];
-            }else if (row1 == 0) {
+            } else if (row1 == 0) {
                 return sums[row2][col2] - sums[row2][col1 - 1];
             } else if (col1 == 0) {
                 return sums[row2][col2] - sums[row1 - 1][col2];
-            }else {
+            } else {
                 return sums[row2][col2] - sums[row2][col1 - 1] - sums[row1 - 1][col2] + sums[row1 - 1][col1 - 1];
             }
         }

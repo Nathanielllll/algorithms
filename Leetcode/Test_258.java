@@ -10,7 +10,7 @@ public class Test_258 {
 
     输入: 38
     输出: 2
-    解释: 各位相加的过程为：3 + 8 = 11, 1 + 1 = 2。 由于 2 是一位数，所以返回 2。
+    解释: 各位相加的过程为：3 + 8 = 11, 1 + 1 = 2。 由于2 是一位数，所以返回 2。
      */
     public static int addDigits_1(int num) {
         return (num - 1) % 9 + 1;

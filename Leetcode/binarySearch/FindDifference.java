@@ -1,7 +1,5 @@
 package binarySearch;
 
-import java.util.Arrays;
-
 /**
  * @author luzhi
  * @date 2021/4/15
