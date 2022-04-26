@@ -30,6 +30,7 @@ public class Test_207 {
         for(int i = 0; i < numCourses; i++){
             graph.add(new ArrayList<>());
         }
+        // 表示a->b的边
         for (int[] edge : prerequisites) {
             graph.get(edge[1]).add(edge[0]);
         }

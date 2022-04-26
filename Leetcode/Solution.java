@@ -1,413 +1,332 @@
 import java.util.*;
 
-public class Solution {
-    public class ListNode {
-        int val;
-        ListNode next;
+class Solution {
 
-        ListNode() {
+//    25. K 个一组翻转链表
+//    42. 接雨水
+//    23. 合并K个排序链表
+//    41. 缺失的第一个正数
+//    124. 二叉树中的最大路径和
+//    76. 最小覆盖子串
+//    32. 最长有效括号
+//    72. 编辑距离
+//    4. 寻找两个正序数组的中位数
+//    239. 滑动窗口最大值 字节hard top10欢迎你
+
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int length = gas.length;
+        int idx = 0;
+
+        outer:
+        while (idx < length) {
+            int cur_gas = 0;
+            for (int i = idx; i <= idx + length; i++) {
+                cur_gas += gas[i % length] - cost[i % length];
+                if (cur_gas < 0) {
+                    idx = i;
+                    continue outer;
+                } else if (i == idx + length) {
+                    return idx % length;
+                }
+            }
+            ++idx;
+        }
+        return -1;
+    }
+
+    public String simplifyPath(String path) {
+        String[] strings = path.split("/");
+        Stack<String> stack = new Stack<>();
+        for (String str : strings) {
+            if (str.equals("") || str.equals(".")) {
+                continue;
+            } else {
+                if (str.equals("..")) {
+                    if (!stack.isEmpty()) {
+                        stack.pop();
+                    }
+                } else {
+                    stack.push(str);
+                }
+            }
         }
 
-        ListNode(int val) {
-            this.val = val;
+        if (stack.isEmpty()) {
+            return "/";
+        }
+        StringBuilder resultBuffer = new StringBuilder();
+        for (String str : stack) {
+            resultBuffer.append("/");
+            resultBuffer.append(str);
+        }
+        return resultBuffer.toString();
+    }
+
+
+    public static int shortestSubarray(int[] nums, int k) {
+        int length = nums.length;
+        int[] preSum = new int[length];
+        preSum[0] = nums[0];
+        for (int i = 1; i < length; i++) {
+            preSum[i] = preSum[i - 1] + nums[i];
         }
 
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
+        int result = Integer.MAX_VALUE;
+
+        Stack<Integer> stack = new Stack<>();// 单调递增栈
+        for (int i = 0; i < length; i++) {
+            while (!stack.isEmpty() && preSum[stack.peek()] > preSum[i]) {
+                int curIdx = stack.pop();
+                if (!stack.isEmpty()) {
+                    int leftIdx = stack.peek();
+                    if (preSum[curIdx] - preSum[leftIdx] >= k) {
+                        result = Math.min(result, curIdx - leftIdx);
+                    }
+                } else {
+                    if (preSum[curIdx] >= k) {
+                        result = Math.min(result, curIdx + 1);
+                    }
+                }
+            }
+            stack.push(i);
+        }
+
+        while (!stack.isEmpty()) {
+            int curIdx = stack.pop();
+            if (!stack.isEmpty()) {
+                int leftIdx = stack.peek();
+                if (preSum[curIdx] - preSum[leftIdx] >= k) {
+                    result = Math.min(result, curIdx - leftIdx);
+                }
+            } else {
+                if (preSum[curIdx] >= k) {
+                    result = Math.min(result, curIdx + 1);
+                }
+            }
+        }
+
+        return result == Integer.MAX_VALUE ? -1 : result;
+    }
+
+    public int[] nextGreaterElements(int[] nums) {
+        int length = nums.length;
+        int[] cycleNums = new int[length * 2];
+        for (int i = 0; i < length * 2; i++) {
+            cycleNums[i] = nums[i % length];
+        }
+
+        int[] tempResult = new int[length * 2];
+        Arrays.fill(tempResult, -1);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < 2 * length; i++) {
+            while (!stack.isEmpty() && cycleNums[stack.peek()] < cycleNums[i]) {
+                tempResult[stack.pop()] = cycleNums[i];
+            }
+            stack.push(i);
+        }
+        int[] result = new int[nums.length];
+        System.arraycopy(tempResult, 0, result, 0, nums.length);
+        return result;
+    }
+
+
+    public static int findNthDigit(int n) {
+        int digit = 1;
+        while (n > getCountOfCurDigit(digit)) {
+            n -= getCountOfCurDigit(digit);
+            ++digit;
+        }
+
+        long curNum = (long) Math.pow(10, digit - 1);
+        curNum = curNum + n / digit;
+        if (curNum >= Integer.MAX_VALUE) {
+            curNum = Integer.MAX_VALUE;
+        }
+
+        if (n % digit == 0) {
+            return (int) curNum % 10;
+        } else {
+            return String.valueOf(curNum + 1).charAt(n % digit - 1) - '0';
         }
     }
 
-//    public ListNode reverseList(ListNode head) {
-//        ListNode pre = null;
-//        ListNode next = null;
-//        while (head != null) {
-//            next = head.next;
-//            head.next = pre;
-//            pre = head;
-//            head = next;
-//        }
-//        return pre;
+    private static int getCountOfCurDigit(int digit) {
+        return (int) Math.pow(10, digit - 1) * 9 * digit;
+    }
+
+
+    public static int[] getMaxMatrix(int[][] matrix) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        int[] result = new int[4];
+        int resultMaxSum = Integer.MIN_VALUE;
+
+        int[][] preSum = new int[rows + 1][cols + 1];
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= cols; j++) {
+                preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + matrix[i - 1][j - 1];
+            }
+        }
+
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = i; j < rows; j++) {
+
+                // 计算出当前i~j的每列的和
+                int[] cur = new int[cols];
+                for (int k = 0; k < cols; k++) {
+                    cur[k] = preSum[j + 1][k + 1] - preSum[i][k + 1] - preSum[j + 1][k] + preSum[i][k];
+                }
+
+                int left = 0;
+                int right = 0;
+
+                int maxSum = cur[0];
+                int curSum = cur[0];
+                for (int k = 1; k < cur.length; k++) {
+                    if (curSum < 0) {
+                        curSum = cur[k];
+                        left = right = k;
+                    } else {
+                        curSum += cur[k];
+                        right = k;
+                    }
+                    if (curSum > maxSum) {
+                        maxSum = curSum;
+                        result[0] = i;
+                        result[1] = left;
+                        result[2] = j;
+                        result[3] = right;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public int[] maxSubArray(int[] nums) {
+        int[] result = new int[2];
+        int left = 0;
+        int right = 0;
+        int maxSum = nums[0];
+        int curSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (curSum < 0) {
+                curSum = nums[i];
+                left = right = i;
+            } else {
+                curSum += nums[i];
+                right = i;
+            }
+            if (curSum > maxSum) {
+                maxSum = curSum;
+                result[0] = left;
+                result[1] = right;
+            }
+        }
+        return result;
+    }
+
+
+    class NumMatrix {
+        int[][] preSum;
+
+        public NumMatrix(int[][] matrix) {
+            int rows = matrix.length;
+            int cols = matrix[0].length;
+            preSum = new int[rows + 1][cols + 1];
+            for (int i = 1; i <= rows; i++) {
+                for (int j = 1; j <= cols; j++) {
+                    preSum[i][j] = preSum[i - 1][j] + preSum[i][j - 1] - preSum[i - 1][j - 1] + matrix[i - 1][j - 1];
+                }
+            }
+        }
+
+        public int sumRegion(int row1, int col1, int row2, int col2) {
+            return preSum[row2 + 1][col2 + 1] - preSum[row1][col2 + 1] - preSum[row2 + 1][col1] + preSum[row1][col1];
+        }
+    }
+
+
+    public static int maximumSwap(int num) {
+        char[] chars = String.valueOf(num).toCharArray();
+        int length = chars.length;
+
+        // 找到某个数字出现的最后一个位置
+        int[] lastIdxs = new int[10];
+        Arrays.fill(lastIdxs, -1);
+        for (int i = 0; i < length; i++) {
+            lastIdxs[chars[i] - '0'] = i;
+        }
+        for (int i = 0; i < length; i++) {
+            // 找比当前大的数字的位置，
+            for (int j = 9; j > chars[i] - '0'; j--) {
+                if (lastIdxs[j] > i) {
+                    char tmp = chars[i];
+                    chars[i] = chars[lastIdxs[j]];
+                    chars[lastIdxs[j]] = tmp;
+                    return Integer.parseInt(String.valueOf(chars));
+                }
+            }
+        }
+
+        return Integer.parseInt(String.valueOf(chars));
+    }
+
+//    public static int myAtoi(String str) {
+//
+//
+//
+//
 //    }
 
-    public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode next = head.next;
-        head.next = null;
-        ListNode reversedNode = reverseList(next);
-        next.next = head;
-        return reversedNode;
-    }
 
-    public static int lengthOfLongestSubstring(String s) {
-        Map<Character, Integer> window = new HashMap<>();
+    public int subarraySum(int[] nums, int k) {
+        // key：前缀和，value：key 对应的前缀和的个数
+        Map<Integer, Integer> preSumFreq = new HashMap<>();
+        // 对于下标为 0 的元素，前缀和为 0，个数为 1
+        preSumFreq.put(0, 1);
 
-        int result = 0;
-        int left = 0, right = 0;
-        while (right < s.length()) {
-            char ch_right = s.charAt(right);
-            window.put(ch_right, window.getOrDefault(ch_right, 0) + 1);
-            ++right;
+        int preSum = 0;
+        int count = 0;
+        for (int num : nums) {
+            preSum += num;
 
-            while (window.get(ch_right) > 1) {
-                char ch_left = s.charAt(left);
-                window.put(ch_left, window.getOrDefault(ch_left, 0) - 1);
-                ++left;
+            // 先获得前缀和为 preSum - k 的个数，加到计数变量里
+            if (preSumFreq.containsKey(preSum - k)) {
+                count += preSumFreq.get(preSum - k);
             }
-            result = Math.max(result, right - left);
+
+            // 然后维护 preSumFreq 的定义
+            preSumFreq.put(preSum, preSumFreq.getOrDefault(preSum, 0) + 1);
         }
-        return result;
+        return count;
     }
 
-    /**
-     * 如果允许重复一次字符呢
-     * duplicateChar记录遇到的重复值
-     *
-     * @param s
-     * @return
-     */
-    public static int lengthOfLongestSubstring01(String s) {
-        Map<Character, Integer> window = new HashMap<>();
-
-        // '1'表示重复值为空
-        char duplicateChar = '1';
-        int result = 0;
-        int left = 0, right = 0;
-        while (right < s.length()) {
-            char ch_right = s.charAt(right);
-            window.put(ch_right, window.getOrDefault(ch_right, 0) + 1);
-            ++right;
-
-            // 遇到重复值
-            if (window.get(ch_right) > 1) {
-                // 如果duplicateChar为空，则说明第一次遇到重复值。则将它设置为重复值即可
-                if (duplicateChar == '1') {
-                    duplicateChar = ch_right;
-                }
-                // 说明不是第一次遇到重复值
-                else {
-                    // 移动滑动窗口，以去除上一个重复值
-                    while (window.get(duplicateChar) > 1) {
-                        char ch_left = s.charAt(left);
-                        window.put(ch_left, window.getOrDefault(ch_left, 0) - 1);
-                        ++left;
-                    }
-
-                    // 在滑动后，如果当前滑动窗口下，重复值的个数<=1，则说明duplicateChar为空
-                    if (window.get(ch_right) <= 1) {
-                        duplicateChar = '1';
-                    }
-                    // 否则，duplicateChar为ch_right
-                    else {
-                        duplicateChar = ch_right;
+    public boolean repeatedSubstringPattern(String s) {
+        int length = s.length();
+        int mid = length / 2;
+        for (int i = mid; i >= 1; i--) {
+            if (length % i == 0) {
+                int count = 0;
+                int j = 0;
+                String segment = s.substring(0, i);
+                while (j <= length - i) {
+                    if (segment.equals(s.substring(j, j + i))) {
+                        ++count;
+                        j += i;
+                    } else {
+                        break;
                     }
                 }
-            }
-            result = Math.max(result, right - left);
-        }
-        return result;
-    }
-
-    class LRUCache {
-
-        class Node {
-            int key;
-            int val;
-            Node prev;
-            Node next;
-
-            public Node(int key, int val) {
-                this.key = key;
-                this.val = val;
-            }
-        }
-
-        class DoubleLinkedList {
-            Node head;
-            Node tail;
-            int size;
-
-            public DoubleLinkedList() {
-                this.head = new Node(0, 0);
-                this.tail = new Node(0, 0);
-                this.head.next = this.tail;
-                this.tail.prev = this.head;
-                this.size = 0;
-            }
-
-            public void addFirst(Node node) {
-                Node next = this.head.next;
-                next.prev = node;
-                node.next = next;
-                this.head.next = node;
-                node.prev = this.head;
-                ++size;
-            }
-
-            public void removeNode(Node node) {
-                node.prev.next = node.next;
-                node.next.prev = node.prev;
-                --size;
-            }
-
-            public Node removeLastNode() {
-                if (head.next == tail) {
-                    return null;
-                }
-
-                Node lastNode = tail.prev;
-                removeNode(lastNode);
-                return lastNode;
-            }
-        }
-
-        Map<Integer, Node> cache;
-        DoubleLinkedList doubleLinkedList;
-        int capacity;
-
-        public LRUCache(int capacity) {
-            this.cache = new HashMap<>();
-            this.doubleLinkedList = new DoubleLinkedList();
-            this.capacity = capacity;
-        }
-
-        public int get(int key) {
-            if (!cache.containsKey(key)) {
-                return -1;
-            }
-
-            int val = cache.get(key).val;
-            put(key, val);
-            return val;
-        }
-
-        public void put(int key, int value) {
-            Node node = new Node(key, value);
-            if (cache.containsKey(key)) {
-                Node originalNode = cache.get(key);
-                doubleLinkedList.removeNode(originalNode);
-            } else {
-                if (doubleLinkedList.size >= capacity) {
-                    Node lastNode = doubleLinkedList.removeLastNode();
-                    cache.remove(lastNode.key);
-                }
-            }
-            doubleLinkedList.addFirst(node);
-            cache.put(key, node);
-        }
-    }
-
-    /**
-     * 时间复杂度：O(N * 26 * 26)，因为函数最多执行 26 次，for循环遍历一次是26个字符，循环里面对 s 分割时间复杂度是O(N)。超过了 84.40% 的提交。
-     * 空间复杂度：O(26 * 26)，函数执行 26 次，每次开辟 26 个字符的set空间。
-     *
-     * @param s
-     * @param k
-     * @return
-     */
-    public static int longestSubstring(String s, int k) {
-        if (s.length() < k) {
-            return 0;
-        }
-
-        Map<Character, Integer> char2Cnt = new HashMap<>();
-        for (char ch : s.toCharArray()) {
-            char2Cnt.put(ch, char2Cnt.getOrDefault(ch, 0) + 1);
-        }
-
-        // 如果一个字符 c 在 s 中出现的次数少于 k 次，那么 s 中所有的包含 c 的子字符串都不能满足题意。
-        // 所以，应该在 s 的所有不包含 c 的子字符串中继续寻找结果：把 s 按照 c 分割（分割后每个子串都不包含 c），得到很多子字符串 t；下一步要求 t 作为源字符串的时候，它的最长的满足题意的子字符串长度。
-        // （到现在为止，我们把大问题分割为了小问题(s → t)）。此时我们发现，恰好已经定义了函数 longestSubstring(s, k) 就是来解决这个问题的！所以直接把 longestSubstring(s, k) 函数拿来用，于是形成了递归。
-        for (char ch : char2Cnt.keySet()) {
-            if (char2Cnt.get(ch) < k) {
-                int result = 0;
-                for (String str : s.split(String.valueOf(ch))) {
-                    result = Math.max(result, longestSubstring(str, k));
-                }
-                return result;
-            }
-        }
-
-        // 未进入递归时的返回结果：如果 s 中的每个字符出现的次数都大于 k 次，那么 s 就是我们要求的字符串，直接返回该字符串的长度。
-        return s.length();
-    }
-
-    public int findKthLargest(int[] nums, int k) {
-        int left = 0;
-        int right = nums.length - 1;
-        int idx = partition(nums, left, right);
-
-        int targetIdx = nums.length - k;
-        while (idx != targetIdx) {
-            if (idx > targetIdx) {
-                right = idx - 1;
-            } else {
-                left = idx + 1;
-            }
-            idx = partition(nums, left, right);
-        }
-        return nums[idx];
-    }
-
-    private Random random = new Random(System.currentTimeMillis());
-
-    private int partition(int[] nums, int left, int right) {
-        if (right > left) {
-            int randomIdx = left + 1 + random.nextInt(right - left);
-            swap(nums, left, randomIdx);
-        }
-
-        int j = left;
-        int pivot = nums[left];
-        for (int i = left + 1; i <= right; i++) {
-            if (nums[i] < pivot) {
-                ++j;
-                swap(nums, i, j);
-            }
-        }
-        swap(nums, left, j);
-        return j;
-    }
-
-    public static void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-    }
-
-    public static void main(String[] args) {
-        String s = "aaabbb";
-        int k = 3;
-        System.out.println(longestSubstring(s, k));
-    }
-
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null) {
-            return head;
-        }
-
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode slow = dummy;
-        ListNode fast = dummy;
-        outer:
-        while (fast.next != null) {
-            for (int i = 0; i < k; i++) {
-                fast = fast.next;
-                if (fast == null) {
-                    break outer;
-                }
-            }
-
-            ListNode pre = slow;
-            ListNode next = fast.next;
-            fast.next = null;
-            slow = slow.next;
-
-            pre.next = reverse(slow);
-            slow.next = next;
-            fast = slow;
-        }
-
-        return dummy.next;
-    }
-
-    private ListNode reverse(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-
-        ListNode next = head.next;
-        head.next = null;
-        ListNode reversed = reverse(next);
-        next.next = head;
-        return reversed;
-    }
-
-    public static List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> result = new ArrayList<>();
-        int length = nums.length;
-
-        for (int i = 0; i < length - 2; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) {
-                continue;
-            }
-
-            int left = i + 1;
-            int right = length - 1;
-
-            while (left < right) {
-                int sum = nums[i] + nums[left] + nums[right];
-                if (sum > 0) {
-                    while (left < right && nums[right] == nums[--right]) ;
-                } else if (sum < 0) {
-                    while (left < right && nums[left] == nums[++left]) ;
-                } else {
-                    List<Integer> subResult = new ArrayList<>(Arrays.asList(nums[i], nums[left], nums[right]));
-                    result.add(subResult);
-                    while (left < right && nums[right] == nums[--right]) ;
-                    while (left < right && nums[left] == nums[++left]) ;
+                if (count == length / i) {
+                    return true;
                 }
             }
         }
-        return result;
-    }
-
-
-    public int[] sortArray(int[] nums) {
-        quickSort(nums, 0, nums.length - 1);
-        return nums;
-    }
-
-    private void quickSort(int[] nums, int left, int right) {
-        if (left < right) {
-            int idx = partition(nums, left, right);
-            quickSort(nums, left, idx - 1);
-            quickSort(nums, idx + 1, right);
-        }
-    }
-
-    public int maxSubArray(int[] nums) {
-        int result = nums[0];
-        int sum = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (sum < 0) {
-                sum = nums[i];
-            } else {
-                sum += nums[i];
-            }
-            result = Math.max(result, sum);
-        }
-        return result;
-    }
-
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if (l1 == null) return l2;
-        if (l2 == null) return l1;
-
-        if (l1.val < l2.val) {
-            l1.next = mergeTwoLists(l1.next, l2);
-            return l1;
-        } else {
-            l2.next = mergeTwoLists(l1, l2.next);
-            return l2;
-        }
-    }
-
-    public static int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int rest = target - nums[i];
-            if (map.containsKey(rest)) {
-                return new int[]{i, map.get(rest)};
-            } else {
-                map.put(nums[i], i);
-            }
-        }
-        return new int[]{-1, -1};
+        return false;
     }
 
 

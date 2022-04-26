@@ -48,15 +48,15 @@ PS. 这里的状态定义我是猜的，这其实是个技巧。通常我们做 
 public class Test_45 {
     public int jump(int[] nums) {
         int n = nums.length;
-        int[] f = new int[n];
-        for (int i = 1, j = 0; i < n; i++) {
-            while (nums[j] < i - j) {
-                j++;
-            }
+        int[] dp = new int[n];
 
-            // 成立的条件是nums[j] >= i - j
-            f[i] = f[j] + 1;
+        // 直接j = 0，而不用每次循环都初始化j=0，是因为：当前的nums[j] + j必然时最近的且满足条件的，前面的nums[j] + j必然不满足。
+        for (int i = 1, j = 0; i < n; i++) {
+            while (j < i && (nums[j] + j < i)) {
+                ++j;
+            }
+            dp[i] = dp[j] + 1;
         }
-        return f[n - 1];
+        return dp[n - 1];
     }
 }

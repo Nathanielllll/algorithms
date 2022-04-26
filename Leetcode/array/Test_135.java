@@ -47,6 +47,7 @@ public class Test_135 {
             if (i < length - 1 && ratings[i] > ratings[i + 1]) {
                 right[i] = right[i + 1] + 1;
             }
+            // 取以上 2 轮遍历 left 和 right 对应学生糖果数的 最大值 ，这样则 同时满足左规则和右规则 ，即得到每个同学的最少糖果数量。
             result += Math.max(left[i], right[i]);
         }
         return result;

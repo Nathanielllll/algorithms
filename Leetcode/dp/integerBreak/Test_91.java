@@ -30,35 +30,38 @@ package dp.integerBreak;
  *
  */
 public class Test_91 {
-    public int numDecodings(String s) {
-
-        int len = s.length();
-        int[] dp = new int[len + 1];
-
-        dp[len] = 1;
-        if (s.charAt(len - 1) != '0') {
-            dp[len - 1] = 1;
-        }
-
-        for (int i = len - 2; i >= 0; i--) {
-            if (s.charAt(i) == '0') {
-                //表面是continue,实际上dp[i]==0
-                continue;
+    public static int numDecodings(String s) {
+        int length = s.length();
+        int[] dp = new int[length + 1];
+        // base case：初始化条件？
+        dp[length] = 1;
+        dp[length - 1] = s.charAt(length - 1) == '0' ? 0 : 1;
+        for (int i = s.length() - 2; i >= 0; i--) {
+            String str1 = s.substring(i, i + 1);
+            String str2 = s.substring(i, i + 2);
+            if (meetRequirement(str1)) {
+                dp[i] += dp[i + 1];
             }
-
-            int ans1 = dp[i + 1];//dp[i+1]
-            int ans2 = 0;//dp[i+2]
-
-            int num1 = s.charAt(i) - '0';
-            int num2 = s.charAt(i + 1) - '0';
-            int value = num1 * 10 + num2;
-            //实际上，value [10,26]，因为上面的条件为s.charAt(i) == '0'的时候，直接有dp[i] == 0
-            if (value <= 26) {
-                ans2 = dp[i + 2];
+            if (meetRequirement(str2)) {
+                dp[i] += dp[i + 2];
             }
-            dp[i] = ans1 + ans2;
-
         }
         return dp[0];
     }
+
+    private static boolean meetRequirement(String s) {
+        int result = 0;
+        try {
+            result = Integer.parseInt(s);
+        } catch (Exception e) {
+            return false;
+        }
+
+        if (s.length() == 1) {
+            return result >= 1 && result <= 9;
+        } else {
+            return result >= 10 && result <= 26;
+        }
+    }
+
 }

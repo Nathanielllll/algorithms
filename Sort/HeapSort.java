@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class HeapSort {
     // 大顶堆用来升序排序
     public void heapSort(int[] nums) {
@@ -48,4 +50,5 @@ public class HeapSort {
         nums[i] = nums[j];
         nums[j] = tmp;
     }
+
 }

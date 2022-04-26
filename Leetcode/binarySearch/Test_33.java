@@ -29,25 +29,25 @@ public class Test_33 {
         int left = 0;
         int right = nums.length - 1;
         while (left <= right) {
-            int middle = (left + right) >> 1;
-            if (nums[middle] == target) {
-                return middle;
-            } else {
-                // 证明middle在前子数组
-                if(nums[left] <= nums[middle]){
-                    //target在nums[middle]~nums[middle]
-                    if(nums[left] <= target && target < nums[middle]){
-                        right = middle - 1;
-                    //target不在nums[middle]~nums[middle]
-                    }else {
-                        left = middle + 1;
-                    }
-                }else {
-                    if(nums[middle] < target && target <= nums[right]){
-                        left = middle + 1;
-                    }else {
-                        right = middle - 1;
-                    }
+            int mid = (left + right) >> 1;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            // 0~mid是有序的
+            if (nums[0] <= nums[mid]) {
+                // 如果target在0~mid中间
+                if (nums[0] <= target && target < nums[mid]) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            // mid~n-1是有序的
+            else {
+                if (nums[mid] < target && target <= nums[nums.length - 1]) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
                 }
             }
         }

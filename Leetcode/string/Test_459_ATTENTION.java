@@ -37,9 +37,32 @@ import java.util.HashSet;
 
  */
 public class Test_459_ATTENTION {
-    public boolean repeatedSubstringPattern(String s) {
-        String str = s + s;
-        return str.substring(1, str.length() - 1).contains(s);
-    }
+//    public boolean repeatedSubstringPattern(String s) {
+//        String str = s + s;
+//        return str.substring(1, str.length() - 1).contains(s);
+//    }
 
+    public boolean repeatedSubstringPattern(String s) {
+        int length = s.length();
+        int mid = length / 2;
+        for (int i = mid; i >= 1; i--) {
+            if (length % i == 0) {
+                int count = 0;
+                int j = 0;
+                String segment = s.substring(0, i);
+                while (j <= length - i) {
+                    if (segment.equals(s.substring(j, j + i))) {
+                        ++count;
+                        j += i;
+                    } else {
+                        break;
+                    }
+                }
+                if (count == length / i) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

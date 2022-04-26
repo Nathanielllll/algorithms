@@ -25,49 +25,49 @@ public class Test_394_ATTENTION {
     }
 
     public static String decodeString(String s) {
-        if (s == null) {
-            return "";
-        }
         Stack<String> stack = new Stack<>();
-
         for (int i = 0; i < s.length(); i++) {
-            String c = s.substring(i, i + 1);
-            if (!c.equals("]")) {
-                stack.push(c);
-            }else {
-                StringBuffer stringBuffer = new StringBuffer();
+            String str = s.substring(i, i + 1);
+            if (!str.equals("]")) {
+                stack.push(str);
+            } else {
+                // 需要复制的字符串（倒序）
+                StringBuilder sb1 = new StringBuilder();
                 while (!stack.isEmpty() && !stack.peek().equals("[")) {
-                    stringBuffer.append(stack.pop());
+                    sb1.append(stack.pop());
                 }
-                //将'[' pop出来
+                // 弹出[
                 stack.pop();
 
-                StringBuffer times_string = new StringBuffer();
-                while (!stack.isEmpty() && stack.peek().length() == 1 && isNum(stack.peek().charAt(0))) {
-                    times_string.append(stack.pop());
+                // 需要复制的次数（倒序）
+                StringBuilder sb2 = new StringBuilder();
+                while (!stack.isEmpty() && isNumber(stack.peek())) {
+                    sb2.append(stack.pop());
                 }
-                int times = Integer.parseInt(times_string.reverse().toString());
 
-                String string = stringBuffer.toString();
+                // 只对复制的次数sb做倒转
+                int times = Integer.parseInt(sb2.reverse().toString());
+
                 for (int j = 0; j < times; j++) {
-                    stack.push(string);
+                    stack.push(sb1.toString());
                 }
             }
         }
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         while(!stack.isEmpty()){
             result.append(stack.pop());
         }
         return result.reverse().toString();
     }
 
-    private static boolean isNum(char c){
-        if (c >= '0' && c <= '9') {
-            return true;
-        }else {
+    private static boolean isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+        } catch (Exception e) {
             return false;
         }
+        return true;
     }
 
 }

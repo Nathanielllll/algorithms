@@ -36,36 +36,34 @@ import java.util.Arrays;
 输出：4
  */
 public class Test_887 {
-    private int[][] dp;
+    private int[][] memo;
 
     public int superEggDrop(int K, int N) {
-        dp = new int[K + 1][N + 1];
-        for (int[] row : dp) {
+        memo = new int[K + 1][N + 1];
+        for (int[] row : memo) {
             Arrays.fill(row, Integer.MAX_VALUE);
         }
         return dfs(K, N);
     }
 
     private int dfs(int k, int n) {
-        if (k == 0) return 0;
         if (k == 1) return n;
-        if (n <= 1) return n;
-        if (dp[k][n] != Integer.MAX_VALUE) {
-            return dp[k][n];
+        if (n == 0) return 0;
+        if (memo[k][n] != Integer.MAX_VALUE) {
+            return memo[k][n];
         }
         int left = 1;
-        int right = n + 1;
+        int right = n;
         while (left < right) {
             int mid = (left + right) >> 1;
-            // 碎了，没碎
+            // 碎了，没碎。为了寻找满足条件的第一个数（即最小数）
             if (dfs(k - 1, mid - 1) >= dfs(k, n - mid)) {
                 right = mid;
             } else {
                 left = mid + 1;
             }
         }
-        dp[k][n] = 1 + Math.max(dfs(k - 1, left - 1), dfs(k, n - left));
-        return dp[k][n];
+        return memo[k][n] = 1 + dfs(k - 1, left - 1);
     }
 
 //    // 这种方法的时间复杂度为O(k*n^2)

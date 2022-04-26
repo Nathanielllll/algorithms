@@ -42,11 +42,11 @@ public class Test_42 {
     }
 
     // 单调栈
-    // 找到两边比它高的位置，然后找到较小的高度，再进行计算
+    // 找到两边最近的比它高的位置，然后找到较小的高度，再进行计算
     public static int trap_2(int[] height) {
         int sum = 0;
 
-        Stack<Integer> indexStack = new Stack<>(); // 递增栈，记录位置
+        Stack<Integer> indexStack = new Stack<>(); // 非严格递减栈，记录位置
         for (int i = 0; i < height.length; i++) {
             while(!indexStack.isEmpty() && height[indexStack.peek()] < height[i]){
                 int curIndex = indexStack.pop();
