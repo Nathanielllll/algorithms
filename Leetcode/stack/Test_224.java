@@ -45,29 +45,28 @@ public class Test_224 {
                         break;
                     }
                 }
-            } else {
-                if (isNumber(c)) {
-                    int u = 0;
-                    int j = i;
-                    // 将从 i 位置开始后面的连续数字整体取出，加入 nums
-                    while (j < n && isNumber(cs[j])) u = u * 10 + (cs[j++] - '0');
-                    nums.push(u);
-                    i = j - 1;
-                } else {
-                    // 有一个新操作要入栈时，先把栈内可以算的都算了
-                    // 只有满足「栈内运算符」比「当前运算符」优先级高/同等，才进行运算
-                    while (!ops.isEmpty() && ops.peek() != '(') {
-                        char prev = ops.peek();
-                        if (map.get(prev) >= map.get(c)) {
-                            calc(nums, ops);
-                        } else {
-                            break;
-                        }
+            } else if (isNumber(c)) {// 如果是数字
+                int u = 0;
+                int j = i;
+                // 将从 i 位置开始后面的连续数字整体取出，加入 nums
+                while (j < n && isNumber(cs[j])) u = u * 10 + (cs[j++] - '0');
+                nums.push(u);
+                i = j - 1;
+            } else { // 如果是运算符
+                // 有一个新操作要入栈时，先把栈内可以算的都算了
+                // 只有满足「栈内运算符」比「当前运算符」优先级高/同等，才进行运算
+                while (!ops.isEmpty() && ops.peek() != '(') {
+                    char prev = ops.peek();
+                    if (map.get(prev) >= map.get(c)) {
+                        calc(nums, ops);
+                    } else {
+                        break;
                     }
-                    ops.push(c);
                 }
+                ops.push(c);
             }
         }
+
         // 将剩余的计算完
         while (!ops.isEmpty()) calc(nums, ops);
         return nums.peek();

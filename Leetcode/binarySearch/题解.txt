@@ -1,0 +1,12 @@
+这道题其实是要我们明确「二分」的本质是什么。
+
+「二分」不是单纯指从有序数组中快速找某个数，这只是「二分」的一个应用。
+
+「二分」的本质是两段性，并非单调性。只要一段满足某个性质，另外一段不满足某个性质，就可以用「二分」。
+
+经过旋转的数组，显然前半段满足 >= nums[0]，而后半段不满足 >= nums[0]。我们可以以此作为依据，通过「二分」找到旋转点。
+
+作者：AC_OIer
+链接：https://leetcode-cn.com/problems/search-in-rotated-sorted-array/solution/shua-chuan-lc-yan-ge-ologn100yi-qi-kan-q-xifo/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

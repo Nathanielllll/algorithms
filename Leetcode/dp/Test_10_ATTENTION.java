@@ -1,6 +1,5 @@
 package dp;
 
-import java.util.Arrays;
 //https://leetcode-cn.com/problems/regular-expression-matching/solution/dong-tai-gui-hua-zen-yao-cong-0kai-shi-si-kao-da-b/
 
 public class Test_10_ATTENTION {
@@ -28,10 +27,10 @@ public class Test_10_ATTENTION {
                     if (s[i - 1] != p[j - 2] && p[j - 2] != '.') {
                         dp[i][j] = dp[i][j - 2];
                     } else {
-                        //dp[i][j-1] 其实是多余的
-                        //原因在于检查多个字符匹配的时候也是要落到检查单个字符最后落到检查empty，所以我们只需要实现检查多个字符和empty字符的情况。
-                        //dp[i][j] = dp[i][j - 1] || dp[i][j - 2] || dp[i - 1][j];
-                        dp[i][j] = dp[i][j - 2] || dp[i - 1][j];
+                        // 假设为：##b , ###b *
+                        dp[i][j] = dp[i - 1][j] // 多个字符匹配的情况，即：## 和 ###b * 能否匹配，如果能，则 ##b 也必然能和 ###b * 匹配
+                                || dp[i][j - 1] // 单个字符匹配的情况，即：##b 和 ###b 能否匹配，如果能，则 ##b 也必然能和 ###b * 匹配
+                                || dp[i][j - 2];// 没有字符匹配的情况，即：##b 和 ### 能否匹配，如果能，则 ##b 也必然能和 ###b * 匹配
                     }
                 }
             }

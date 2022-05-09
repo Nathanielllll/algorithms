@@ -15,8 +15,9 @@ public class Test_84 {
 
     public static int largestRectangleArea(int[] heights) {
         int result = 0;
+        // 本质上求左右两边比它大的数字的【最远】位置，因此可以等价转换为：找出左右两边比它小的数字的【最近】位置
         // 找两边比它小的数字，因为求的是：以当前index为高，面积最大的情况。
-        // 因此要找出左右两边比它小的数字的位置 -> rightIndex - leftIndex - 1，在这个范围内，所有高度都 >= 当前高度
+        // 因此要找出左右两边比它小的数字的【最近】位置 -> rightIndex - leftIndex - 1，在这个范围内，所有高度都 >= 当前高度
         Stack<Integer> indexStack = new Stack<>();
         for (int i = 0; i < heights.length; i++) {
             while (!indexStack.isEmpty() && heights[indexStack.peek()] > heights[i]) {

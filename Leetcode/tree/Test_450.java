@@ -79,7 +79,7 @@ public class Test_450 {
                 // 找到root的右子树的最左节点
                 TreeNode tmp = root.right;
                 while (tmp.left != null) tmp = tmp.left;
-                // 将root的右子树的最左节点，左节点指向root的左子树
+                // 将root的右子树的最左节点的左指针指向root的左子树
                 tmp.left = root.left;
                 // 将root指向右子树
                 root = root.right;

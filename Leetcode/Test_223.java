@@ -42,20 +42,21 @@ public class Test_223 {
      */
 
     public static int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        // 调整两个矩形位置, 让第一个矩形靠最左边
         if (A > E) {
             return computeArea(E, F, G, H, A, B, C, D);
         }
 
+        // 没有重叠的情况
         if (B >= H || C <= E || D <= F) {
             return computerArea(A, B, C, D) + computerArea(E, F, G, H);
         }
 
+        // 重叠情况
         int left = Math.max(A, E);
         int down = Math.max(B, F);
-
         int right = Math.min(C, G);
         int up = Math.min(D, H);
-
         return computerArea(A, B, C, D) + computerArea(E, F, G, H) - computerArea(left, down, right, up);
     }
 

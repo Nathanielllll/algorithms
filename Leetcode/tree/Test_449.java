@@ -1,5 +1,9 @@
 package tree;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Test_449 {
     public static class TreeNode {
         int val;
@@ -20,50 +24,33 @@ public class Test_449 {
         }
     }
 
-    public static void main(String[] args) {
-        TreeNode root = new TreeNode(2);
-        root.left = new TreeNode(1);
-        root.right = new TreeNode(3);
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if (root == null) return "null,";
 
-        Codec codec = new Codec();
-        String data = codec.serialize(root);
-        codec.deserialize(data);
+        String result = root.val + ",";
+        result += serialize(root.left);
+        result += serialize(root.right);
+        return result;
     }
 
-    public static class Codec {
-
-        // Encodes a tree to a single string.
-        public String serialize(TreeNode root) {
-            if(root == null) return "";
-
-            String result = root.val + ",";
-            result += serialize(root.left);
-            result += serialize(root.right);
-            return result;
+    public TreeNode deserialize(String data) {
+        if (data == null) {
+            return null;
         }
+        String[] values = data.split(",");
+        Queue<String> queue = new LinkedList<>(Arrays.asList(values));
+        return reconPreOrder(queue);
+    }
 
-        // Decodes your encoded data to tree.
-        public TreeNode deserialize(String data) {
-            String[] strings = data.split(",");
-            return generateTree(strings, 0, strings.length - 1);
+    public TreeNode reconPreOrder(Queue<String> queue) {
+        String value = queue.poll();
+        if (value.equals("null")) {
+            return null;
         }
-
-        private TreeNode generateTree(String[] strings, int start, int end){
-            if (start > end) {
-                return null;
-            }
-
-            TreeNode root = new TreeNode(Integer.parseInt(strings[start]));
-            int index = start;
-            while(index <= end && Integer.parseInt(strings[index]) <= Integer.parseInt(strings[start])){
-                index++;
-            }
-            int leftEndIndex = index - 1;
-            int rightStartIndex = index;
-
-            root.left = generateTree(strings, start + 1, leftEndIndex);
-            root.right = generateTree(strings, rightStartIndex, end);
-            return root;
-        }
+        TreeNode root = new TreeNode(Integer.parseInt(value));
+        root.left = reconPreOrder(queue);
+        root.right = reconPreOrder(queue);
+        return root;
     }
 }

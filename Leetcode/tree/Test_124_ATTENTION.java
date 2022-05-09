@@ -53,16 +53,17 @@ public class Test_124_ATTENTION {
         int left = dfs(root.left);
         int right = dfs(root.right);
 
-        int p1 = root.val;
-        int p2 = root.val + left;
-        int p3 = root.val + right;
-        int cur = Math.max(Math.max(p1, p2), p3);
+        int p1 = root.val;// 只有当前节点
+        int p2 = root.val + left; // 当前节点+左边分支最大和
+        int p3 = root.val + right;// 当前节点+右边分支最大和
+        int cur = Math.max(Math.max(p1, p2), p3);// 这个是最后dfs的结果：经过root的单边分支最大和
 
         //left->root->right 作为路径与已经计算过历史最大值做比较
         int p4 = root.val + left + right;
         res = Math.max(res, Math.max(cur, p4));
 
         // 少了p4，因为不可能。返回经过root的【单边最大分支】给当前root的父节点计算使用
+        // 因为如果返回p4，可能会出现多条路径乱跑的情况，是不符合题目要求的：只有一条路径。
         return cur;
     }
 }

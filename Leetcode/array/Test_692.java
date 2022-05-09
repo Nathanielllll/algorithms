@@ -18,6 +18,7 @@ public class Test_692 {
         for (String word : words) {
             count.put(word, count.getOrDefault(word, 0) + 1);
         }
+        // 小顶堆。数量相同的情况下，字段顺序靠后的排在前面；数量不同的情况下，数量少的排在前面。
         PriorityQueue<String> heap = new PriorityQueue<>(
                 (w1, w2) -> count.get(w1).equals(count.get(w2)) ?
                         w2.compareTo(w1) : count.get(w1) - count.get(w2));

@@ -27,81 +27,41 @@ public class Test_5 {
 
     // dp i在前面，j在后面
     public static String longestPalindrome(String s) {
-        int maxLen = 1;
-        int begin = 0;
-        int length = s.length();
-        boolean[][] dp = new boolean[length][length];
-
-        for (int j = 0; j < length; j++) {
+        String result = "";
+        int len = s.length();
+        boolean[][] dp = new boolean[len][len];
+        for (int j = 0; j < len; j++) {
             for (int i = 0; i <= j; i++) {
                 if (s.charAt(i) == s.charAt(j) && (j - i <= 1 || dp[i + 1][j - 1])) {
                     dp[i][j] = true;
-                    if (j - i + 1 > maxLen) {
-                        begin = i;
-                        maxLen = j - i + 1;
-                    }
+                    result = result.length() > j - i + 1 ? result : s.substring(i, j + 1);
                 }
-            }
-        }
-        return s.substring(begin, begin + maxLen);
-    }
-
-    // 中心扩散法1
-    public String longestPalindrome1(String s) {
-        // ababa 求最长公共子串
-        int len = s.length();
-        String result = "";
-
-        for (int i = 0; i < len * 2 - 1; i++) {
-            int left = i / 2;
-            int right = left + i % 2;
-            while (left >= 0 && right < len && s.charAt(left) == s.charAt(right)) {
-                String tmp = s.substring(left, right + 1);
-                if (tmp.length() > result.length()) {
-                    result = tmp;
-                }
-                left--;
-                right++;
             }
         }
         return result;
     }
 
-    // 中心扩散法2
-    public static String longestPalindrome2(String string) {
-        if (string == null || string.length() < 1) {
-            return null;
-        }
+    // 中心扩散法1
+    public String longestPalindrome01(String s) {
+        // ababa 求最长公共子串
+        int len = s.length();
+        String result = "";
 
-        String resultString = "";
-        int maxLen = 0;
-        for (int i = 0; i < string.length(); i++) {
-//            1、如果传入重合的索引编码，进行中心扩散，此时得到的最长回文子串的长度是奇数；
-            int len1 = expandAroundCenter(string, i, i);
-//            2、如果传入相邻的索引编码，进行中心扩散，此时得到的最长回文子串的长度是偶数。
-            int len2 = expandAroundCenter(string, i, i + 1);
-            int len = Math.max(len1, len2);
-
-            if (maxLen < len) {
-                maxLen = len;
-                //奇数
-                if (len1 > len2) {
-                    resultString = string.substring(i - len / 2, i + len / 2 + 1);
-                } else {
-                    resultString = string.substring(i - len / 2 + 1, i + len / 2 + 1);
-                }
-            }
+        for (int i = 0; i < len; i++) {
+            String str1 = expandAroundCenter(s, i, i);
+            String str2 = expandAroundCenter(s, i, i + 1);
+            String str = str1.length() > str2.length() ? str1 : str2;
+            result = result.length() > str.length() ? result : str;
         }
-        return resultString;
+        return result;
     }
 
-
-    public static int expandAroundCenter(String string, int left, int right) {
+    public String expandAroundCenter(String string, int left, int right) {
         while (left >= 0 && right < string.length()
                 && string.charAt(left) == string.charAt(right)) {
             left--;
             right++;
         }
-        return right - left - 1;
+        return string.substring(left + 1, right);
     }
 }

@@ -30,6 +30,7 @@ public class Test_236 {
         }
     }
 
+    // 本质上，此函数求的是：能否在root节点的左右子树中，分别找到p、q
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root == null) return null;
         if(root == p || root == q) return root;
@@ -37,9 +38,9 @@ public class Test_236 {
         TreeNode left = lowestCommonAncestor(root.left, p, q);
         TreeNode right = lowestCommonAncestor(root.right, p, q);
 
+        // 如果一个节点，能在它的左右子树中分别找到p和q，那么该节点就是LCA节点
         if(left != null && right != null) return root;
-        if(left != null) return left;
-        if(right != null) return right;
-        return null;
+
+        return left != null ? left : right;
     }
 }

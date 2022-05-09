@@ -1,4 +1,6 @@
 import commonStructures.Edge;
+import commonStructures.Graph;
+import commonStructures.GraphGenerator;
 import commonStructures.GraphNode;
 
 import java.util.HashMap;
@@ -9,6 +11,13 @@ import java.util.Map;
 适用范围:没有权值为负数的边
  */
 public class Dijkstra {
+    public static void main(String[] args) {
+        Integer[][] matrix= {{7,0,1}, {3,1,2},{5,0,2},
+                {3,2,3},{4,2,4},{1,4,5},{2,4,6},{3,5,7}};
+        Graph graph = GraphGenerator.createGraph(matrix);
+        HashMap<GraphNode, Integer> result = dijkstra1(graph.nodes.get(0));
+    }
+
     public static HashMap<GraphNode, Integer> dijkstra1(GraphNode from) {
         // 从head出发到所有点的最小距离
         // key : 从from出发到达key

@@ -22,56 +22,48 @@ package binarySearch;
  */
 public class Test_81 {
     public static boolean search(int[] nums, int target) {
-        if (nums == null || nums.length < 1) {
-            return false;
-        }
-        if (nums.length == 1) {
-            return nums[0] == target;
-        }
+        int n = nums.length;
+        int l = 0, r = n - 1;
+        // 恢复二段性。举个例子：[0,1,2,2,2,3,4,5] 变成 [2,3,4,5,0,1,2,2]就会失去二段性，因此需要恢复二段性
+        while (l < r && nums[0] == nums[r]) r--;
 
-        int left = 0;
-        int right = nums.length - 1;
-        // nums[0] == nums[nums.length-1]
-        if (nums[left] == nums[right]) {
-            for (int i = 0; i < right; i++) {
-                if (nums[i] == target) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // nums[0] != nums[nums.length-1]
-        while (left <= right) {
-            int middle = (left + right) >> 1;
-            if (nums[middle] == target) {
-                return true;
+        // 第一次「二分」：从中间开始找，找到满足 >=nums[0] 的分割点（旋转点）
+        // 查找旋转点的idx。本题中有：nums[idx] >= nums[0]
+        while (l < r) {
+            int mid = l + r + 1 >> 1;
+            if (nums[mid] >= nums[0]) {
+                l = mid;
             } else {
-                // 证明middle在前子数组
-                if (nums[middle] >= nums[left]) {
-                    //target在nums[middle]~nums[middle]
-                    if (target >= nums[left] && target <= nums[middle]) {
-                        right = middle - 1;
-                        //target不在nums[middle]~nums[middle]
-                    } else {
-                        left = middle + 1;
-                    }
-                // 证明middle在后子数组
-                }else {
-                    if (target <= nums[right] && target >= nums[middle]) {
-                        left = middle + 1;
-                    } else {
-                        right = middle - 1;
-                    }
-                }
-
+                r = mid - 1;
             }
         }
-        return false;
+        // 旋转点为idx
+        int idx = n;
+        if (nums[r] >= nums[0] && r + 1 < n) idx = r + 1;
+
+        // 第二次二分，找目标值
+        // 从0~idx-1找
+        int ans = find(nums, 0, idx - 1, target);
+        if (ans != -1) return true;
+        // 从idx~n-1找
+        ans = find(nums, idx, n - 1, target);
+        return ans != -1;
+    }
+
+    static int find(int[] nums, int l, int r, int t) {
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (nums[mid] >= t) {
+                r = mid;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return nums[r] == t ? r : -1;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,1,3,1};
+        int[] nums = {1, 1, 3, 1};
         System.out.println(search(nums, 1));
         System.out.println(search(nums, 3));
         System.out.println(search(nums, 7));

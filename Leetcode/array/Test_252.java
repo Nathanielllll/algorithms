@@ -21,14 +21,15 @@ public class Test_252 {
     解释: 不存在重叠区间。
      */
     public boolean canAttendMeetings(int[][] intervals) {
-        Arrays.sort(intervals);
+        Arrays.sort(intervals, ((o1, o2) -> o1[0] - o2[0]));
 
-        for (int i = 1; i < intervals.length; i++) {
+        for (int i = 0; i < intervals.length - 1; i++) {
             // 遍历会议，如果下一个会议在前一个会议结束之前就开始了，返回 false
-            if (intervals[i][0] < intervals[i - 1][1]) {
+            if (intervals[i][1] > intervals[i + 1][0]) {
                 return false;
             }
         }
+
         return true;
     }
 }

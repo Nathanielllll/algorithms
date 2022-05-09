@@ -40,6 +40,31 @@ import java.util.*;
  * 每次队列的头都是滑动窗口中值最大的
  */
 public class Test_239 {
+    public static int[] maxSlidingWindow_final(int[] nums, int k) {
+        // 双向队列，记录索引位置。最大为k
+        Deque<Integer> deque = new LinkedList<>();
+
+        int length = nums.length;
+        int[] result = new int[length - k + 1];
+        for (int i = 0; i < length; i++) {
+            while (!deque.isEmpty() && nums[i] > nums[deque.peekLast()]) {
+                deque.removeLast();
+            }
+            deque.addLast(i);
+            if (!deque.isEmpty() && i >= deque.peek() + k) {
+                deque.removeFirst();
+            }
+
+            // 开始记录
+            if (i + 1 - k >= 0) {
+                result[i + 1 - k] = nums[deque.peek()];
+            }
+        }
+        return result;
+    }
+
+
+
     public static int[] maxSlidingWindow_1(int[] nums, int k) {
         if (nums == null || nums.length < 1 || k < 1) {
             return new int[0];

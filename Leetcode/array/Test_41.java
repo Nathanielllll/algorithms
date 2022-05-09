@@ -25,6 +25,7 @@ import java.util.HashSet;
 public class Test_41 {
     // 方法三：将数组视为哈希表
     public static int firstMissingPositive(int[] nums) {
+        // 要找的数字一定在[1, N+1]中！
         if (nums == null || nums.length == 0) {
             return 1;
         }

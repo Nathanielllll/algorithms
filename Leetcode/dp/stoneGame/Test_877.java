@@ -68,8 +68,12 @@ public class Test_877 {
             return memo[left][right];
         }
 
+        // 求的是第一个人的相对分数。
+        // 比如第一个人选择最左边的，则他的相对分数是：piles[left] - dfs(piles, left + 1, right, memo);
         int chooseLeft = piles[left] - dfs(piles, left + 1, right, memo);
+        // 比如第一个人选择最右边的，则他的相对分数是：piles[right] - dfs(piles, left, right - 1, memo);
         int chooseRight = piles[right] - dfs(piles, left, right - 1, memo);
+
         int res = Math.max(chooseLeft, chooseRight);
         memo[left][right] = res;
         return res;
