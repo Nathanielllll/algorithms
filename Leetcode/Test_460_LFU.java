@@ -107,14 +107,17 @@ public class Test_460_LFU {
 
                 node = new Node(key, value, original_freq + 1);
             } else {
-                // 一个值得注意的细节
+                // 一个值得注意的细节：当总容量满了以后，找到最小freq的链表，并移除其尾节点
                 if (cache.size() >= capacity) {
+                    // 1. 找到最小freq的链表
                     int i = 1;
                     for (; i <= capacity; i++) {
                         if (freqMap.containsKey(i) && freqMap.get(i).getSize() > 0) {
                             break;
                         }
                     }
+
+                    // 2. 移除其尾节点
                     DoubleList freq_i_list = freqMap.get(i);
                     Node freq_i_last_node = freq_i_list.removeLast();
                     cache.remove(freq_i_last_node.key);

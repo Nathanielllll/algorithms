@@ -2,7 +2,7 @@ import java.util.*;
 
 class Solution {
 
-//    25. K 个一组翻转链表
+    //    25. K 个一组翻转链表
 //    42. 接雨水
 //    23. 合并K个排序链表
 //    41. 缺失的第一个正数
@@ -12,6 +12,132 @@ class Solution {
 //    72. 编辑距离
 //    4. 寻找两个正序数组的中位数
 //    239. 滑动窗口最大值
+
+
+    public int maxProfit(int k, int[] prices) {
+        if (prices == null || prices.length < 2) {
+            return 0;
+        }
+        int n = prices.length;
+
+        //一次交易由买入和卖出构成，至少需要两天。所以说有效的限制 k 应该不超过 n/2，如果超过，
+        // 就没有约束作用了，相当于 k = +infinity。这种情况是之前解决过的。
+        if (k > n / 2) {
+            return maxProfit01(prices);
+        }
+
+//        int[][][] dp = new int[n][k + 1][2];
+//        for (int i = 0; i < prices.length; i++) {
+//            /**注意k要从最大的开始！否则会被覆盖掉！*/
+//            for (int j = k; j >= 1; j--) {
+//                if (i - 1 == -1) {
+//                    dp[i][j][1] = -prices[i];
+//                    continue;
+//                }
+//                dp[i][j][0] = Math.max(dp[i-1][j][0], dp[i-1][j][1] + prices[i]);
+//                dp[i][j][1] = Math.max(dp[i-1][j][1], dp[i-1][j-1][0] - prices[i]);
+//            }
+//        }
+//        return dp[n - 1][k][0];
+
+        /**相比上面的，这段代码可以继续优化！*/
+        int[][] dp = new int[k + 1][2];
+        for (int i = 0; i < prices.length; i++) {
+            for (int j = k; j >= 1; j--) {
+                if (i - 1 == -1) {
+                    dp[j][1] = -prices[i];
+                    dp[j][0] = 0;
+                    continue;
+                }
+                dp[j][0] = Math.max(dp[j][0], dp[j][1] + prices[i]);
+                dp[j][1] = Math.max(dp[j][1], dp[j - 1][0] - prices[i]);
+            }
+        }
+        return dp[k][0];
+    }
+
+    private int maxProfit01(int[] prices) {
+        int dp_i_k_0 = 0;
+        int dp_i_k_1 = Integer.MIN_VALUE;
+
+        for (int price : prices) {
+            int dp_i_1_k_0 = dp_i_k_0;
+            dp_i_k_0 = Math.max(dp_i_k_0, dp_i_k_1 + price);
+            dp_i_k_1 = Math.max(dp_i_k_1, dp_i_1_k_0 - price);
+        }
+        return dp_i_k_0;
+    }
+
+    static List<String> braces(List<String> values) {
+        List<String> result = new ArrayList<>();
+        if (values == null || values.size() == 0) {
+            return result;
+        }
+        for (String value : values) {
+            if (isValid(value)) {
+                result.add("YES");
+            } else {
+                result.add("NO");
+            }
+        }
+        return result;
+    }
+
+    public static boolean isValid(String s) {
+        if (s.length() % 2 == 1) {
+            return false;
+        }
+        HashMap<Character, Character> hashMap = new HashMap<>();
+        hashMap.put('(', ')');
+        hashMap.put('{', '}');
+        hashMap.put('[', ']');
+
+        int length = s.length();
+
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < length; i++) {
+            if (hashMap.containsKey(s.charAt(i))) {
+                stack.push(s.charAt(i));
+                //stack里面必须要有一个'('和当前的')'对应。因此stack.isEmpty()则返回false
+            } else if (stack.isEmpty() || s.charAt(i) != hashMap.get(stack.pop())) {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public static void nextPermutation(int[] nums) {
+        int length = nums.length;
+        int i = length - 2;
+        while (i >= 0) {
+            if (nums[i] < nums[i + 1]) {
+                break;
+            }
+            --i;
+        }
+        int j = i + 1;
+        if (i >= 0) {
+            int k = length - 1;
+            while (k >= j) {
+                if (nums[k] > nums[i]) {
+                    break;
+                }
+                --k;
+            }
+            swap(nums, i, k);
+        }
+        reverse(nums, j, length - 1);
+
+
+    }
+
+    private static void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            swap(nums, i, j);
+            i++;
+            j--;
+        }
+    }
 
 
     public int canCompleteCircuit(int[] gas, int[] cost) {
@@ -33,51 +159,6 @@ class Solution {
             ++idx;
         }
         return -1;
-    }
-
-    public static int shortestSubarray(int[] nums, int k) {
-        int length = nums.length;
-        int[] preSum = new int[length];
-        preSum[0] = nums[0];
-        for (int i = 1; i < length; i++) {
-            preSum[i] = preSum[i - 1] + nums[i];
-        }
-
-        int result = Integer.MAX_VALUE;
-
-        Stack<Integer> stack = new Stack<>();// 单调递增栈
-        for (int i = 0; i < length; i++) {
-            while (!stack.isEmpty() && preSum[stack.peek()] > preSum[i]) {
-                int curIdx = stack.pop();
-                if (!stack.isEmpty()) {
-                    int leftIdx = stack.peek();
-                    if (preSum[curIdx] - preSum[leftIdx] >= k) {
-                        result = Math.min(result, curIdx - leftIdx);
-                    }
-                } else {
-                    if (preSum[curIdx] >= k) {
-                        result = Math.min(result, curIdx + 1);
-                    }
-                }
-            }
-            stack.push(i);
-        }
-
-        while (!stack.isEmpty()) {
-            int curIdx = stack.pop();
-            if (!stack.isEmpty()) {
-                int leftIdx = stack.peek();
-                if (preSum[curIdx] - preSum[leftIdx] >= k) {
-                    result = Math.min(result, curIdx - leftIdx);
-                }
-            } else {
-                if (preSum[curIdx] >= k) {
-                    result = Math.min(result, curIdx + 1);
-                }
-            }
-        }
-
-        return result == Integer.MAX_VALUE ? -1 : result;
     }
 
     public int[] nextGreaterElements(int[] nums) {
@@ -983,26 +1064,6 @@ class Solution {
     }
 
 
-    public static int singleNumber(int[] nums) {
-        int[] bits = new int[32];
-        for (int num : nums) {
-            int mask = 1;
-            for (int i = 31; i >= 0; i--) {
-                if ((num & mask) != 0) {
-                    bits[i] += 1;
-                }
-                mask <<= 1;
-            }
-        }
-
-        int result = 0;
-        for (int i = 0; i < 32; i++) {
-            bits[i] %= 3;
-            result = result * 2 + bits[i];
-        }
-        return result;
-    }
-
     public static List<String> topKFrequent(String[] words, int k) {
         Map<String, Integer> word2Freq = new HashMap<>();
         for (String word : words) {
@@ -1231,62 +1292,62 @@ class Solution {
         return result;
     }
 
-    class Node {
-        public int val;
-        public List<Node> children;
-
-        public Node() {
-        }
-
-        public Node(int _val) {
-            val = _val;
-        }
-
-        public Node(int _val, List<Node> _children) {
-            val = _val;
-            children = _children;
-        }
-    }
-
-
-    class Codec {
-        public static final String DIVIDER = ",";
-        public static final String IDENTITY = "#";
-        private int idx;
-
-        // Encodes a tree to a single string.
-        public String serialize(Node root) {
-            if (root == null) return IDENTITY;
-            StringBuilder res = new StringBuilder();
-            res.append(root.val).append(DIVIDER).append(root.children.size()).append(DIVIDER);
-            for (Node child : root.children) {
-                res.append(serialize(child));
-            }
-            return res.toString();
-        }
-
-        // Decodes your encoded data to tree.
-        public Node deserialize(String data) {
-            List<String> list = new ArrayList<>(Arrays.asList(data.split(DIVIDER)));
-            idx = 0;
-            return dfs(list);
-        }
-
-        private Node dfs(List<String> list) {
-            if (list.get(idx).equals(IDENTITY)) {
-                idx++;
-                return null;
-            }
-            Node root = new Node(Integer.parseInt(list.get(idx++)));
-            int len = Integer.parseInt(list.get(idx++));
-            List<Node> children = new ArrayList<>();
-            for (int i = 0; i < len; i++) {
-                children.add(dfs(list));
-            }
-            root.children = children;
-            return root;
-        }
-    }
+//    class Node {
+//        public int val;
+//        public List<Node> children;
+//
+//        public Node() {
+//        }
+//
+//        public Node(int _val) {
+//            val = _val;
+//        }
+//
+//        public Node(int _val, List<Node> _children) {
+//            val = _val;
+//            children = _children;
+//        }
+//    }
+//
+//
+//    class Codec {
+//        public static final String DIVIDER = ",";
+//        public static final String IDENTITY = "#";
+//        private int idx;
+//
+//        // Encodes a tree to a single string.
+//        public String serialize(Node root) {
+//            if (root == null) return IDENTITY;
+//            StringBuilder res = new StringBuilder();
+//            res.append(root.val).append(DIVIDER).append(root.children.size()).append(DIVIDER);
+//            for (Node child : root.children) {
+//                res.append(serialize(child));
+//            }
+//            return res.toString();
+//        }
+//
+//        // Decodes your encoded data to tree.
+//        public Node deserialize(String data) {
+//            List<String> list = new ArrayList<>(Arrays.asList(data.split(DIVIDER)));
+//            idx = 0;
+//            return dfs(list);
+//        }
+//
+//        private Node dfs(List<String> list) {
+//            if (list.get(idx).equals(IDENTITY)) {
+//                idx++;
+//                return null;
+//            }
+//            Node root = new Node(Integer.parseInt(list.get(idx++)));
+//            int len = Integer.parseInt(list.get(idx++));
+//            List<Node> children = new ArrayList<>();
+//            for (int i = 0; i < len; i++) {
+//                children.add(dfs(list));
+//            }
+//            root.children = children;
+//            return root;
+//        }
+//    }
 
 
     public boolean isValidSudoku(char[][] board) {
@@ -1356,11 +1417,6 @@ class Solution {
         }
     }
 
-    public static void main(String[] args) {
-        String str = "aaaa";
-        System.out.println(longestPalindrome(str));
-    }
-
     public static String longestPalindrome(String s) {
         String result = "";
         int len = s.length();
@@ -1374,6 +1430,199 @@ class Solution {
             }
         }
         return result;
+    }
+
+
+    class Node {
+        int key, value, freq;
+        Node prev, next;
+
+        public Node(int key, int value, int freq) {
+            this.key = key;
+            this.value = value;
+            this.freq = freq;
+        }
+    }
+
+    class DoubleList {
+        int size;
+        Node head, tail;
+
+        public DoubleList() {
+            size = 0;
+            head = new Node(0, 0, 0);
+            tail = new Node(0, 0, 0);
+            head.next = tail;
+            tail.prev = head;
+        }
+
+        public void addFirst(Node node) {
+            node.next = head.next;
+            node.prev = head;
+            head.next.prev = node;
+            head.next = node;
+            ++size;
+        }
+
+        public void remove(Node node) {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
+            --size;
+        }
+
+        public Node removeLast() {
+            if (tail.prev == head) {
+                return null;
+            }
+
+            Node lastNode = tail.prev;
+            remove(lastNode);
+            return lastNode;
+        }
+
+        public int getSize() {
+            return size;
+        }
+    }
+
+    class LFUCache {
+        Map<Integer, Node> cache;
+        Map<Integer, DoubleList> freqMap;
+        int cap;
+
+        public LFUCache(int cap) {
+            this.cap = cap;
+            cache = new HashMap<>();
+            freqMap = new HashMap<>();
+        }
+
+        public int get(int key) {
+            if (!cache.containsKey(key)) {
+                return -1;
+            }
+
+            int value = cache.get(key).value;
+            put(key, value);
+            return value;
+        }
+
+        public void put(int key, int value) {
+            Node node;
+            if (cache.containsKey(key)) {
+                Node original_node = cache.get(key);
+                int original_freq = original_node.freq;
+                DoubleList original_list = freqMap.get(original_freq);
+                original_list.remove(original_node);
+
+                node = new Node(key, value, original_freq + 1);
+            } else {
+                if (cache.size() >= cap) {
+                    int i = 1;
+                    for (; i <= cap; i++) {
+                        if (freqMap.containsKey(i) && freqMap.get(i).getSize() > 0) {
+                            break;
+                        }
+                    }
+
+                    DoubleList list = freqMap.get(i);
+                    Node lastNode = list.removeLast();
+                    cache.remove(lastNode.key);
+                }
+                node = new Node(key, value, 1);
+            }
+
+            cache.put(key, node);
+            DoubleList list = freqMap.getOrDefault(node.freq, new DoubleList());
+            list.addFirst(node);
+            freqMap.put(node.freq, list);
+        }
+    }
+
+    public int findRepeatNumber(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            while (i != nums[i]) {
+                if (nums[i] != nums[nums[i]]) {
+                    swap(nums, i, nums[i]);
+                } else {
+                    return nums[i];
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (root == null) return result;
+        int level = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int cnt = queue.size();
+
+            List<Integer> subResult = new ArrayList<>();
+            for (int i = 0; i < cnt; i++) {
+                TreeNode tmp = queue.poll();
+                subResult.add(tmp.val);
+
+                if (tmp.left != null) {
+                    queue.add(tmp.left);
+                }
+                if (tmp.right != null) {
+                    queue.add(tmp.right);
+                }
+            }
+
+            if (level % 2 == 1) {
+                Collections.reverse(subResult);
+            }
+            result.add(subResult);
+
+            ++level;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1,2,1,3,2,5};
+        singleNumber(nums);
+    }
+
+    public static int[] singleNumber(int[] nums) {
+        int bitRes = 0;
+        for (int num : nums) {
+            bitRes ^= num;
+        }
+
+        // 0011 ^ 0101 -> 0110
+
+
+        // 获得bitRes的bit为1时的最小的idx
+        int i = 0;
+        for (; i < 32; i++) {
+            int mask = 1 << i;
+            if ((bitRes & mask) != 0) {
+                break;
+            }
+        }
+        int bitRes1 = 0;
+        int bitRes2 = 0;
+        int curMask = 1 << i;
+        for (int num : nums) {
+            if ((num ^ curMask) != 0) {
+                bitRes1 ^= num;
+            } else {
+                bitRes2 ^= num;
+            }
+        }
+        return new int[]{bitRes1, bitRes2};
     }
 
 

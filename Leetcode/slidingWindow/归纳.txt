@@ -1,2 +1,6 @@
 30和76的区别是：两道题的条件不同。30题当中，不能包括另外的字符串；76中，可以包括另外的字符串
 438题和30的条件是一样的
+
+
+https://leetcode.cn/problems/max-consecutive-ones-iii/solution/jidao-by-iamysw-bs2s/
+1004 1493 485 424 2024 1208 904 3 1438

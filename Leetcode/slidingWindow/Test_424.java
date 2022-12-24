@@ -34,7 +34,6 @@ public class Test_424 {
         while (right < length) {
             char right_char = s.charAt(right);
             int curCount = window.getOrDefault(right_char, 0) + 1;
-
             window.put(right_char, curCount);
 
             while (right - left + 1 > curCount + k) {
