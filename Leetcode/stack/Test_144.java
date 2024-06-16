@@ -14,7 +14,7 @@ public class Test_144 {
         TreeNode right;
     }
 
-    public static List<Integer> preord5erTraversal(TreeNode node) {
+    public static List<Integer> preorderTraversal(TreeNode node) {
         LinkedList<Integer> list = new LinkedList<>();
         if (node == null) {
             return list;

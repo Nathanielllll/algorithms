@@ -29,41 +29,57 @@ package tree;
 输出：42
  */
 public class Test_124_ATTENTION {
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
 
-        TreeNode(int x) {
-            val = x;
-        }
+  public class TreeNode {
+
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+      val = x;
+    }
+  }
+
+  // 见 Test_110，Test_543。都是一样的写法！
+  private static class PathSumInfo {
+
+    int crossRootSinglePathSum; // 经过root，且是单边的
+    int pathSum;
+
+    public PathSumInfo(int crossRootSinglePathSum, int pathSum) {
+      this.crossRootSinglePathSum = crossRootSinglePathSum;
+      this.pathSum = pathSum;
+    }
+  }
+
+  public static int maxPathSum(TreeNode root) {
+    PathSumInfo info = maxPathSumDfs(root);
+    return info.pathSum;
+  }
+
+  private static PathSumInfo maxPathSumDfs(TreeNode root) {
+    if (root == null) {
+      return new PathSumInfo(0, Integer.MIN_VALUE);
     }
 
-    int res = Integer.MIN_VALUE;
+    PathSumInfo leftInfo = maxPathSumDfs(root.left);
+    PathSumInfo rightInfo = maxPathSumDfs(root.right);
 
-    public int maxPathSum(TreeNode root) {
-        if (root == null) return 0;
-        dfs(root);
-        return res;
-    }
+    // cross root
+    int p1 = root.val;
+    int p2 = root.val + leftInfo.crossRootSinglePathSum;
+    int p3 = root.val + rightInfo.crossRootSinglePathSum;
+    int curCrossRootSinglePathSum = Math.max(p1, Math.max(p2, p3));
+    int p4 = root.val + leftInfo.crossRootSinglePathSum + rightInfo.crossRootSinglePathSum;
+    int curCrossRootPathSum = Math.max(p4, curCrossRootSinglePathSum);
 
-    // 返回经过root的单边分支最大和
-    private int dfs(TreeNode root) {
-        if (root == null) return 0;
-        int left = dfs(root.left);
-        int right = dfs(root.right);
+    // not cross root
+    int curNotCrossRootSinglePathSum = Math.max(leftInfo.pathSum, rightInfo.pathSum);
 
-        int p1 = root.val;// 只有当前节点
-        int p2 = root.val + left; // 当前节点+左边分支最大和
-        int p3 = root.val + right;// 当前节点+右边分支最大和
-        int cur = Math.max(Math.max(p1, p2), p3);// 这个是最后dfs的结果：经过root的单边分支最大和
+    // path sum
+    int pathSum = Math.max(curCrossRootPathSum, curNotCrossRootSinglePathSum);
 
-        //left->root->right 作为路径与已经计算过历史最大值做比较
-        int p4 = root.val + left + right;
-        res = Math.max(res, Math.max(cur, p4));
-
-        // 少了p4，因为不可能。返回经过root的【单边最大分支】给当前root的父节点计算使用
-        // 因为如果返回p4，可能会出现多条路径乱跑的情况，是不符合题目要求的：只有一条路径。
-        return cur;
-    }
+    return new PathSumInfo(curCrossRootSinglePathSum, pathSum);
+  }
 }

@@ -4,11 +4,16 @@ package tree;
  * 平衡二叉树
  */
 public class Code_55_2_ATTENTION {
-    public static class BinaryTreeNode {
-        int value;
-        BinaryTreeNode left;
-        BinaryTreeNode right;
+    public class TreeNode {
+
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int x) {
+      val = x;
     }
+  }
 
 
     /**
@@ -31,29 +36,36 @@ public class Code_55_2_ATTENTION {
     //https://leetcode-cn.com/problems/balanced-binary-tree/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by-25/
     
 
-    public boolean isBalanced(BinaryTreeNode root) {
-        return helper(root) != -1;
-    }
-    //输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果某二叉树中任意节点的左右子树的深度相差不超过1，那么它就是一棵平衡二叉树。
-    public int helper(BinaryTreeNode root) {
-        if (root == null) return 0;
-        if (root.left == null && root.right == null) return 1;
+    private static class BalancedInfo {
 
-        int leftDepth = helper(root.left);
-        // 如果左子树不是平衡二叉树，则整棵树必然不是平衡二叉树
-        if (leftDepth == -1) return -1;
-        int rightDepth = helper(root.right);
-        // 如果右子树不是平衡二叉树，则整棵树必然不是平衡二叉树
-        if (rightDepth == -1) return -1;
+    int depth;
+    boolean balanced;
 
-        if (Math.abs(leftDepth - rightDepth) <= 1) {
-            return Math.max(leftDepth, rightDepth) + 1;
-        }
-        // -1 表示不是平衡二叉树
-        else {
-            return -1;
-        }
+    public BalancedInfo(int depth, boolean balanced) {
+      this.depth = depth;
+      this.balanced = balanced;
     }
+  }
+
+  public boolean isBalanced(TreeNode root) {
+    BalancedInfo info = balancedDfs(root);
+    return info.balanced;
+  }
+
+  private BalancedInfo balancedDfs(TreeNode root) {
+    if (root == null) {
+      return new BalancedInfo(0, true);
+    }
+    BalancedInfo leftInfo = balancedDfs(root.left);
+    BalancedInfo rightInfo = balancedDfs(root.right);
+    int curDepth = Math.max(leftInfo.depth, rightInfo.depth) + 1;
+    if (!leftInfo.balanced || !rightInfo.balanced) {
+      return new BalancedInfo(curDepth, false);
+    }
+    boolean curBalanced = Math.abs(leftInfo.depth - rightInfo.depth) <= 1;
+
+    return new BalancedInfo(curDepth, curBalanced);
+  }
 
 
 }
