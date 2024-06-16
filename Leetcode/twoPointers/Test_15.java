@@ -1,6 +1,9 @@
 package twoPointers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 三数之和为0。
@@ -16,10 +19,10 @@ public class Test_15 {
         int len = nums.length;
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
-//            //第一个数>0，三个数之和必定>0
-//            if (nums[i] > 0) {
-//                break;
-//            }
+            //第一个数>0，三个数之和必定>0
+            if (nums[i] > 0) {
+                break;
+            }
 
             //优化，若i的连续四数之和大于target，后面肯定没有符合题意的组合，直接跳出
             if ((nums[i] + nums[i + 1] + nums[i + 2]) > 0)

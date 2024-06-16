@@ -1,6 +1,7 @@
 package slidingWindow;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /*
 给你一个仅由大写英文字母组成的字符串，你可以将任意位置上的字符替换成另外的字符，总共可最多替换k次。在执行上述操作后，找到包含重复字母的最长子串的长度。
@@ -21,28 +22,32 @@ import java.util.HashMap;
  */
 public class Test_424 {
     public static void main(String[] args) {
-        String s = "AABABBA";
+        String s = "AAABABB";
         int k = 1;
         System.out.println(characterReplacement(s, k));
     }
 
     public static int characterReplacement(String s, int k) {
-        HashMap<Character, Integer> window = new HashMap<>();
-        int left = 0, right = 0;
         int result = 0;
-        int length = s.length();
-        while (right < length) {
-            char right_char = s.charAt(right);
-            int curCount = window.getOrDefault(right_char, 0) + 1;
-            window.put(right_char, curCount);
+        int left = 0;
+        int right = 0;
+        int historyMaxCnt = 0;
+        Map<Character, Integer> window = new HashMap<>();
+        while (right < s.length()) {
+            char r_char = s.charAt(right);
+            int r_cnt = window.getOrDefault(r_char, 0) + 1;
+            window.put(r_char, r_cnt);
+            historyMaxCnt = Math.max(historyMaxCnt, r_cnt);
+            ++right;
 
-            while (right - left + 1 > curCount + k) {
-                char left_char = s.charAt(left);
-                window.put(left_char, window.getOrDefault(left_char, 0) - 1);
-                left++;
+            // 为什么只需要维护historyMaxCnt就可以了？因为我希望right - left尽可能大，也就是希望historyMaxCnt尽可能大。因此只需要记录历史上的historyMaxCnt即可
+            if (right - left <= historyMaxCnt + k) {
+                result = Math.max(result, right - left);
+            } else {
+                char l_char = s.charAt(left);
+                window.put(l_char, window.get(l_char) - 1);
+                ++left;
             }
-            result = Math.max(result, right - left);
-            right++;
         }
         return result;
     }

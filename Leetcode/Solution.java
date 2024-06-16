@@ -1,4 +1,15 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 class Solution {
 
@@ -88,19 +99,21 @@ class Solution {
             return false;
         }
         HashMap<Character, Character> hashMap = new HashMap<>();
-        hashMap.put('(', ')');
-        hashMap.put('{', '}');
-        hashMap.put('[', ']');
-
-        int length = s.length();
+        hashMap.put(')', '(');
+        hashMap.put('}', '{');
+        hashMap.put(']', '[');
 
         Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < length; i++) {
-            if (hashMap.containsKey(s.charAt(i))) {
-                stack.push(s.charAt(i));
-                //stack里面必须要有一个'('和当前的')'对应。因此stack.isEmpty()则返回false
-            } else if (stack.isEmpty() || s.charAt(i) != hashMap.get(stack.pop())) {
-                return false;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (hashMap.containsKey(ch)) {
+                if (!stack.isEmpty() && stack.peek() == hashMap.get(ch)) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            } else {
+                stack.add(ch);
             }
         }
         return stack.isEmpty();
@@ -904,7 +917,7 @@ class Solution {
         return dp;
     }
 
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
 

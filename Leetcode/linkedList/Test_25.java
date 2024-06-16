@@ -17,61 +17,56 @@ package linkedList;
  * <p>
  * 说明 :
  * <p>
- * 你的算法只能使用常数的额外空间。
- * 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+ * 你的算法只能使用常数的额外空间。 你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
  */
 public class Test_25 {
 
-    public static class ListNode {
-        int val;
-        ListNode next;
+  public static class ListNode {
 
-        ListNode(int x) {
-            val = x;
-        }
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+      val = x;
     }
+  }
 
-    public static ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null) return head;
+  public static ListNode reverseKGroup(ListNode head, int k) {
+    ListNode dummy = new ListNode(-1);
+    dummy.next = head;
 
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-
-        ListNode start = dummy;
-        ListNode end = dummy;
-
-        while (end.next != null) {
-            for (int i = 0; i < k && end != null; i++) {
-                end = end.next;
-            }
-            if (end == null) {
-                break;
-            }
-
-            ListNode next = end.next;
-            ListNode pre = start;
-
-            start = start.next;
-            end.next = null;
-
-            pre.next = reverse(start);
-            start.next = next;
-            end = start;
-        }
-
-        return dummy.next;
+    ListNode left = dummy;
+    ListNode right = left;
+    while (true) {
+      int countDown = k;
+      while (right != null && countDown > 0) {
+        right = right.next;
+        countDown--;
+      }
+      if (right == null) {
+        break;
+      }
+      ListNode rightNext = right.next;
+      ListNode leftNext = left.next;
+      right.next = null;
+      left.next = reverse(leftNext);
+      leftNext.next = rightNext;
+      left = leftNext;
+      right = left;
     }
+    return dummy.next;
+  }
 
-    public static ListNode reverse(ListNode node) {
-        ListNode next;
-        ListNode pre = null;
-        while (node != null) {
-            next = node.next;
-            node.next = pre;
-            pre = node;
-            node = next;
-        }
-        return pre;
+  public static ListNode reverse(ListNode node) {
+    ListNode next;
+    ListNode pre = null;
+    while (node != null) {
+      next = node.next;
+      node.next = pre;
+      pre = node;
+      node = next;
     }
+    return pre;
+  }
 
 }

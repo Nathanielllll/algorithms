@@ -1,109 +1,77 @@
 import java.util.HashMap;
+import java.util.Map;
+
 // 很容易犯错的一点是：处理链表节点的同时不要忘了更新哈希表中对节点的映射。
 public class Test_146_LRU {
 
-    static class Node{
-        int key, value;
-        Node prev, next;
+  private static class LruNode {
 
-        public Node(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
+    int key;
+    int val;
+    LruNode prev;
+    LruNode next;
+
+    public LruNode(int key, int val) {
+      this.key = key;
+      this.val = val;
+    }
+  }
+
+  class LRUCache {
+
+    private Map<Integer, LruNode> cache;
+    private LruNode head;
+    private LruNode tail;
+    private int capacity;
+
+    public LRUCache(int capacity) {
+      this.cache = new HashMap<>();
+      this.head = new LruNode(0, 0);
+      this.tail = new LruNode(0, 0);
+      this.head.next = this.tail;
+      this.tail.prev = this.head;
+      this.capacity = capacity;
     }
 
-    static class DoubleList{
-        int size;
-        Node head, tail;
-
-        public DoubleList() {
-            head = new Node(0, 0);
-            tail = new Node(0, 0);
-            head.next = tail;
-            tail.prev = head;
-            size = 0;
-        }
-
-        public void addFirst(Node node){
-            node.next = head.next;
-            node.prev = head;
-            head.next.prev = node;
-            head.next = node;
-            size++;
-        }
-
-        public void remove(Node node){
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
-            size--;
-        }
-
-        public Node removeLast(){
-            if (tail.prev == head) {
-                return null;
-            }
-            Node last = tail.prev;
-            remove(last);
-            return last;
-        }
-
-        public int getSize(){
-            return size;
-        }
+    public int get(int key) {
+      if (cache.containsKey(key)) {
+        LruNode node = cache.get(key);
+        remove(node);
+        insert(node);
+        return node.val;
+      } else {
+        return -1;
+      }
     }
 
-    static class  LRUCache{
-        HashMap<Integer, Node> cache;
-        DoubleList list;
-        int cap;
+    public void put(int key, int value) {
+      if (cache.containsKey(key)) {
+        remove(cache.get(key));
+      }
+      LruNode newNode = new LruNode(key, value);
+      cache.put(key, newNode);
+      insert(newNode);
 
-        public LRUCache(int cap) {
-            this.cap = cap;
-            cache = new HashMap<>();
-            list = new DoubleList();
-        }
-
-        //先写put，再写get
-        public void put(int key, int value){
-            if(cache.containsKey(key)){
-                //删除list当中的key对应的原来的node
-                Node original_node = cache.get(key);
-                list.remove(original_node);
-            }else {
-                if(list.getSize() == this.cap){
-                    Node last = list.removeLast();
-                    //如果没有这个key，为啥还要删除？？？
-                    //因为删除的是原来的list的最后节点！！
-                    cache.remove(last.key);
-                }
-            }
-
-            Node node = new Node(key, value);
-            cache.put(key, node);
-            list.addFirst(node);
-        }
-
-        public int get(int key){
-            if (!cache.containsKey(key)) {
-                return -1;
-            }
-            int value = cache.get(key).value;
-            put(key, value);
-            return value;
-        }
+      if (cache.size() > capacity) {
+        LruNode lru = this.head.next;
+        remove(lru);
+        cache.remove(lru.key);
+      }
     }
 
-    public static void main(String[] args) {
-        LRUCache cache = new LRUCache(2);
-        cache.put(1, 1);
-        cache.put(2, 2);
-        System.out.println(cache.get(1));       // 返回  1
-        cache.put(3, 3);    // 该操作会使得密钥 2 作废
-        System.out.println(cache.get(2));       // 返回 -1 (未找到)
-        cache.put(4, 4);    // 该操作会使得密钥 1 作废
-        System.out.println(cache.get(1));;       // 返回 -1 (未找到)
-        System.out.println(cache.get(3));       // 返回  3
-        System.out.println(cache.get(4));       // 返回  4
-
+    private void remove(LruNode node) {
+      LruNode prev = node.prev;
+      LruNode next = node.next;
+      prev.next = next;
+      next.prev = prev;
     }
+
+    private void insert(LruNode node) {
+      LruNode prev = this.tail.prev;
+      prev.next = node;
+      node.prev = prev;
+      node.next = this.tail;
+      this.tail.prev = node;
+    }
+  }
 }
