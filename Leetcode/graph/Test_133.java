@@ -1,6 +1,11 @@
 package graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /*
 给你无向连通图中一个节点的引用，请你返回该图的深拷贝（克隆）。
@@ -33,46 +38,64 @@ class Node {
 
  */
 public class Test_133 {
-    public Node cloneGraph(Node node) {
-        if (node == null) {
-            return node;
-        }
-        HashMap<Node, Node> visited = new HashMap<>();
-        Queue<Node> queue = new LinkedList<>();
-        queue.add(node);
-        visited.put(node, new Node(node.val));
 
-        while (!queue.isEmpty()) {
-            Node temp = queue.poll();
-            for(Node neighbor : temp.neighbors){
-                if (!visited.containsKey(neighbor)) {
-                    visited.put(neighbor, new Node(neighbor.val));
-                    queue.add(neighbor);
-                }
-                visited.get(temp).neighbors.add(visited.get(neighbor));
-            }
-        }
+  public Node cloneGraph(Node node) {
+    if (node == null) {
+      return node;
+    }
+    HashMap<Node, Node> visited = new HashMap<>();
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(node);
+    visited.put(node, new Node(node.val));
 
-        return visited.get(node);
+    while (!queue.isEmpty()) {
+      Node temp = queue.poll();
+      for (Node neighbor : temp.neighbors) {
+        if (!visited.containsKey(neighbor)) {
+          visited.put(neighbor, new Node(neighbor.val));
+          queue.add(neighbor);
+        }
+        visited.get(temp).neighbors.add(visited.get(neighbor));
+      }
     }
 
-    class Node {
-        public int val;
-        public List<Node> neighbors;
+    return visited.get(node);
+  }
 
-        public Node() {
-            val = 0;
-            neighbors = new ArrayList<Node>();
-        }
-
-        public Node(int _val) {
-            val = _val;
-            neighbors = new ArrayList<Node>();
-        }
-
-        public Node(int _val, ArrayList<Node> _neighbors) {
-            val = _val;
-            neighbors = _neighbors;
-        }
+  private Node cloneGraphDfs(Node node, Map<Node, Node> map) {
+    if (node == null) {
+      return null;
     }
+    if (map.containsKey(node)) {
+      return map.get(node);
+    }
+
+    Node newNode = new Node(node.val);
+    map.put(node, newNode);
+    for (int i = 0; i < node.neighbors.size(); i++) {
+      newNode.neighbors.add(cloneGraphDfs(node.neighbors.get(i), map));
+    }
+    return newNode;
+  }
+
+  class Node {
+
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {
+      val = 0;
+      neighbors = new ArrayList<Node>();
+    }
+
+    public Node(int _val) {
+      val = _val;
+      neighbors = new ArrayList<Node>();
+    }
+
+    public Node(int _val, ArrayList<Node> _neighbors) {
+      val = _val;
+      neighbors = _neighbors;
+    }
+  }
 }

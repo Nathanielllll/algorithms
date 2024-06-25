@@ -38,7 +38,7 @@ public class Test_90 {
     }
 
     public void subProcess(Stack<Integer> stack, int[] nums, int start){
-        result.add(new ArrayList(stack));
+        result.add(new ArrayList<>(stack));
         for (int i = start; i < nums.length; i++) {
             if(i > start && nums[i] == nums[i-1]){
                 continue;

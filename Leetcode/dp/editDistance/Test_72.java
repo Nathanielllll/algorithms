@@ -46,7 +46,7 @@ package dp.editDistance;
  *
  *
  *
- * dp[i][j] 代表 word1 到 i 位置转换成 word2 到 j 位置需要最少步数。因此它们都是已经匹配好的。
+ * 注意！！dp[i][j] 代表 word1 到 i 位置转换成 word2 到 j 位置需要最少步数。因此它们都是已经匹配好的。
  *
  * 对“dp[i-1][j-1] 表示替换操作，dp[i-1][j] 表示删除操作，dp[i][j-1] 表示插入操作。”的补充理解：
  * 以 word1 为 "horse"，word2 为 "ros"，且 dp[5][3] 为例，即要将 word1的前 5 个字符转换为 word2的前 3 个字符，也就是将 horse 转换为 ros，因此有：
@@ -83,16 +83,15 @@ public class Test_72 {
     }
 
 
-    static int[][] memo;
     public static int minDistance1(String word1, String word2) {
         int size1 = word1.length();
         int size2 = word2.length();
-        memo = new int[size1][size2];
+        int[][] memo = new int[size1][size2];
 
-        return dp(size1 - 1, size2 - 1, word1, word2);
+        return minDistanceDfs(size1 - 1, size2 - 1, word1, word2, memo);
     }
 
-    private static int dp(int i, int j, String word1, String word2) {
+    private static int minDistanceDfs(int i, int j, String word1, String word2, int[][] memo) {
         if (i == -1) {
             return j + 1;
         }
@@ -108,10 +107,11 @@ public class Test_72 {
         char ch2 = word2.charAt(j);
 
         if (ch1 == ch2) {
-            memo[i][j] = dp(i - 1, j - 1, word1, word2);
+            memo[i][j] = minDistanceDfs(i - 1, j - 1, word1, word2, memo);
         } else {
-            memo[i][j]=  Math.min(dp(i - 1, j, word1, word2),
-                    Math.min(dp(i, j - 1, word1, word2), dp(i - 1, j - 1, word1, word2))) + 1;
+            memo[i][j] = Math.min(minDistanceDfs(i - 1, j, word1, word2, memo),
+                Math.min(minDistanceDfs(i, j - 1, word1, word2, memo),
+                    minDistanceDfs(i - 1, j - 1, word1, word2, memo))) + 1;
         }
         return memo[i][j];
     }

@@ -55,24 +55,20 @@ public class Test_329_bfs {
         }
         int rows = matrix.length;
         int cols = matrix[0].length;
-        boolean[][] visited;
         Queue<Pair> queue;
 
         int res = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                visited = new boolean[rows][cols];
                 queue = new LinkedList<>();
-                res = Math.max(res, bfs(matrix, i, j, visited, queue));
+                res = Math.max(res, bfs(matrix, i, j, queue));
             }
         }
         return res;
     }
 
 
-    public static int bfs(int[][] matrix, int row, int col,
-                          boolean[][] visited, Queue<Pair> queue) {
-//        visited[row][col] = true;
+    public static int bfs(int[][] matrix, int row, int col, Queue<Pair> queue) {
         queue.add(new Pair(row, col));
 
         int step = 0;

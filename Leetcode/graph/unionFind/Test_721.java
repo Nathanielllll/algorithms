@@ -1,6 +1,10 @@
 package graph.unionFind;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
 给定一个列表 accounts，每个元素 accounts[i]是一个字符串列表，其中第一个元素 accounts[i][0]是名称 (name)，其余元素是 emails 表示该账户的邮箱地址。
@@ -25,7 +29,10 @@ accounts = [["John", "johnsmith@mail.com", "john00@mail.com"], ["John", "johnnyb
  */
 public class Test_721 {
     class Djset {
+        // 用于记录该节点的父节点，所有父节点相同的节点位于同一连通图
         private int[] parent;
+        // 节点的秩，主要记录该节点目前位于的树的深度，从子节点出发
+        // 主要用于优化，在合并两个父节点时，通过rank的大小判断谁父谁子
         private int[] rank;
 
         public Djset(int length) {
@@ -47,6 +54,7 @@ public class Test_721 {
             int x_root = findRoot(x);
             int y_root = findRoot(y);
             if (rank[x_root] < rank[y_root]) {
+                // 谁rank大，谁做父节点
                 parent[x_root] = y_root;
             } else if (rank[y_root] < rank[x_root]) {
                 parent[y_root] = x_root;

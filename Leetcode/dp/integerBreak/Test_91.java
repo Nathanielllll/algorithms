@@ -30,38 +30,21 @@ package dp.integerBreak;
  *
  */
 public class Test_91 {
-    public static int numDecodings(String s) {
-        int length = s.length();
-        int[] dp = new int[length + 1];
-        // base case：初始化条件？
-        dp[length] = 1;
-        dp[length - 1] = s.charAt(length - 1) == '0' ? 0 : 1;
-        for (int i = s.length() - 2; i >= 0; i--) {
-            String str1 = s.substring(i, i + 1);
-            String str2 = s.substring(i, i + 2);
-            if (meetRequirement(str1)) {
-                dp[i] += dp[i + 1];
-            }
-            if (meetRequirement(str2)) {
-                dp[i] += dp[i + 2];
-            }
+    public int numDecodings(String s) {
+        int n = s.length();
+        s = " " + s;
+        char[] cs = s.toCharArray();
+        int[] f = new int[n + 1];
+        f[0] = 1; // 必须要有一个边界条件，否则后续只能为0
+        for (int i = 1; i <= n; i++) {
+            // a : 代表「当前位置」单独形成 item
+            // b : 代表「当前位置」与「前一位置」共同形成 item
+            int a = cs[i] - '0', b = (cs[i - 1] - '0') * 10 + (cs[i] - '0');
+            // 如果 a 属于有效值，那么 f[i] 可以由 f[i - 1] 转移过来
+            if (1 <= a && a <= 9) f[i] = f[i - 1];
+            // 如果 b 属于有效值，那么 f[i] 可以由 f[i - 2] 或者 f[i - 1] & f[i - 2] 转移过来
+            if (10 <= b && b <= 26) f[i] += f[i - 2];
         }
-        return dp[0];
+        return f[n];
     }
-
-    private static boolean meetRequirement(String s) {
-        int result = 0;
-        try {
-            result = Integer.parseInt(s);
-        } catch (Exception e) {
-            return false;
-        }
-
-        if (s.length() == 1) {
-            return result >= 1 && result <= 9;
-        } else {
-            return result >= 10 && result <= 26;
-        }
-    }
-
 }

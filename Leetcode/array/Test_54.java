@@ -26,55 +26,48 @@ import java.util.List;
  * 输出: [1,2,3,4,8,12,11,10,9,5,6,7]
  */
 public class Test_54 {
-    static List<Integer> result;
-
     public static List<Integer> spiralOrder(int[][] matrix) {
-        result = new ArrayList<>();
-
-        if (matrix == null) {
-            return result;
-        }
-
+        List<Integer> result = new ArrayList<>();
         int tRow = 0;
         int tCol = 0;
         int dRow = matrix.length - 1;
         int dCol = matrix[0].length - 1;
 
         while (tRow <= dRow && tCol <= dCol) {
-            addEdge(matrix, tRow++, tCol++, dRow--, dCol--);
+            spiralOrderProcess(matrix, tRow++, tCol++, dRow--, dCol--, result);
         }
-
         return result;
     }
 
-    private static void addEdge(int[][] matrix, int tRow, int tCol, int dRow, int dCol) {
-        //一行
-        if (tRow == dRow) {
-            while (tCol <= dCol) {
-                result.add(matrix[tRow][tCol++]);
+    private static void spiralOrderProcess(int[][] matrix, int upRow, int upCol, int downRow,
+        int downCol, List<Integer> result) {
+        if (upRow == downRow) {
+            int times1 = downCol - upCol;
+            for (int i = 0; i <= times1; i++) {
+                result.add(matrix[upRow][upCol + i]);
             }
-        }
-        //一列
-        else if (tCol == dCol) {
-            while (tRow <= dRow) {
-                result.add(matrix[tRow++][tCol]);
+        } else if (upCol == downCol) {
+            int times2 = downRow - upRow;
+            for (int i = 0; i <= times2; i++) {
+                result.add(matrix[upRow + i][downCol]);
             }
         } else {
-            int curRow = tRow;
-            int curCol = tCol;
-            while (curCol < dCol) {
-                result.add(matrix[tRow][curCol++]);
+            int times1 = downCol - upCol;
+            int times2 = downRow - upRow;
+            for (int i = 0; i < times1; i++) {
+                result.add(matrix[upRow][upCol + i]);
             }
-            while (curRow < dRow) {
-                result.add(matrix[curRow++][dCol]);
+            for (int i = 0; i < times2; i++) {
+                result.add(matrix[upRow + i][downCol]);
             }
-            while (curCol > tCol) {
-                result.add(matrix[dRow][curCol--]);
+            for (int i = 0; i < times1; i++) {
+                result.add(matrix[downRow][downCol - i]);
             }
-            while (curRow > tRow) {
-                result.add(matrix[curRow--][tCol]);
+            for (int i = 0; i < times2; i++) {
+                result.add(matrix[downRow - i][upCol]);
             }
         }
+
     }
 
 

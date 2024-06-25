@@ -52,7 +52,8 @@ public class Test_115_ATTENTION {
             for (int j = 1; j <= t_length; j++) {
                 // 当二者相等时，有两种选择：
                 // 1. 一部分是用s[i - 1]来匹配，那么个数为dp[i - 1][j - 1]。
-                // 2. 一部分是不用s[i - 1]来匹配，个数为dp[i - 1][j]。例如： s：bagg 和 t：bag ，s[3] 和 t[2]是相同的，
+                // 2. 一部分是不用s[i - 1]来匹配，个数为dp[i - 1][j]。
+                // 例如： s：bagg 和 t：bag ，s[3] 和 t[2]是相同的，
                 // 但是s也可以不用s[3]来匹配，即s[0]s[1]s[2]组成的bag。当然也可以用s[3]来匹配，即：s[0]s[1]s[3]组成的bag。
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];

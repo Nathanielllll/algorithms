@@ -1,33 +1,46 @@
-import java.util.Collections;
 import java.util.PriorityQueue;
 
-public class MedianFinder {
-    /** initialize your data structure here. */
-    private PriorityQueue<Integer> maxHeap;
-    private PriorityQueue<Integer> minHeap;
-    //假设maxHeap的个数要比minHeap的个数多
-    public MedianFinder() {
-        maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        minHeap = new PriorityQueue<>();
-    }
+class MedianFinder {
 
-    
-    public void addNum(int num) {
-        maxHeap.offer(num);
-        minHeap.offer(maxHeap.poll());
-        if (minHeap.size() > maxHeap.size()) {
-            maxHeap.add(minHeap.poll());
-        }
-    }
+  // large elements - minHeap
+  private final PriorityQueue<Integer> largeHeap;
+  //small elements - maxHeap
+  private final PriorityQueue<Integer> smallHeap;
 
-    public double findMedian() {
-        if (maxHeap.isEmpty()) {
-            return 0.0;
-        }
-        if (maxHeap.size() == minHeap.size()) {
-            return (maxHeap.peek() + minHeap.peek()) * 0.5;
-        }else {
-            return maxHeap.peek() * 1.0;
-        }
+  public MedianFinder() {
+    largeHeap = new PriorityQueue<>();
+    smallHeap = new PriorityQueue<>((a, b) -> b - a);
+  }
+
+  public void addNum(int num) {
+    // 方案一：
+//      largeHeap.offer(num);
+//      smallHeap.offer(largeHeap.poll());
+//      if (largeHeap.size() < smallHeap.size()) {
+//        largeHeap.offer(smallHeap.poll());
+//      }
+
+    // 方案二：
+    largeHeap.offer(num);
+    if ((largeHeap.size() - smallHeap.size() > 1)
+        ||
+        (!largeHeap.isEmpty() && !smallHeap.isEmpty() && largeHeap.peek() < smallHeap.peek())) {
+      smallHeap.offer(largeHeap.poll());
     }
+    if (smallHeap.size() > largeHeap.size()) {
+      largeHeap.offer(smallHeap.poll());
+    }
+  }
+
+  public double findMedian() {
+    if (largeHeap.isEmpty()) {
+      return 0.0;
+    } else {
+      if (largeHeap.size() == smallHeap.size()) {
+        return (largeHeap.peek() + smallHeap.peek()) * 0.5;
+      } else {
+        return largeHeap.peek() * 1.0;
+      }
+    }
+  }
 }

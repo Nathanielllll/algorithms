@@ -69,52 +69,42 @@ public class Test_130 {
         }
     }
 
-    private class Point {
-        int row;
-        int col;
-
-        public Point(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
-
     // =============bfs==============
-    public void solve_1(char[][] board) {
-        if (board == null || board.length == 0) return;
-        int rows = board.length;
-        int cols = board[0].length;
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                boolean isEdge = i == 0 || j == 0 || i == rows - 1 || j == cols - 1;
-                if (isEdge) {
-                    bfs(board, i, j);
+    private void solveBfs(char[][] board) {
+        int[][] directs = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        Queue<int[]> queue = new LinkedList<>();
+        int m = board.length;
+        int n = board[0].length;
+        // 处理边界的'O'
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
+                    if (board[i][j] == 'O') {
+                        queue.add(new int[]{i, j});
+                    }
                 }
             }
         }
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        while (!queue.isEmpty()) {
+            int[] treasure = queue.poll();
+            int row = treasure[0];
+            int col = treasure[1];
+            board[row][col] = '#';
+            for (int j = 0; j < 4; j++) {
+                int x = row + directs[j][0];
+                int y = col + directs[j][1];
+                if (x >= 0 && x < m && y >= 0 && y < n && board[x][y] == 'O') {
+                    queue.add(new int[]{x, y});
+                }
+            }
+        }
+        //
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (board[i][j] == 'O') {
                     board[i][j] = 'X';
                 } else if (board[i][j] == '#') {
                     board[i][j] = 'O';
-                }
-            }
-        }
-    }
-
-    private void bfs(char[][] board, int i, int j) {
-        Queue<Point> queue = new LinkedList<>();
-        queue.add(new Point(i, j));
-        while (!queue.isEmpty()) {
-            Point temp = queue.poll();
-            if (temp.row >= 0 && temp.col >= 0 && temp.row < board.length && temp.col < board[0].length
-                    && board[temp.row][temp.col] == 'O') {
-                board[temp.row][temp.col] = '#';
-                for (int k = 0; k < 4; k++) {
-                    queue.add(new Point(temp.row + dx[k], temp.col + dy[k]));
                 }
             }
         }

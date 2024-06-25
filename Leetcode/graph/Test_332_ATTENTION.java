@@ -6,6 +6,19 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Test_332_ATTENTION {
+
+    public static void main(String[] args) {
+//        ["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]
+        List<List<String>> tickets = new ArrayList<>();
+        tickets.add(List.of("MUC","LHR"));
+        tickets.add(List.of("JFK","MUC"));
+        tickets.add(List.of("SFO","SJC"));
+        tickets.add(List.of("LHR","SFO"));
+        Test_332_ATTENTION test = new Test_332_ATTENTION();
+        test.findItinerary(tickets);
+
+    }
+
     public List<String> findItinerary(List<List<String>> tickets) {
         List<String> result = new ArrayList<>();
         if (tickets == null || tickets.size() == 0) {

@@ -61,6 +61,7 @@ public class Test_312 {
             int left = dfs(nums, start, i, cache);
             int right = dfs(nums, i, end, cache);
             int curCoins = nums[i] * nums[start] * nums[end];
+            // curCoins + left + right : 先戳掉（i，k）与（k，j）区间内的气球，最后剩这三个，此时戳掉 k
             max = Math.max(max, curCoins + left + right);
         }
         cache[start][end] = max;

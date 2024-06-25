@@ -44,6 +44,7 @@ public class Test_765 {
 
     static class UnionFind {
         private int[] parent;
+        // 用于记录并查集的数量,某些情况下该成员非必要
         private int count;
         private int[] rank;
 

@@ -1,9 +1,5 @@
 package dp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /*
 数组的每个下标作为一个阶梯，第 i 个阶梯对应着一个非负数的体力花费值cost[i]（下标从 0 开始）。
 
@@ -24,27 +20,23 @@ import java.util.List;
 解释：最低花费方式是从 cost[0] 开始，逐个经过那些 1 ，跳过 cost[3] ，一共花费 6 。
  */
 public class Test_746 {
-    public static void main(String[] args) {
-        int[] cost = {1, 100, 1, 1, 1, 100, 1, 1, 100, 1};
 
-        System.out.println(minCostClimbingStairs(cost));
+  public static void main(String[] args) {
+    int[] cost = {1, 100, 1, 1, 1, 100, 1, 1, 100, 1};
+
+    System.out.println(minCostClimbingStairs(cost));
+  }
+
+  public static int minCostClimbingStairs(int[] cost) {
+    int n = cost.length;
+
+    int[] dp = new int[n + 1];
+    System.arraycopy(cost, 0, dp, 0, 2);
+    for (int i = 2; i <= n; i++) {
+      int c = i == n ? 0 : cost[i];
+      dp[i] = Math.min(dp[i - 1], dp[i - 2]) + c;
     }
-
-    public static int minCostClimbingStairs(int[] cost) {
-        List<Integer> list = new ArrayList<>();
-        for (int j : cost) {
-            list.add(j);
-        }
-        list.add(0);
-        int[] dp = new int[cost.length + 1];
-
-        for (int i = 0; i < 2; i++) {
-            dp[i] = list.get(i);
-        }
-        for (int i = 2; i <= cost.length; i++) {
-            dp[i] = Math.min(dp[i - 1], dp[i - 2]) + list.get(i);
-        }
-        return dp[cost.length];
-    }
+    return dp[n];
+  }
 
 }

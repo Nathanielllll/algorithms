@@ -28,42 +28,42 @@ package dfs;
 
  */
 public class Test_329 {
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, -1, 0, 1};
 
-    public static int longestIncreasingPath(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return 0;
-        }
-        int rows = matrix.length;
-        int cols = matrix[0].length;
-        // memo表示从当前位置【出发】，最长的长度
-        int[][] memo = new int[rows][cols];
+  public int longestIncreasingPath(int[][] matrix) {
+    return longestIncreasingPathDfs(matrix);
+  }
 
-        int maxLength = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                maxLength = Math.max(maxLength, dfs(matrix, memo, i, j));
-            }
-        }
-        return maxLength;
+  private int longestIncreasingPathDfs(int[][] matrix) {
+    int m = matrix.length;
+    int n = matrix[0].length;
+    int[][] directs = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+    int result = 0;
+    int[][] memo = new int[m][n];
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        result = Math.max(result, longestIncreasingPathDfs(matrix, i, j, m, n, directs, memo));
+      }
+    }
+    return result;
+  }
+
+  private int longestIncreasingPathDfs(int[][] matrix, int i, int j, int m, int n,
+      int[][] directs, int[][] memo) {
+    if (memo[i][j] != 0) {
+      return memo[i][j];
     }
 
-    public static int dfs(int[][] matrix, int[][] memo, int row, int col) {
-        if (memo[row][col] != 0) {
-            return memo[row][col];
-        }
-
-        int res = 1;
-        for (int i = 0; i < 4; i++) {
-            int nextRow = row + dx[i];
-            int nextCol = col + dy[i];
-            if (nextRow >= 0 && nextRow < matrix.length && nextCol >= 0 && nextCol < matrix[0].length
-                    && matrix[nextRow][nextCol] > matrix[row][col]) {
-                res = Math.max(res, 1 + dfs(matrix, memo, nextRow, nextCol));
-            }
-        }
-        memo[row][col] = Math.max(memo[row][col], res);
-        return memo[row][col];
+    int level = 1;
+    for (int k = 0; k < 4; k++) {
+      int x = i + directs[k][0];
+      int y = j + directs[k][1];
+      if (x >= 0 && x < m && y >= 0 && y < n && matrix[x][y] > matrix[i][j]) {
+        level = Math.max(level, 1 + longestIncreasingPathDfs(matrix, x, y, m, n, directs, memo));
+      }
     }
+//    memo[i][j] = Math.max(memo[i][j], level);
+    // 下面这种写法也可以的。因为memo表示从当前位置【出发】，最长的长度
+    memo[i][j] = level;
+    return level;
+  }
 }
