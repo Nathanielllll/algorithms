@@ -28,6 +28,8 @@ public class Test_57 {
             result_list.add(intervals[idx++]);
         }
 
+        // 到这里，必有intervals[idx][1] >= newInterval[0]
+        // 如果intervals[idx][0] > newInterval[1]，则必然没有重合了
         // 接着判断当前区间是否与新区间重叠，重叠的话就进行合并，直到遍历到当前区间在新区间的右边且相离，
         // 将最终合并后的新区间加入结果集
         while (idx < length && intervals[idx][0] <= newInterval[1]) {

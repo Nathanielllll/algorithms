@@ -41,7 +41,7 @@ public class Test_435_ATTENTION {
     }
 
     //1，如果后面区间的头小于当前区间的尾，
-    //比如当前区间是[3,6]，后面区间是[4,5]或者是[5,9]
+    //比如当前区间是[3,6]，后面区间是[4,5]或者是[5,9]。一定要注意是 right > intervals[i][0]是重复的。因为根据题意，right == intervals[i][0]是不重合的
     //说明这两个区间有重复，必须要移除一个，那么要移除哪个呢，为了防止在下一个区间和现有区间有重叠，我们应该让现有区间越短越好，所以应该移除尾部比较大的，保留尾部比较小的。
     //2，如果后面区间的头不小于当前区间的尾，说明他们没有重合，不需要移除
     public static int eraseOverlapIntervals(int[][] intervals) {
@@ -51,7 +51,7 @@ public class Test_435_ATTENTION {
         int length = intervals.length;
         int right = intervals[0][1];
         for (int i = 1; i < length; i++) {
-            if (intervals[i][0] < right) {
+            if (right > intervals[i][0]) {
                 right = Math.min(right, intervals[i][1]);
                 res++;
             } else {

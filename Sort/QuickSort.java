@@ -1,46 +1,40 @@
-import java.util.Random;
-
 public class QuickSort {
-    public void quickSort(int[] nums, int start, int end) {
-        if (start < end) {
-            int idx = partition(nums, start, end);
-            quickSort(nums, start, idx - 1);
-            quickSort(nums, idx + 1, end);
-        }
+
+  public void quickSort(int[] array) {
+    quickSort(array, 0, array.length - 1);
+  }
+
+  public void quickSort(int[] array, int low, int high) {
+    if (low < high) {
+      int pointer = partition(array, low, high);
+      quickSort(array, low, pointer - 1);
+      quickSort(array, pointer + 1, high);
     }
+  }
 
-    private Random random = new Random(System.currentTimeMillis());
+  public int partition(int[] array, int low, int high) {
+    int pivot = array[high];
 
-    public int partition(int[] nums, int left, int right) {
-        if (right > left) {
-            int randomIdx = left + 1 + random.nextInt(right - left);
-            swap(nums, left, randomIdx);
-        }
-
-        int j = left;
-        int pivot = nums[left];
-        // all in [left + 1, lt] < pivot
-        // all in [lt + 1, i) >= pivot
-        for (int i = left + 1; i <= right; i++) {
-            if (nums[i] < pivot) {
-                ++j;
-                swap(nums, i, j);
-            }
-        }
-        swap(nums, j, left);
-        // 交换以后 nums[left..j - 1] < pivot, nums[j] = pivot, nums[j + 1..right] >= pivot
-        return j;
+    int pointer = low;
+    for (int i = low; i < high; i++) {
+      if (array[i] <= pivot) {
+        swap(array, pointer, i);
+        pointer++;
+      }
     }
+    swap(array, high, pointer);
+    return pointer;
+  }
 
-    public void swap(int[] nums, int i, int j) {
-        int temp = nums[i];
-        nums[i] = nums[j];
-        nums[j] = temp;
-    }
+  public void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
+  }
 
-    public static void main(String[] args) {
-        QuickSort quickSort = new QuickSort();
-        int[] nums = {4,5,7,3,2,3,5,1,1,2,3};
-        quickSort.quickSort(nums, 0, nums.length - 1);
-    }
+  public static void main(String[] args) {
+    QuickSort quickSort = new QuickSort();
+    int[] nums = {4, 5, 7, 3, 2, 3, 5, 1, 1, 2, 3};
+    quickSort.quickSort(nums, 0, nums.length - 1);
+  }
 }
