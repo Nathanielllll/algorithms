@@ -5,33 +5,43 @@ package binarySearch;
  * @date 2021/4/15
  */
 public class Test_875 {
-    public int minEatingSpeed(int[] piles, int H) {
-        int maxVal = 1;
-        for (int pile : piles) {
-            maxVal = Math.max(maxVal, pile);
-        }
 
-        int left = 1;
-        int right = maxVal;
-
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-
-            if (meet(piles, mid, H)) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        return left;
+    public static void main(String[] args) {
+        int[] piles = new int[]{805306368,805306368,805306368};
+        int h = 1000000000;
+        System.out.println(minEatingSpeed(piles, h));
     }
 
-    private boolean meet(int[] piles, int speed, int H) {
-        int sum = 0;
+    public static int minEatingSpeed(int[] piles, int h) {
+        int max = 0;
         for (int pile : piles) {
-            // 上取整可以这样写
-            sum += (pile + speed - 1) / speed;
+            max = Math.max(max, pile);
         }
-        return sum <= H;
+        // max speed is max; min speed is 1
+        int l = 1;
+        int r = max;
+
+        while (l <= r) {
+            int c = l + (r - l) / 2;
+            if (calculateTime(piles, c) <= h) {
+                r = c - 1; // 更新后，r右边必然满足时间 <= h
+            } else {
+                l = c + 1; // 更新后，l左边必然满足时间 > h
+            }
+        }
+        return l;
+    }
+
+    // 使用long。否则会有溢出风险
+    private static long calculateTime(int[] piles, int speed) {
+        long sumTime = 0;
+        for (int pile : piles) {
+            if (pile % speed > 0) {
+                sumTime += (pile / speed + 1);
+            } else {
+                sumTime += (pile / speed);
+            }
+        }
+        return sumTime;
     }
 }

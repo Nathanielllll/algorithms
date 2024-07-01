@@ -13,56 +13,37 @@ package binarySearch;
  * <p>
  * 示例 1:
  * <p>               middle
- * 输入: nums = [4,5,6,7,0,1,2], target = 0
- * 输出: 4
- * 示例2:
+ * 输入: nums = [4,5,6,7,0,1,2], target = 0 输出: 4 示例2:
  * <p>
- * 输入: nums = [4,5,6,7,0,1,2], target = 3
- * 输出: -1
+ * 输入: nums = [4,5,6,7,0,1,2], target = 3 输出: -1
  */
 public class Test_33 {
-    public static int search(int[] nums, int target) {
-        int n = nums.length;
-        if (n == 0) return -1;
-        if (n == 1) return nums[0] == target ? 0 : -1;
 
-        int left = 0;
-        int right = nums.length - 1;
-        // 第一次「二分」：从中间开始找，找到满足 >=nums[0] 的分割点（旋转点）
-        // 查找旋转点的idx。本题中有：nums[idx] >= nums[0]
-        while (left < right) {
-            int mid = (left + right + 1) >> 1;
-            // 往左找
-            if (nums[mid] >= nums[0]) {
-                left = mid;
-            } else {
-                right = mid - 1;
-            }
-        }
+  public int search(int[] nums, int target) {
+    int n = nums.length;
+    int l = 0;
+    int r = n - 1;
+    while (l <= r) {
+      int c = l + (r - l) / 2;
+      if (nums[c] == target) {
+        return c;
+      }
 
-        System.out.println(nums[left]);
-
-        // 第二次「二分」：通过和 nums[0] 进行比较，得知 target 是在旋转点的左边还是右边
-        if (target >= nums[0]) {
-            left = 0;
+      if (nums[c] >= nums[0]) {
+        // target < nums[0] 说明target在第二个区间
+        if (nums[c] < target || target < nums[0]) {
+          l = c + 1;
         } else {
-            left = left + 1;
-            right = nums.length - 1;
+          r = c - 1;
         }
-        while (left < right) {
-            int mid = (left + right) >> 1;
-            if (nums[mid] >= target) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
+      } else {
+        if (nums[c] > target || target >= nums[0]) {
+          r = c - 1;
+        } else {
+          l = c + 1;
         }
-
-        return nums[right] == target ? right : -1;
+      }
     }
-
-    public static void main(String[] args) {
-        int[] nums = {1, 3};
-        System.out.println(search(nums, 0));
-    }
+    return -1;
+  }
 }

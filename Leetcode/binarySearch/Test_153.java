@@ -20,40 +20,19 @@ package binarySearch;
  */
 public class Test_153 {
     public static int findMin(int[] nums) {
-        if (nums == null || nums.length < 1) {
-            return -1;
+        int l = 0;
+        int r = nums.length - 1;
+        if (nums[l] <= nums[r]) {
+            return nums[l];
         }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-
-        int left = 0;
-        int right = nums.length - 1;
-        if (nums[left] < nums[right]) {
-            return nums[left];
-        }
-
-        while (left <= right) {
-            int mid = (left + right) >> 1;
-
-            /**
-             * 注意这两个退出条件
-             * 即左边的数字要比右边的数字大！然后退出右边的数字！
-             */
-            if (nums[mid] > nums[mid + 1]) {
-                return nums[mid + 1];
-            }
-            if (nums[mid - 1] > nums[mid]) {
-                return nums[mid];
-            }
-
-            // > or >=无所谓，但是在154题一定是>=
-            if (nums[mid] > nums[0]) {
-                left = mid + 1;
+        while (l <= r) {
+            int c = (l + r) / 2;
+            if (nums[c] >= nums[0]) {
+                l = c + 1;
             } else {
-                right = mid - 1;
+                r = c - 1;
             }
         }
-        return -1;
+        return nums[l];
     }
 }

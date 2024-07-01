@@ -783,7 +783,7 @@ public class Test {
       int pre_dp_i_1_0 = dp_i_1_0;
       int pre_dp_i_1_1 = dp_i_1_1;
       dp_i_1_0 = Math.max(pre_dp_i_1_0, pre_dp_i_1_1 + prices[i]);
-      dp_i_1_1 = Math.max(pre_dp_i_1_1, -prices[i]);
+      dp_i_1_1 = Math.max(pre_dp_i_1_1, 0 - prices[i]);
     }
     return dp_i_1_0;
   }

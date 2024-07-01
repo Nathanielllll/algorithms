@@ -39,45 +39,45 @@ public class Test_154 {
             return result;
         }
 
-//        while (left <= right) {
-//            int mid = (left + right) >> 1;
-//
-//            /**
-//             * 注意这两个退出条件
-//             * 即左边的数字要比右边的数字大！然后退出右边的数字！
-//             */
-//            if (nums[mid] > nums[mid + 1]) {
-//                return nums[mid + 1];
-//            }
-//            if (nums[mid - 1] > nums[mid]) {
-//                return nums[mid];
-//            }
-//
-//            /**
-//             * 注意！这里一定是>=，不能是>
-//             */
-//            if (nums[mid] >= nums[0]) {
-//                left = mid + 1;
-//            } else {
-//                right = mid - 1;
-//            }
-//        }
+        while (left <= right) {
+            int mid = (left + right) >> 1;
 
-        while (left < right) {
-            int mid = (left + right + 1) >> 1;
-            if (mid + 1 < nums.length && nums[mid] > nums[mid + 1]) {
+            /**
+             * 注意这两个退出条件
+             * 即左边的数字要比右边的数字大！然后退出右边的数字！
+             */
+            if (nums[mid] > nums[mid + 1]) {
                 return nums[mid + 1];
             }
             if (nums[mid - 1] > nums[mid]) {
                 return nums[mid];
             }
 
+            /**
+             * 注意！这里一定是>=，不能是>
+             */
             if (nums[mid] >= nums[0]) {
-                left = mid;
+                left = mid + 1;
             } else {
                 right = mid - 1;
             }
         }
+//
+//        while (left < right) {
+//            int mid = (left + right + 1) >> 1;
+//            if (mid + 1 < nums.length && nums[mid] > nums[mid + 1]) {
+//                return nums[mid + 1];
+//            }
+//            if (nums[mid - 1] > nums[mid]) {
+//                return nums[mid];
+//            }
+//
+//            if (nums[mid] >= nums[0]) {
+//                left = mid;
+//            } else {
+//                right = mid - 1;
+//            }
+//        }
 
         return -1;
     }
