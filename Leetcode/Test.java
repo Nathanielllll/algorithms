@@ -3286,9 +3286,8 @@ public class Test {
 
     ListNode left = dummy;
     ListNode right = head;
-    while (n > 0) {
+    for (int i = 0; i < n; i++) {
       right = right.next;
-      n--;
     }
     while (right != null) {
       right = right.next;
@@ -3773,8 +3772,7 @@ public class Test {
     }
     Stack<Integer> stack1 = new Stack<>();
     for (int i = 0; i < heights.length; i++) {
-      int h = heights[i];
-      while (!stack1.isEmpty() && h < heights[stack1.peek()]) {
+      while (!stack1.isEmpty() && heights[stack1.peek()] > heights[i]) {
         int idx = stack1.pop();
         rightMostCloseIdx[idx] = i;
       }
@@ -3804,8 +3802,7 @@ public class Test {
     int[] result = new int[temperatures.length];
     Stack<Integer> stack = new Stack<>(); // idx stack
     for (int i = 0; i < temperatures.length; i++) {
-      int temp = temperatures[i];
-      while (!stack.isEmpty() && temp > temperatures[stack.peek()]) {
+      while (!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]) {
         int index = stack.pop();
         result[index] = i - index;
       }
@@ -3978,27 +3975,21 @@ public class Test {
   }
 
   public int[] productExceptSelf(int[] nums) {
-    int[] left = new int[nums.length];
-    left[0] = nums[0];
-    for (int i = 1; i < nums.length; i++) {
-      left[i] = nums[i] * left[i - 1];
+    int length = nums.length;
+    int[] dp = new int[length];
+    Arrays.fill(dp, 1);
+
+    for (int i = length - 2; i >= 0 ; i--) {
+      dp[i] = dp[i + 1] * nums[i + 1];
     }
 
-    int[] right = new int[nums.length];
-    right[nums.length - 1] = nums[nums.length - 1];
-    for (int i = nums.length - 2; i >= 0; i--) {
-      right[i] = nums[i] * right[i + 1];
+    int tmp = 1;
+    for (int i = 1; i < length; i++) {
+      tmp *= nums[i - 1];
+      dp[i] = dp[i] * tmp;
     }
 
-    int[] result = new int[nums.length];
-    for (int i = 0; i < nums.length; i++) {
-      int leftIdx = i - 1;
-      int rightIdx = i + 1;
-      int leftProduct = leftIdx < 0 ? 1 : left[leftIdx];
-      int rightProduct = rightIdx >= nums.length ? 1 : right[rightIdx];
-      result[i] = leftProduct * rightProduct;
-    }
-    return result;
+    return dp;
   }
 
 //  [1,2,4,6]
@@ -4040,7 +4031,6 @@ public class Test {
   }
 
   public List<List<String>> groupAnagrams(String[] strs) {
-
     Map<String, List<String>> map = new HashMap<>();
     for (String str : strs) {
       int[] store = new int[26];
@@ -4073,7 +4063,6 @@ public class Test {
       }
     }
     return true;
-
   }
 
 

@@ -1,5 +1,7 @@
 package stack;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -20,19 +22,28 @@ import java.util.Stack;
  */
 public class Test_150 {
     public int evalRPN(String[] tokens) {
+        Set<String> set = new HashSet<>();
+        set.add("+");
+        set.add("-");
+        set.add("*");
+        set.add("/");
+
         Stack<Integer> stack = new Stack<>();
-        for (String str : tokens) {
-            if (str.equals("+")) {
-                stack.push(stack.pop() + stack.pop());
-            } else if (str.equals("-")) {
-                stack.push(-stack.pop() + stack.pop());
-            } else if (str.equals("*")) {
-                stack.push(stack.pop() * stack.pop());
-            } else if (str.equals("/")) {
+        for (String token : tokens) {
+            if (set.contains(token)) {
                 int num1 = stack.pop();
-                stack.push(stack.pop() / num1);
+                int num2 = stack.pop();
+                if (token.equals("+")) {
+                    stack.add(num2 + num1);
+                } else if (token.equals("-")) {
+                    stack.add(num2 - num1);
+                } else if (token.equals("*")) {
+                    stack.add(num2 * num1);
+                } else if (token.equals("/")) {
+                    stack.add(num2 / num1);
+                }
             } else {
-                stack.push(Integer.valueOf(str));
+                stack.add(Integer.parseInt(token));
             }
         }
         return stack.pop();

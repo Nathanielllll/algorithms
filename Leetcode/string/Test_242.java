@@ -1,7 +1,5 @@
 package string;
 
-import java.util.HashMap;
-
 /**
  * @author luzhi
  * @date 2021/3/29
@@ -12,19 +10,14 @@ public class Test_242 {
             return false;
         }
 
-        HashMap<Character, Integer> count = new HashMap<>();
+        int[] store = new int[26];
         for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            count.put(ch, count.getOrDefault(ch, 0) + 1);
+            store[s.charAt(i) - 'a']++;
+            store[t.charAt(i) - 'a']--;
         }
 
-        for (int i = 0; i < t.length(); i++) {
-            char ch = t.charAt(i);
-            count.put(ch, count.getOrDefault(ch, 0) - 1);
-        }
-
-        for (Character ch : count.keySet()) {
-            if (count.get(ch) != 0) {
+        for (int i = 0; i < 26; i++) {
+            if (store[i] != 0) {
                 return false;
             }
         }

@@ -29,7 +29,7 @@ public class Test_206 {
         }
         ListNode next = head.next;
         head.next = null;
-        ListNode reversedNode = reverseList(next);
+        ListNode reversedNode = reverseList01(next);
         next.next = head;
         return reversedNode;
     }

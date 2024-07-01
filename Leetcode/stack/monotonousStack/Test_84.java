@@ -14,27 +14,38 @@ public class Test_84 {
     }
 
     public static int largestRectangleArea(int[] heights) {
-        int result = 0;
-        // 本质上求左右两边比它大的数字的【最远】位置，因此可以等价转换为：找出左右两边比它小的数字的【最近】位置
-        // 找两边比它小的数字，因为求的是：以当前index为高，面积最大的情况。
-        // 因此要找出左右两边比它小的数字的【最近】位置 -> rightIndex - leftIndex - 1，在这个范围内，所有高度都 >= 当前高度
-        Stack<Integer> indexStack = new Stack<>();
+        // 两个stack，分别找左右两边，距离当面位置 最远的 >= 当面高度的位置 -> 分别找左右两边，距离当面位置 最近的 < 当面高度的位置
+        int[] rightMostCloseIdx = new int[heights.length];
+        int[] leftMostCloseIdx = new int[heights.length];
         for (int i = 0; i < heights.length; i++) {
-            while (!indexStack.isEmpty() && heights[indexStack.peek()] > heights[i]) {
-                int curHeight = heights[indexStack.pop()];
-                int leftIndex = indexStack.isEmpty() ? -1 : indexStack.peek();
-                int rightIndex = i;
-                result = Math.max(result, curHeight * (rightIndex - leftIndex - 1));
+            leftMostCloseIdx[i] = -1;
+            rightMostCloseIdx[i] = heights.length;
+        }
+        Stack<Integer> stack1 = new Stack<>();
+        for (int i = 0; i < heights.length; i++) {
+            while (!stack1.isEmpty() && heights[stack1.peek()] > heights[i]) {
+                int idx = stack1.pop();
+                rightMostCloseIdx[idx] = i;
             }
-            indexStack.push(i);
+            stack1.push(i);
         }
 
-        while (!indexStack.isEmpty()) {
-            int curHeight = heights[indexStack.pop()];
-            int leftIndex = indexStack.isEmpty() ? -1 : indexStack.peek();
-            int rightIndex = heights.length;
-            result = Math.max(result, curHeight * (rightIndex - leftIndex - 1));
+        Stack<Integer> stack2 = new Stack<>();
+        for (int i = heights.length - 1; i >= 0; i--) {
+            int h = heights[i];
+            while (!stack2.isEmpty() && h < heights[stack2.peek()]) {
+                int idx = stack2.pop();
+                leftMostCloseIdx[idx] = i;
+            }
+            stack2.push(i);
         }
+
+        int result = 0;
+        for (int i = 0; i < heights.length; i++) {
+            int h = heights[i];
+            result = Math.max(result, h * (rightMostCloseIdx[i] - leftMostCloseIdx[i] - 1));
+        }
+
         return result;
     }
 

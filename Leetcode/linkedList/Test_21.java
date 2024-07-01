@@ -5,68 +5,70 @@ package linkedList;
  * <p>
  * 示例：
  * <p>
- * 输入：1->2->4, 1->3->4
- * 输出：1->1->2->3->4->4
+ * 输入：1->2->4, 1->3->4 输出：1->1->2->3->4->4
  */
 public class Test_21 {
-    public static class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode(int x) {
-            val = x;
-        }
+  public static class ListNode {
+
+    int val;
+    ListNode next;
+
+    ListNode(int x) {
+      val = x;
+    }
+  }
+
+  public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    if (l1 == null) {
+      return l2;
+    }
+    if (l2 == null) {
+      return l1;
+    }
+    if (l1.val <= l2.val) {
+      l1.next = mergeTwoLists(l1.next, l2);
+      return l1;
+    } else {
+      l2.next = mergeTwoLists(l1, l2.next);
+      return l2;
+    }
+  }
+
+  public ListNode mergeTwoLists1(ListNode list1, ListNode list2) {
+    ListNode dummy = new ListNode(-1);
+    ListNode cur = dummy;
+    while (list1 != null && list2 != null) {
+      if (list1.val < list2.val) {
+        cur.next = list1;
+        list1 = list1.next;
+      } else {
+        cur.next = list2;
+        list2 = list2.next;
+      }
+
+      cur = cur.next;
+    }
+    if (list1 != null) {
+      cur.next = list1;
+    }
+    if (list2 != null) {
+      cur.next = list2;
     }
 
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        }
-        if (l2 == null) {
-            return l1;
-        }
-        if (l1.val <= l2.val) {
-            l1.next = mergeTwoLists(l1.next, l2);
-            return l1;
-        } else {
-            l2.next = mergeTwoLists(l1, l2.next);
-            return l2;
-        }
-    }
+    return dummy.next;
+  }
 
-    public static void main(String[] args) {
-        ListNode l1 = new ListNode(1);//1,2,4
-        l1.next = new ListNode(2);
-        l1.next.next = new ListNode(4);
+  public static void main(String[] args) {
+    ListNode l1 = new ListNode(1);//1,2,4
+    l1.next = new ListNode(2);
+    l1.next.next = new ListNode(4);
 
-        ListNode l2 = new ListNode(1);//1,3,4
-        l2.next = new ListNode(3);
-        l2.next.next = new ListNode(4);
+    ListNode l2 = new ListNode(1);//1,3,4
+    l2.next = new ListNode(3);
+    l2.next.next = new ListNode(4);
 
-        ListNode result = mergeTwoLists_1(l1, l2);
-    }
+  }
 
-    public static ListNode mergeTwoLists_1(ListNode l1, ListNode l2) {
-        ListNode cur = new ListNode(-1);
-        ListNode dummy = cur;
-        while (l1 != null && l2 != null) {
-            if(l1.val < l2.val){
-                ListNode l1_next = l1.next;
-                dummy.next = l1;
-                l1 = l1_next;
-            }else {
-                ListNode l2_next = l2.next;
-                dummy.next = l2;
-                l2 = l2_next;
-            }
-            dummy = dummy.next;
-        }
-        if (l1 != null) {
-            dummy.next = l1;
-        }
-        if (l2 != null) {
-            dummy.next = l2;
-        }
-        return cur.next;
-    }
+
 }

@@ -27,11 +27,13 @@ public class Test_238 {
         int[] dp = new int[length];
         Arrays.fill(dp, 1);
 
+        int tmp = 1;
         for (int i = length - 2; i >= 0 ; i--) {
-            dp[i] = dp[i + 1] * nums[i + 1];
+            tmp *= nums[i + 1];
+            dp[i] = dp[i] * tmp; // 此时dp[i]==1
         }
 
-        int tmp = 1;
+        tmp = 1;
         for (int i = 1; i < length; i++) {
             tmp *= nums[i - 1];
             dp[i] = dp[i] * tmp;

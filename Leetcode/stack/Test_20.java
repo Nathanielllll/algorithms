@@ -8,31 +8,35 @@ import java.util.Stack;
  * <p>
  * 有效字符串需满足：
  * <p>
- * 左括号必须用相同类型的右括号闭合。
- * 左括号必须以正确的顺序闭合。
- * 注意空字符串可被认为是有效字符串。
+ * 左括号必须用相同类型的右括号闭合。 左括号必须以正确的顺序闭合。 注意空字符串可被认为是有效字符串。
  */
 public class Test_20 {
-    public static boolean isValid(String s) {
-        if (s.length() % 2 == 1) {
-            return false;
-        }
-        HashMap<Character, Character> hashMap = new HashMap<>();
-        hashMap.put('(', ')');
-        hashMap.put('{', '}');
-        hashMap.put('[', ']');
 
-        int length = s.length();
-
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < length; i++) {
-            if(hashMap.containsKey(s.charAt(i))){
-                stack.push(s.charAt(i));
-                //stack里面必须要有一个'('和当前的')'对应。因此stack.isEmpty()则返回false
-            }else if(stack.isEmpty() || s.charAt(i) != hashMap.get(stack.pop())){
-                return false;
-            }
-        }
-        return stack.isEmpty();
+  public static boolean isValid(String s) {
+    if (s.length() % 2 == 1) {
+      return false;
     }
+    HashMap<Character, Character> hashMap = new HashMap<>();
+    hashMap.put('(', ')');
+    hashMap.put('{', '}');
+    hashMap.put('[', ']');
+
+    int length = s.length();
+
+    Stack<Character> stack = new Stack<>();
+    for (int i = 0; i < length; i++) {
+      char ch = s.charAt(i);
+      if (hashMap.containsKey(ch)) {
+        stack.push(ch);
+      } else {
+        // stack里面必须要有一个'('和当前的')'对应。因此stack.isEmpty()则返回false
+        if (!stack.isEmpty() && ch == hashMap.get(stack.peek())) {
+          stack.pop();
+        } else {
+          return false;
+        }
+      }
+    }
+    return stack.isEmpty();
+  }
 }
