@@ -40,6 +40,7 @@ public class Test_105 {
     }
 
     TreeNode root = new TreeNode(val);
+    // 1 ~ mid; mid+1 ~ len-1
     int[] leftPreorder = Arrays.copyOfRange(preorder, 1, midIdx + 1);
     int[] rightPreorder = Arrays.copyOfRange(preorder, midIdx + 1, preorder.length);
 

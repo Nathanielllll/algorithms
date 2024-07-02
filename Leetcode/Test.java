@@ -2226,9 +2226,6 @@ public class Test {
     }
 
     private boolean dfs(char[] chars, PrefixTreeNode root, int pos) {
-//      if (pos > chars.length) {
-//        return false;
-//      }
       if (pos == chars.length && root.isEnd) {
         return true;
       }

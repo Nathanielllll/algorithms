@@ -45,17 +45,17 @@ public class Test_124_ATTENTION {
   private static class PathSumInfo {
 
     int crossRootSinglePathSum; // 经过root，且是单边的
-    int pathSum;
+    int maxPathSum;
 
-    public PathSumInfo(int crossRootSinglePathSum, int pathSum) {
+    public PathSumInfo(int crossRootSinglePathSum, int maxPathSum) {
       this.crossRootSinglePathSum = crossRootSinglePathSum;
-      this.pathSum = pathSum;
+      this.maxPathSum = maxPathSum;
     }
   }
 
   public static int maxPathSum(TreeNode root) {
     PathSumInfo info = maxPathSumDfs(root);
-    return info.pathSum;
+    return info.maxPathSum;
   }
 
   private static PathSumInfo maxPathSumDfs(TreeNode root) {
@@ -75,11 +75,11 @@ public class Test_124_ATTENTION {
     int curCrossRootPathSum = Math.max(p4, curCrossRootSinglePathSum);
 
     // not cross root
-    int curNotCrossRootSinglePathSum = Math.max(leftInfo.pathSum, rightInfo.pathSum);
+    int curNotCrossRootSinglePathSum = Math.max(leftInfo.maxPathSum, rightInfo.maxPathSum);
 
-    // path sum
-    int pathSum = Math.max(curCrossRootPathSum, curNotCrossRootSinglePathSum);
+    // max path sum
+    int maxPathSum = Math.max(curCrossRootPathSum, curNotCrossRootSinglePathSum);
 
-    return new PathSumInfo(curCrossRootSinglePathSum, pathSum);
+    return new PathSumInfo(curCrossRootSinglePathSum, maxPathSum);
   }
 }

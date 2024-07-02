@@ -25,26 +25,23 @@ import java.util.Stack;
  *
  */
 public class Test_90 {
-    List<List<Integer>> result = new ArrayList<>();
-
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        if (nums == null || nums.length < 1) {
-            return result;
-        }
         Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
         Stack<Integer> stack = new Stack<>();
-        subProcess(stack, nums, 0);
+        subsetsWithDupDfs(nums, 0, result, stack);
         return result;
     }
 
-    public void subProcess(Stack<Integer> stack, int[] nums, int start){
+    private void subsetsWithDupDfs(int[] nums, int start, List<List<Integer>> result,
+        Stack<Integer> stack) {
         result.add(new ArrayList<>(stack));
         for (int i = start; i < nums.length; i++) {
-            if(i > start && nums[i] == nums[i-1]){
+            if (i > start && nums[i] == nums[i - 1]) {
                 continue;
             }
             stack.push(nums[i]);
-            subProcess(stack, nums, i + 1);
+            subsetsWithDupDfs(nums, i + 1, result, stack);
             stack.pop();
         }
     }

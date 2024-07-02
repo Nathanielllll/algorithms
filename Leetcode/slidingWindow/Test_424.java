@@ -41,9 +41,11 @@ public class Test_424 {
             ++right;
 
             // 为什么只需要维护historyMaxCnt就可以了？因为我希望right - left尽可能大，也就是希望historyMaxCnt尽可能大。因此只需要记录历史上的historyMaxCnt即可
-            if (right - left <= historyMaxCnt + k) {
+            // right - left - historyMaxCnt说明是需要替换的character数，只要<=k都是满足条件的，因此来计算result
+            if (right - left - historyMaxCnt <= k) {
                 result = Math.max(result, right - left);
             } else {
+                // right - left - historyMaxCnt > k。说明需要替换的character数 > k了，也就是window太大了，需要缩小一下
                 char l_char = s.charAt(left);
                 window.put(l_char, window.get(l_char) - 1);
                 ++left;

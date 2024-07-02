@@ -15,6 +15,12 @@ import java.util.Stack;
  */
 public class Test_78 {
 
+  public static void main(String[] args) {
+    int[] nums = new int[]{1,2,3};
+    Test_78 test = new Test_78();
+    System.out.println(test.subsets(nums));
+  }
+
   // 方案一：在回溯的过程中记录结点。
   public List<List<Integer>> subsets(int[] nums) {
     Stack<Integer> stack = new Stack<>();

@@ -1,53 +1,63 @@
 package trie;
 
 public class Test_208_Trie {
-    class Trie {
-        public boolean isEnd;
-        public Trie[] next;
 
-        /** Initialize your data structure here. */
-        public Trie() {
-            isEnd = false;
-            next = new Trie[26];
-        }
+  class PrefixTreeNode {
 
-        /** Inserts a word into the trie. */
-        public void insert(String word) {
-            char[] words = word.toCharArray();
-            Trie node = this;
-            for (char c : words) {
-                if (node.next[c - 'a'] == null) {
-                    node.next[c - 'a'] = new Trie();
-                }
-                node = node.next[c - 'a'];
-            }
-            node.isEnd = true;
-        }
+    PrefixTreeNode[] children;
+    boolean isEnd;
 
-        /** Returns if the word is in the trie. */
-        public boolean search(String word) {
-            char[] words = word.toCharArray();
-            Trie node = this;
-            for (char c : words){
-                if (node.next[c - 'a'] == null) {
-                    return false;
-                }
-                node = node.next[c - 'a'];
-            }
-            return node.isEnd;
-        }
-
-        /** Returns if there is any word in the trie that starts with the given prefix. */
-        public boolean startsWith(String prefix) {
-            char[] words = prefix.toCharArray();
-            Trie node = this;
-            for (char c : words){
-                if (node.next[c - 'a'] == null) {
-                    return false;
-                }
-                node = node.next[c - 'a'];
-            }
-            return true;
-        }
+    public PrefixTreeNode() {
+      this.children = new PrefixTreeNode[26];
+      this.isEnd = false;
     }
+  }
+
+  class Trie {
+
+    private final PrefixTreeNode root;
+    public Trie() {
+      this.root = new PrefixTreeNode();
+    }
+
+    public void insert(String word) {
+      char[] chars = word.toCharArray();
+      PrefixTreeNode tmp = root;
+      for (char ch : chars) {
+        int idx = ch - 'a';
+        if (tmp.children[idx] == null) {
+          tmp.children[idx] = new PrefixTreeNode();
+        }
+        tmp = tmp.children[idx];
+      }
+      tmp.isEnd = true;
+    }
+
+    public boolean search(String word) {
+      char[] chars = word.toCharArray();
+      PrefixTreeNode tmp = root;
+      for (char ch : chars) {
+        int idx = ch - 'a';
+        if (tmp.children[idx] == null) {
+          return false;
+        }
+        tmp = tmp.children[idx];
+      }
+      return tmp.isEnd;
+    }
+
+    public boolean startsWith(String prefix) {
+      char[] chars = prefix.toCharArray();
+      PrefixTreeNode tmp = root;
+      for (char ch : chars) {
+        int idx = ch - 'a';
+        if (tmp.children[idx] == null) {
+          return false;
+        }
+        tmp = tmp.children[idx];
+      }
+      return true;
+    }
+  }
+
 }

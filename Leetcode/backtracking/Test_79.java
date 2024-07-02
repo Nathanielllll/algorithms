@@ -19,16 +19,13 @@ package backtracking;
  * 给定 word = "ABCB", 返回 false.
  */
 public class Test_79 {
-    int[] dx = {1, -1, 0, 0};
-    int[] dy = {0, 0, -1, 1};
-
     public boolean exist(char[][] board, String word) {
-        int rows = board.length;
-        int cols = board[0].length;
-        boolean[][] visited = new boolean[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (dfs(board, i, j, 0, word, visited)) {
+        int m = board.length;
+        int n = board[0].length;
+        int[][] used = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (existDfs(board, word, used, 0, i, j, m, n)) {
                     return true;
                 }
             }
@@ -36,23 +33,20 @@ public class Test_79 {
         return false;
     }
 
-    private boolean dfs(char[][] board, int row, int col, int step, String word, boolean[][] visited) {
-        if (step == word.length()) {
+    private boolean existDfs(char[][] board, String word, int[][] used, int idx, int i, int j, int m,
+        int n) {
+        if (idx == word.length()) {
             return true;
         }
 
         boolean result = false;
-        if (row >= 0 && row < board.length && col >= 0 && col < board[0].length
-                && !visited[row][col] && word.charAt(step) == board[row][col]) {
-            visited[row][col] = true;
-            step++;
-            for (int k = 0; k < 4; k++) {
-                int nextRow = dx[k] + row;
-                int nextCol = dy[k] + col;
-                result = result || dfs(board, nextRow, nextCol, step, word, visited);
-            }
-            step--;
-            visited[row][col] = false;
+        if (i >= 0 && i < m && j >= 0 && j < n && used[i][j] == 0 && board[i][j] == word.charAt(idx)) {
+            used[i][j] = 1;
+            result = existDfs(board, word, used, idx + 1, i - 1, j, m, n)
+                || existDfs(board, word, used, idx + 1, i + 1, j, m, n)
+                || existDfs(board, word, used, idx + 1, i, j - 1, m, n)
+                || existDfs(board, word, used, idx + 1, i, j + 1, m, n);
+            used[i][j] = 0;
         }
         return result;
     }

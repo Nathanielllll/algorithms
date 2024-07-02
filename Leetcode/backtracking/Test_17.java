@@ -1,7 +1,9 @@
 package backtracking;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -13,71 +15,47 @@ import java.util.Stack;
  * <p>
  * 示例:
  * <p>
- * 输入："23"
- * 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+ * 输入："23" 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
  */
 public class Test_17 {
 
-    static String[] letterMap = {
-            " ",    //0
-            "",     //1
-            "abc",  //2
-            "def",  //3
-            "ghi",  //4
-            "jkl",  //5
-            "mno",  //6
-            "pqrs", //7
-            "tuv",  //8
-            "wxyz"  //9
-    };
+  public List<String> letterCombinations(String digits) {
+    List<String> res = new ArrayList<>();
+    if (digits.isEmpty()) {
+      return res;
+    }
+    Map<Character, String> digitToChar = new HashMap<>();
+    digitToChar.put('2', "abc");
+    digitToChar.put('3', "def");
+    digitToChar.put('4', "ghi");
+    digitToChar.put('5', "jkl");
+    digitToChar.put('6', "mno");
+    digitToChar.put('7', "qprs");
+    digitToChar.put('8', "tuv");
+    digitToChar.put('9', "wxyz");
+    Stack<Character> stack = new Stack<>();
+    letterCombinationsDfs(digits, digitToChar, stack, res, 0);
+    return res;
+  }
 
-    static List<String> result;
-
-    public static List<String> letterCombinations(String digits) {
-        result = new LinkedList<>();
-
-        if (digits.equals("")) {
-            return result;
-        }
-        Stack<Character> stack = new Stack<>();
-        subProcess(digits, 0, stack);
-        return result;
+  // idx是对digits来说的！
+  private void letterCombinationsDfs(String digits, Map<Character, String> digitToChar,
+      Stack<Character> stack, List<String> result, int idx) {
+    if (idx == digits.length()) {
+      StringBuilder res = new StringBuilder();
+      for (char c : stack) {
+        res.append(c);
+      }
+      result.add(res.toString());
+      return;
     }
 
-    public static void subProcess(String digits, int pos, Stack<Character> stack){
-        if (stack.size() == digits.length()) {
-            String res = "";
-            for (char c : stack){
-                res += c;
-            }
-            result.add(res);
-            return;
-        }
-
-        // 上面的逻辑相比：return放在判断pos的地方
-//        if (stack.size() == digits.length()) {
-//            StringBuilder cur = new StringBuilder();
-//            for (char ch : stack) {
-//                cur.append(ch);
-//            }
-//            result.add(cur.toString());
-//        }
-//
-//        if (pos >= digits.length()) {
-//            return;
-//        }
-
-        String value = letterMap[digits.charAt(pos) - '0'];
-        for (int i = 0; i < value.length() && stack.size() <= digits.length(); i++) {
-            stack.push(value.charAt(i));
-            subProcess(digits, pos + 1, stack);
-            stack.pop();
-        }
-
+    char digit = digits.charAt(idx);
+    String str = digitToChar.get(digit);
+    for (int i = 0; i < str.length(); i++) {
+      stack.push(str.charAt(i));
+      letterCombinationsDfs(digits, digitToChar, stack, result, idx + 1);
+      stack.pop();
     }
-
-    public static void main(String[] args) {
-        String digits = "23";
-        System.out.println(letterCombinations(digits));
-    }
+  }
 }
