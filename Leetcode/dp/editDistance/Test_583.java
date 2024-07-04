@@ -24,10 +24,13 @@ public class Test_583 {
     }
     for (int i = 1; i <= len1; i++) {
       for (int j = 1; j <= len2; j++) {
+        // 代表可以不用必然删掉 s1[i] 和 s2[j] 形成相同字符串；
         if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
           dp[i][j] = dp[i - 1][j - 1];
-        } else {
-          dp[i][j] = Math.min(dp[i - 1][j - 1] + 2, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+        }
+        // 代表至少一个删除 s1[i] 和 s2[j] 中的其中一个。
+        else {
+          dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1);
         }
       }
     }
@@ -80,9 +83,8 @@ public class Test_583 {
     if (ch1 == ch2) {
       memo[i][j] = minDistanceDfs(i - 1, j - 1, word1, word2, memo);
     } else {
-      memo[i][j] = Math.min(minDistanceDfs(i - 1, j - 1, word1, word2, memo) + 2,
-          Math.min(minDistanceDfs(i, j - 1, word1, word2, memo) + 1,
-              minDistanceDfs(i - 1, j, word1, word2, memo) + 1));
+      memo[i][j] = Math.min(minDistanceDfs(i, j - 1, word1, word2, memo) + 1,
+          minDistanceDfs(i - 1, j, word1, word2, memo) + 1);
     }
     return memo[i][j];
   }

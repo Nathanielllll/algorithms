@@ -822,7 +822,7 @@ public class Test {
     int m = s.length();
     int n = t.length();
     int[][] dp = new int[m + 1][n + 1];
-    // 相当于对 word1 执行 i 次删除操作
+    // 相当于对 s 执行 i 次删除操作
     for (int i = 0; i <= m; i++) {
       dp[i][0] = 1;
     }
@@ -1446,7 +1446,9 @@ public class Test {
         ++p;
       }
     }
+    // 贪心策略。最大次数为maxCnt，前面部分必须(maxCnt - 1) * (n + 1)时间，后面还有p个最大次数的任务
     int ans = (maxCnt - 1) * (n + 1) + p;
+    // 因为无论如何，最少肯定也要tasks.length
     return Math.max(ans, tasks.length);
   }
 
@@ -1693,6 +1695,7 @@ public class Test {
     int level = 0;
     while (!queue.isEmpty()) {
       int cnt = queue.size();
+      // 第一次不计入
       if (flag) {
         level++;
       } else {

@@ -1,12 +1,58 @@
 package graph.topologicalSort;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 //拓扑排序，可以判断有没有环
 public class Test_207 {
+
+    public boolean canFinish1(int numCourses, int[][] prerequisites) {
+        Map<Integer, Set<Integer>> graph = new HashMap<>();
+        int[] in = new int[numCourses];
+        for (int[] edge : prerequisites) {
+            int prev = edge[1];
+            int next = edge[0];
+            in[next]++;
+            graph.computeIfAbsent(prev, k -> new HashSet<>()).add(next);
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < in.length; i++) {
+            if (in[i] == 0) {
+                queue.add(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int cnt = queue.size();
+            for (int i = 0; i < cnt; i++) {
+                int course = queue.poll();
+                Set<Integer> nexts = graph.get(course);
+                if (nexts != null) {
+                    for (Integer next : nexts) {
+                        in[next]--;
+                        if (in[next] == 0) {
+                            queue.add(next);
+                        }
+                    }
+                }
+            }
+        }
+        //如果还有入度>0的节点，则不存在拓扑排序，则存在环。
+        for (int i = 0; i < numCourses; i++) {
+            if (in[i] != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         int numCourses=4;
         int[][] prerequisites = {{0,1},{1,2},{2,3},{3,0}};

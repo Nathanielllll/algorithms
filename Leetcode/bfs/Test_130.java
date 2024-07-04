@@ -29,25 +29,26 @@ public class Test_130 {
      */
 
     // =============dfs==============
-    private int[] dx = {0, 0, -1, 1};
-    private int[] dy = {1, -1, 0, 0};
-
     public void solve(char[][] board) {
-        if (board == null || board.length == 0) return;
-        int rows = board.length;
-        int cols = board[0].length;
+        solveDfs(board);
+    }
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                boolean isEdge = i == 0 || j == 0 || i == rows - 1 || j == cols - 1;
-                if (isEdge) {
-                    dfs(board, i, j);
+    public void solveDfs(char[][] board) {
+        int[][] directs = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0 || i == m - 1 || j == n - 1) {
+                    if (board[i][j] == 'O') {
+                        solveDfs(board, i, j, m, n, directs);
+                    }
                 }
             }
         }
-
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        //
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (board[i][j] == 'O') {
                     board[i][j] = 'X';
                 } else if (board[i][j] == '#') {
@@ -57,15 +58,14 @@ public class Test_130 {
         }
     }
 
-    private void dfs(char[][] board, int i, int j) {
-        // 只对当前的位置进行判断！！bfs也是一样的
-        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length || board[i][j] == 'X' || board[i][j] == '#') {
-            return;
-        }
-
+    private void solveDfs(char[][] board, int i, int j, int m, int n, int[][] directs) {
         board[i][j] = '#';
         for (int k = 0; k < 4; k++) {
-            dfs(board, i + dx[k], j + dy[k]);
+            int x = i + directs[k][0];
+            int y = j + directs[k][1];
+            if (x >= 0 && x < m && y >= 0 && y < n && board[x][y] == 'O') {
+                solveDfs(board, x, y, m, n, directs);
+            }
         }
     }
 
@@ -112,6 +112,7 @@ public class Test_130 {
 
     // =============unionFind==============
     public void solve_3(char[][] board) {
+        int[][] directs = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
         if (board == null || board.length == 0) return;
         int rows = board.length;
         int cols = board[0].length;
@@ -128,8 +129,8 @@ public class Test_130 {
                         djset.union(node(i, j, cols), dummyNode);
                     } else {
                         for (int k = 0; k < 4; k++) {
-                            int nextRow = i + dx[k];
-                            int nextCol = j + dy[k];
+                            int nextRow = i + directs[k][0];
+                            int nextCol = j + directs[k][1];
                             if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols
                                     && board[nextRow][nextCol] == 'O') {
                                 djset.union(node(i, j, cols), node(nextRow, nextCol, cols));

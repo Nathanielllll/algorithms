@@ -52,6 +52,7 @@ public class Test_435_ATTENTION {
         int right = intervals[0][1];
         for (int i = 1; i < length; i++) {
             if (right > intervals[i][0]) {
+                // 说明这两个区间有重复，必须要移除一个，那么要移除哪个呢，为了防止在下一个区间和现有区间有重叠，我们应该让现有区间越短越好，所以应该移除尾部比较大的，保留尾部比较小的。
                 right = Math.min(right, intervals[i][1]);
                 res++;
             } else {

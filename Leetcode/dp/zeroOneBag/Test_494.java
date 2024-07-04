@@ -1,5 +1,7 @@
 package dp.zeroOneBag;
 
+import java.util.Arrays;
+
 /**
  * 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号+和-。对于数组中的任意一个整数，你都可以从+或-中选择一个符号添加在前面。
  *
@@ -31,34 +33,31 @@ package dp.zeroOneBag;
  */
 public class Test_494 {
     public static int findTargetSumWays(int[] nums, int target) {
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-        }
-
-        // 或者为奇数
-        if (sum < target || ((sum + target) & 1) == 1) {
+//                  sum(P) - sum(N) = target
+//        sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+//                               2 * sum(P) = target + sum(nums)
+        int sum = Arrays.stream(nums).sum();
+        if (sum < target || (sum + target) % 2 == 1) {
             return 0;
         }
-        int w = (sum + target) / 2;
-        if (w < 0) {
+        int realTarget = (sum + target) / 2;
+        if (realTarget < 0) {
             return 0;
         }
-
-        int[] dp = new int[w + 1];
-        // 都不选，则必然有一种方案
+        int[] dp = new int[realTarget + 1];
         dp[0] = 1;
-
         for (int num : nums) {
-            for (int i = w; i >= num; i--) {
-                dp[i] = dp[i] + dp[i - num];
+            for (int i = realTarget; i >= 0; i--) {
+                if (i - num >= 0) {
+                    dp[i] = dp[i] + dp[i - num];
+                }
             }
         }
-        return dp[w];
+        return dp[realTarget];
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,1,1,1,1};
-        System.out.println(findTargetSumWays(nums, 3));
+        int[] nums = {100};
+        System.out.println(findTargetSumWays(nums, -200));
     }
 }

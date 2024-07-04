@@ -1,7 +1,5 @@
 package bfs;
 
-import bfs.Test_130;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -29,33 +27,30 @@ import java.util.Queue;
  */
 public class Test_695 {
     public int maxAreaOfIsland(int[][] grid) {
-        int res = 0;
-        int rows = grid.length;
-        int cols = grid[0].length;
-        boolean[][] used = new boolean[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
+        int result = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1) {
-                    res = Math.max(res, subProcess(grid, i, j, rows, cols, used));
+                    int areaOfIsland = maxAreaOfIslandDfs(grid, i, j, m, n);
+                    result = Math.max(result, areaOfIsland);
                 }
             }
         }
-        return res;
+        return result;
     }
 
-    public int subProcess(int[][] grid, int row, int col, int rows, int cols,
-                          boolean[][] used){
-        int count = 0;
-        if(row >= 0 && row < rows && col >= 0 && col < cols
-                && !used[row][col] && grid[row][col] == 1){
-            used[row][col] = true;
-            count = 1 +
-                    subProcess(grid, row + 1, col, rows, cols, used) +
-                    subProcess(grid, row - 1, col, rows, cols, used) +
-                    subProcess(grid, row, col + 1, rows, cols, used) +
-                    subProcess(grid, row, col - 1, rows, cols, used);
+    private int maxAreaOfIslandDfs(int[][] grid, int i, int j, int m, int n) {
+        int cnt = 0;
+        if (i >= 0 && i < m && j >= 0 && j < n && grid[i][j] == 1) {
+            ++cnt;
+            grid[i][j] = 0;
+            cnt =
+                cnt + maxAreaOfIslandDfs(grid, i - 1, j, m, n) + maxAreaOfIslandDfs(grid, i + 1, j, m, n)
+                    + maxAreaOfIslandDfs(grid, i, j - 1, m, n) + maxAreaOfIslandDfs(grid, i, j + 1, m, n);
         }
-        return count;
+        return cnt;
     }
 
 

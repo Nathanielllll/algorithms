@@ -36,7 +36,7 @@ public class Test_763 {
     for (int i = 0; i < chars.length; i++) {
       curLen++;
       char ch = chars[i];
-      // 到目前为止，最大的目标为止。
+      // 到目前为止，最大的目标。
       goal = Math.max(goal, charToLastIdx.get(ch));
       if (goal == i) {
         result.add(curLen);

@@ -19,21 +19,18 @@ package dp.bestTimeToBuyAndSellStock;
  *
  */
 public class Test_309 {
-    public int maxProfit(int[] prices) {
-        if (prices == null || prices.length < 2) {
-            return 0;
+    public int maxProfit2(int[] prices) {
+        int dp_i_k_0 = 0;
+        int dp_i_k_1 = Integer.MIN_VALUE;
+        int dp_imin1_k_0 = 0;
+        int n = prices.length;
+        for (int i = 0; i < n; i++) {
+            int pre_dp_i_k_0 = dp_i_k_0;
+            int pre_dp_i_k_1 = dp_i_k_1;
+            dp_i_k_0 = Math.max(pre_dp_i_k_0, pre_dp_i_k_1 + prices[i]);
+            dp_i_k_1 = Math.max(pre_dp_i_k_1, dp_imin1_k_0 - prices[i]);
+            dp_imin1_k_0 = pre_dp_i_k_0;
         }
-
-        // 初始状态
-        int dp_i_0 = 0;
-        int dp_i_1 = Integer.MIN_VALUE;
-        int dp_pre_0 = 0;
-        for (int i = 0; i < prices.length; i++) {
-            int temp = dp_i_0;//i-1
-            dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);//i
-            dp_i_1 = Math.max(dp_i_1, dp_pre_0 - prices[i]);//i
-            dp_pre_0 = temp;
-        }
-        return dp_i_0;
+        return dp_i_k_0;
     }
 }

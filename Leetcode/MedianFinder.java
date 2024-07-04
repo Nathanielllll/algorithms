@@ -2,44 +2,33 @@ import java.util.PriorityQueue;
 
 class MedianFinder {
 
-  // large elements - minHeap
-  private final PriorityQueue<Integer> largeHeap;
   //small elements - maxHeap
-  private final PriorityQueue<Integer> smallHeap;
+  PriorityQueue<Integer> smallHeap;
+  // large elements - minHeap
+  PriorityQueue<Integer> largeHeap;
 
   public MedianFinder() {
-    largeHeap = new PriorityQueue<>();
+    // 较小的数，大顶堆
     smallHeap = new PriorityQueue<>((a, b) -> b - a);
+    largeHeap = new PriorityQueue<>();
   }
 
   public void addNum(int num) {
-    // 方案一：
-//      largeHeap.offer(num);
-//      smallHeap.offer(largeHeap.poll());
-//      if (largeHeap.size() < smallHeap.size()) {
-//        largeHeap.offer(smallHeap.poll());
-//      }
-
-    // 方案二：
-    largeHeap.offer(num);
-    if ((largeHeap.size() - smallHeap.size() > 1)
-        ||
-        (!largeHeap.isEmpty() && !smallHeap.isEmpty() && largeHeap.peek() < smallHeap.peek())) {
+    smallHeap.offer(num);
+    largeHeap.offer(smallHeap.poll());
+    if (smallHeap.size() < largeHeap.size()) {
       smallHeap.offer(largeHeap.poll());
-    }
-    if (smallHeap.size() > largeHeap.size()) {
-      largeHeap.offer(smallHeap.poll());
     }
   }
 
   public double findMedian() {
-    if (largeHeap.isEmpty()) {
+    if (smallHeap.isEmpty()) {
       return 0.0;
     } else {
-      if (largeHeap.size() == smallHeap.size()) {
-        return (largeHeap.peek() + smallHeap.peek()) * 0.5;
+      if (smallHeap.size() == largeHeap.size()) {
+        return (smallHeap.peek() + largeHeap.peek()) * 0.5;
       } else {
-        return largeHeap.peek() * 1.0;
+        return smallHeap.peek() * 1.0;
       }
     }
   }

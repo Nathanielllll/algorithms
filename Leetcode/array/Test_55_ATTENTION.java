@@ -31,19 +31,14 @@ public class Test_55_ATTENTION {
     // dp=[,,,0,4]
 
     public static boolean canJump(int[] nums) {
-        int[] dp = new int[nums.length];
-        dp[nums.length - 1] = nums.length - 1;
-        for (int i = nums.length - 2; i >= 0; i--) {
-            int gap = nums[i];
-            int max = 0;
-            if (gap > 0) {
-                for (int j = i + 1; j <= i + gap && j < nums.length; j++) {
-                    max = Math.max(max, dp[j]);
-                }
+        int max = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > max) {
+                return false;
             }
-            dp[i] = max;
+            max = Math.max(max, i + nums[i]);
         }
-        return dp[0] == nums.length - 1;
+        return true;
     }
 
     /**

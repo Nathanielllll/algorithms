@@ -25,9 +25,8 @@ public class Test_253 {
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
    */
 
-  public int minMeetingRooms(int[][] intervals) {
-        /*
-        开会也可以理解成坐公交，都是占用某个资源。
+  /*
+开会也可以理解成坐公交，都是占用某个资源。
 就拿题目给的第一组数组来分析。
 
 
@@ -48,10 +47,11 @@ intervals = [[0,30],[5,10],[15,20]]
 
 
 人数 1    2     1     2     1      0
-     0----5----10----15----20-----30
+0----5----10----15----20-----30
 变化 +1   +1    -1    +1    -1    -1
 最多车上两个人。
-         */
+ */
+  public int minMeetingRooms(int[][] intervals) {
     int length = intervals.length;
     int[][] data = new int[length * 2][2];
     int i = 0;

@@ -33,6 +33,7 @@ public class Test_56 {
 
         for (int i = 1; i < length; i++) {
             if (right >= intervals[i][0]) {
+                left = Math.min(left, intervals[i][0]);
                 right = Math.max(right, intervals[i][1]);
             } else {
                 res_list.add(new int[]{left, right});
@@ -40,6 +41,7 @@ public class Test_56 {
                 right = intervals[i][1];
             }
         }
+        // 别忘记了
         res_list.add(new int[]{left, right});
 
         return res_list.toArray(new int[res_list.size()][]);

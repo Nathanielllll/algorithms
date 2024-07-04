@@ -20,19 +20,20 @@ import java.util.PriorityQueue;
 public class Test_1584 {
     public int minCostConnectPoints(int[][] points) {
     int n = points.length;
-    PriorityQueue<int[]> minHead = new PriorityQueue<>((o1, o2) -> o1[0] - o2[0]);
+    // int[0] 是两点距离，int[1]是idx1, int[1]是idx2
+    PriorityQueue<int[]> minHeap = new PriorityQueue<>((o1, o2) -> o1[0] - o2[0]);
     for (int i = 0; i < n; i++) {
       for (int j = i + 1; j < n; j++) {
         int[] edge = calEdge(points, i, j);
-        minHead.add(edge);
+        minHeap.add(edge);
       }
     }
 
     Djset djset = new Djset(n);
     int result = 0;
     int edgeCnt = 0;
-    while (!minHead.isEmpty()) {
-      int[] edge = minHead.poll();
+    while (!minHeap.isEmpty()) {
+      int[] edge = minHeap.poll();
       if (djset.union(edge[1], edge[2])) {
         result += edge[0];
         edgeCnt++;

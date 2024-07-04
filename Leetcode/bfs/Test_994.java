@@ -21,53 +21,52 @@ public class Test_994 {
     输入：[[2,1,1],[1,1,0],[0,1,1]]
     输出：4
      */
-    static class Pointer{
-        int row;
-        int col;
-
-        public Pointer(int row, int col) {
-            this.row = row;
-            this.col = col;
-        }
+    public int orangesRotting(int[][] grid) {
+        return orangesRottingBfs(grid);
     }
 
-    static int[] dx = {0,0,-1,1};
-    static int[] dy = {-1,1,0,0};
-    public static int orangesRotting(int[][] grid) {
-        int count = 0;
-
-        Queue<Pointer> queue = new LinkedList<>();
-        int rows = grid.length;
-        int cols = grid[0].length;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (grid[i][j] == 1) {
-                    count++;
-                }
+    private static int orangesRottingBfs(int[][] grid) {
+        int[][] directs = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        int fresh = 0;
+        Queue<int[]> queue = new LinkedList<>();
+        int m = grid.length;
+        int n = grid[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 2) {
-                    queue.add(new Pointer(i, j));
+                    queue.add(new int[]{i, j});
+                }
+                if (grid[i][j] == 1) {
+                    ++fresh;
                 }
             }
         }
 
-        int round = 0;
-        while (count > 0 && !queue.isEmpty()) {
+        boolean flag = false;
+        int level = 0;
+        while (!queue.isEmpty()) {
             int cnt = queue.size();
+            // 第一次不计入
+            if (flag) {
+                level++;
+            } else {
+                flag = true;
+            }
             for (int i = 0; i < cnt; i++) {
-                Pointer pointer = queue.poll();
-                for (int k = 0; k < 4; k++) {
-                    int nextRow = pointer.row + dx[k];
-                    int nextCol = pointer.col + dy[k];
-                    if (nextRow >= 0 && nextRow < rows && nextCol >= 0 && nextCol < cols
-                            && grid[nextRow][nextCol] == 1) {
-                        grid[nextRow][nextCol] = 2;
-                        queue.add(new Pointer(nextRow, nextCol));
-                        count--;
+                int[] treasure = queue.poll();
+                int row = treasure[0];
+                int col = treasure[1];
+                for (int j = 0; j < 4; j++) {
+                    int x = row + directs[j][0];
+                    int y = col + directs[j][1];
+                    if (x >= 0 && x < m && y >= 0 && y < n && grid[x][y] == 1) {
+                        --fresh;
+                        grid[x][y] = 2;
+                        queue.add(new int[]{x, y});
                     }
                 }
             }
-            round++;
         }
-        return count > 0 ? -1 : round;
+        return fresh == 0 ? level : -1;
     }
 }

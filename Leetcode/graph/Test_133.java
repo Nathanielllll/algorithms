@@ -39,9 +39,31 @@ class Node {
  */
 public class Test_133 {
 
+  // dfs方法
+  public Node cloneGraph1(Node node) {
+    Map<Node, Node> cache = new HashMap<>();
+    return cloneGraphDfs(node, cache);
+  }
+
+  public Node cloneGraphDfs(Node node, Map<Node, Node> cache) {
+    if (node == null) {
+      return null;
+    }
+    if (cache.containsKey(node)) {
+      return cache.get(node);
+    }
+    Node copy = new Node(node.val);
+    cache.put(node, copy);
+    for (Node neighbor : node.neighbors) {
+      Node copyNeighbor = cloneGraphDfs(neighbor, cache);
+      copy.neighbors.add(copyNeighbor);
+    }
+    return copy;
+  }
+
   public Node cloneGraph(Node node) {
     if (node == null) {
-      return node;
+      return null;
     }
     HashMap<Node, Node> visited = new HashMap<>();
     Queue<Node> queue = new LinkedList<>();
@@ -60,22 +82,6 @@ public class Test_133 {
     }
 
     return visited.get(node);
-  }
-
-  private Node cloneGraphDfs(Node node, Map<Node, Node> map) {
-    if (node == null) {
-      return null;
-    }
-    if (map.containsKey(node)) {
-      return map.get(node);
-    }
-
-    Node newNode = new Node(node.val);
-    map.put(node, newNode);
-    for (int i = 0; i < node.neighbors.size(); i++) {
-      newNode.neighbors.add(cloneGraphDfs(node.neighbors.get(i), map));
-    }
-    return newNode;
   }
 
   class Node {

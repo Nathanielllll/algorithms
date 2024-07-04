@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Test_787 {
 
-  // Bellman Ford 有线节点数
+  // Bellman Ford 对有限节点数的解法
   public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
     int[] prices = new int[n];
     Arrays.fill(prices, Integer.MAX_VALUE);

@@ -28,6 +28,9 @@ import java.util.List;
  */
 public class Test_139 {
     //求解顺序的完全背包问题时，对物品的迭代应该放在最里层，对背包的迭代放在外层，只有这样才能让物品按一定顺序放入背包中。
+
+    // 这个问题需要考虑单词的顺序,因为单词拆分必须满足从左到右的顺序。
+    // 例如，对于 s = "leetcode"，wordDict = ["leet", "code"]，我们需要找到一种拆分方式是 "leet code"，而不是 "code leet"
     public static boolean wordBreak(String s, List<String> wordDict) {
         int n = s.length();
         boolean[] dp = new boolean[n + 1];
