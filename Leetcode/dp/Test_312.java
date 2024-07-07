@@ -20,26 +20,16 @@ package dp;
 
  */
 public class Test_312 {
-    private static int maxCoin;
 
-    // 带记忆化的dfs
-    public static int maxCoins(int[] nums) {
-        maxCoin = 0;
-        //空数组处理
-        if (nums == null) {
-            return maxCoin;
-        }
-        //加虚拟边界
+    public int maxCoins(int[] nums) {
         int length = nums.length;
-        int[] nums2 = new int[length + 2];
-        System.arraycopy(nums, 0, nums2, 1, length);
-        nums2[0] = 1;
-        nums2[length + 1] = 1;
-        length = nums2.length;
-        //创建缓存数组
-        int[][] cache = new int[length][length];
-        //调用分治函数
-        return dfs(nums2, 0, length - 1, cache);
+        int[] newNums = new int[length + 2];
+        System.arraycopy(nums, 0, newNums, 1, length);
+        newNums[0] = 1;
+        newNums[length + 1] = 1;
+        int newLen = newNums.length;
+        int[][] memo = new int[newLen][newLen];
+        return maxCoinsDfs(newNums, memo, 0, newLen - 1);
     }
 
     // 那么我们换一种划分方式，既然两个子问题都依赖 i 和两个边界，那么我们划分子问题时，i 与两个边界的气球我们都不戳破，
@@ -48,24 +38,25 @@ public class Test_312 {
     // 并且在两个子问题解决后，气球序列还剩下 k 与两个边界的气球没有戳破，那么我们用两个子问题的解与戳破 k 与两个边界的最大值即可求出原问题的解。
     //
     // 那么 def( i , j ) 函数的定义则为，不戳破 i 与 j ，仅戳破 i 与 j 之间的气球我们能得到的最大金币数。
-    private static int dfs(int[] nums, int start, int end, int[][] cache) {
-        if (start + 1 == end) {
+    public int maxCoinsDfs(int[] nums, int[][] memo, int i, int j) {
+        if (i + 1 == j) {
             return 0;
         }
-        if (cache[start][end] != 0) {
-            return cache[start][end];
+        if (memo[i][j] != 0) {
+            return memo[i][j];
         }
 
         int max = 0;
-        for (int i = start + 1; i < end; i++) {
-            int left = dfs(nums, start, i, cache);
-            int right = dfs(nums, i, end, cache);
-            int curCoins = nums[i] * nums[start] * nums[end];
-            // curCoins + left + right : 先戳掉（i，k）与（k，j）区间内的气球，最后剩这三个，此时戳掉 k
-            max = Math.max(max, curCoins + left + right);
+        for (int k = i + 1; k < j; k++) {
+            // 戳掉(i, k)之间硬币带来的收益
+            int left = maxCoinsDfs(nums, memo, i, k);
+            // 戳掉(k, j)之间硬币带来的收益
+            int right = maxCoinsDfs(nums, memo, k, j);
+            // 最后戳掉k所带来的收益
+            int cur = nums[k] * nums[i] * nums[j];
+            max = Math.max(max, left + right + cur);
         }
-        cache[start][end] = max;
-        return max;
+        return memo[i][j] = max;
     }
 
 

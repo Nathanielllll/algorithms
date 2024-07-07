@@ -12,6 +12,67 @@ import java.util.Stack;
 
 public class Test2 {
 
+  public boolean isInterleave(String s1, String s2, String s3) {
+    if (s1 == null)
+      s1 = "";
+    if (s2 == null)
+      s2 = "";
+    if (s3 == null)
+      s3 = "";
+    Boolean[][] memo = new Boolean[s1.length() + 1][s2.length() + 1];
+
+    return isInterleaveDfs(s1, s2, s3, 0, 0, 0, memo);
+  }
+
+  private boolean isInterleaveDfs(String s1, String s2, String s3, int i, int j, int k, Boolean[][] memo){
+    if (memo[i][j] != null) return memo[i][j];
+
+    if (i == s1.length() && j == s2.length() && k == s3.length())
+      return memo[i][j] = true;
+
+    if (k >= s3.length()) {
+      return memo[i][j] = false;
+    }
+
+    if (i < s1.length() && s1.charAt(i) == s3.charAt(k)
+        && isInterleaveDfs(s1, s2, s3, i + 1, j, k + 1, memo)) {
+      return memo[i][j] = true;
+    }
+    if (j < s2.length() && s2.charAt(j) == s3.charAt(k)
+        && isInterleaveDfs(s1, s2, s3, i, j + 1, k + 1, memo)) {
+      return memo[i][j] = true;
+    }
+    return memo[i][j] = false;
+  }
+
+
+  public int maxCoins(int[] nums) {
+    int n = nums.length;
+    int[] newNums = new int[n + 2];
+    System.arraycopy(nums, 0, newNums, 1, n);
+    newNums[0] = newNums[n + 1] = 1;
+    int newLen = newNums.length;
+    int[][] memo = new int[newLen][newLen];
+    return maxCoinsDfs(newNums, 0, newLen - 1, memo);
+  }
+
+  public int maxCoinsDfs(int[] nums, int i, int j, int[][] memo) {
+    if (i + 1 == j) {
+      return 0;
+    }
+    if (memo[i][j] != 0) {
+      return memo[i][j];
+    }
+    int result = 0;
+    for (int k = i + 1; k < j; k++) {
+      int left = maxCoinsDfs(nums, i, k, memo);
+      int right = maxCoinsDfs(nums, k, j, memo);
+      int cur = nums[i] * nums[k] * nums[j];
+      result = Math.max(cur + left + right, result);
+    }
+    return memo[i][j] = result;
+  }
+
   public int change(int amount, int[] coins) {
     int[] dp = new int[amount + 1];
     dp[0] = 1;
